@@ -20,7 +20,7 @@ let gameLoopInterval = null
 
 onMounted(() => {
   gameLoopInterval = setInterval(() => {
-    energyStore.increaseEnergy(1)
+    energyStore.regenEnergy(1)
   }, 1000)
 })
 

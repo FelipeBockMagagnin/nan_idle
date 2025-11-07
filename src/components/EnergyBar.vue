@@ -1,7 +1,7 @@
 <template>
   <span>Energy: </span>
   <strong>
-    {{ energyStore.energy.current }} / {{ energyStore.energy.max }}
+    {{ energyStore.getAvaliableEnergy() }} / {{ energyStore.energy.current }}
   </strong>
 </template>
 
