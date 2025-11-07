@@ -11,17 +11,16 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { usePlayerStore } from './stores/playerStore'
+import { useEnergyStore } from './stores/energyStore'
 
 import Sidebar from './components/Sidebar.vue'
-import EnergyBar from './components/EnergyBar.vue'
 
-const playerStore = usePlayerStore()
+const energyStore = useEnergyStore()
 let gameLoopInterval = null
 
 onMounted(() => {
   gameLoopInterval = setInterval(() => {
-    playerStore.regenEnergy(1)
+    energyStore.increaseEnergy(1)
   }, 1000)
 })
 

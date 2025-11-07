@@ -13,15 +13,18 @@
 </template>
 
 <script setup>
-import { usePlayerStore } from '../stores/playerStore'
+import { useEnergyStore } from '../stores/energyStore'
+import { useHPStore } from '../stores/hpStore'
+
 import HPBar from '../components/HPBar.vue'
 import EnergyBar from '../components/EnergyBar.vue'
 
-const playerStore = usePlayerStore()
+const hpStore = useHPStore()
+const energyStore = useEnergyStore()
 
 function regularAttack() {
-  playerStore.changeHP(-1)
-  playerStore.decreaseEnergy(1)
+  hpStore.changeHP(-1)
+  energyStore.decreaseEnergy(1)
 }
 </script>
 

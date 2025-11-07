@@ -1,13 +1,13 @@
 <template>
   <span>Energy: </span>
   <strong>
-    {{ playerStore.energy.current }} / {{ playerStore.energy.max }}
+    {{ energyStore.energy.current }} / {{ energyStore.energy.max }}
   </strong>
 </template>
 
 <script setup>
-import { usePlayerStore } from '../stores/playerStore'
-const playerStore = usePlayerStore()
+import { useEnergyStore } from '../stores/energyStore'
+const energyStore = useEnergyStore()
 </script>
 
 <style scoped></style>

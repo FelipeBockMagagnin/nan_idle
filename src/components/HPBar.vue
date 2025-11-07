@@ -1,11 +1,11 @@
 <template>
   <span>HP: </span>
-  <strong> {{ playerStore.hp.current }} / {{ playerStore.hp.max }} </strong>
+  <strong> {{ hpStore.hp.current }} / {{ hpStore.hp.max }} </strong>
 </template>
 
 <script setup>
-import { usePlayerStore } from '../stores/playerStore'
-const playerStore = usePlayerStore()
+import { useHPStore } from '../stores/hpStore'
+const hpStore = useHPStore()
 </script>
 
 <style scoped></style>
