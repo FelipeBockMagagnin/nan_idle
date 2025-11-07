@@ -5,6 +5,11 @@ export const usePlayerStore = defineStore('player', () => {
   const gold = ref(0)
 
   const energy = ref({
+    current: 1,
+    max: 100,
+  })
+
+  const hp = ref({
     current: 100,
     max: 100,
   })
@@ -14,12 +19,28 @@ export const usePlayerStore = defineStore('player', () => {
     defence: 0,
   })
 
-  function allocateEnergy(amount) {
-    if (energy.value.current - amount < 0) {
+  function regenEnergy(value) {
+     if (energy.value.current + value > energy.value.max) {
       return false
     }
 
-    energy.value.current -= amount
+    energy.value.current += value
+  }
+
+  function decreaseEnergy(value) {
+    if (energy.value.current - value < 0) {
+      return false
+    }
+
+    energy.value.current -= value
+  }
+
+  function changeHP(value) {
+    if (hp.value.current - value < 0) {
+      return false
+    }
+
+    hp.value.current += value
   }
 
   function trainAttackStat() {
@@ -34,7 +55,10 @@ export const usePlayerStore = defineStore('player', () => {
     gold,
     energy,
     stats,
-    allocateEnergy,
+    hp,
+    regenEnergy,
+    decreaseEnergy,
+    changeHP,
     trainAttackStat,
     trainDefenceStat,
   }

@@ -4,7 +4,9 @@ import router from './router'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 
-app.use(createPinia())
-app.use(router) 
+const app = createApp(App)
 
-createApp(App).mount('#app')
+app.use(createPinia())
+app.use(router)
+
+app.mount('#app')
