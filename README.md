@@ -38,8 +38,8 @@ You must have [Node.js](https://nodejs.org/en/) (v18+ or higher) installed.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/FelipeBockMagagnin/idle_dev.git](https://github.com/FelipeBockMagagnin/idle_dev.git)
-    cd idle_dev
+    git clone [https://github.com/FelipeBockMagagnin/nan_idle.git](https://github.com/FelipeBockMagagnin/nan_idle.git)
+    cd nan_idle
     ```
 
 2.  **Install dependencies:**
