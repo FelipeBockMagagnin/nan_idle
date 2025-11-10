@@ -1,6 +1,9 @@
 <template>
   <div class="hp-bar-container" :style="{ width: props.width }">
-    <div class="hp-bar-fill" :style="{ width: props.currentHP + '%' }"></div>
+    <div
+      class="hp-bar-fill"
+      :style="{ width: (props.currentHP * 100) / props.maxHP + '%' }"
+    ></div>
     <div class="hp-label">{{ props.currentHP }} / {{ props.maxHP }}</div>
   </div>
 </template>
