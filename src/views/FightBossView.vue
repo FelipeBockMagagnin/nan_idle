@@ -3,7 +3,7 @@
     <h1>Fight Boss</h1>
 
     <br />
-    <HPBar />
+    <HPBar :currentHP="hpStore.hp.current" :maxHP="hpStore.hp.max" />
 
     <br /><br />
 
@@ -19,7 +19,7 @@ import HPBar from '../components/HPBar.vue'
 const hpStore = useHPStore()
 
 function regularAttack() {
-  hpStore.changeHP(-1)
+  hpStore.changeHP(-10)
 }
 </script>
 
