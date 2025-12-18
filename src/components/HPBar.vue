@@ -8,20 +8,15 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  width: {
-    type: String,
-    default: '200px',
-  },
-  currentHP: {
-    type: Number,
-    required: true,
-  },
-  maxHP: {
-    type: Number,
-    required: true,
-  },
+<script setup lang="ts">
+interface Props {
+  width?: string
+  currentHP: number
+  maxHP: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  width: '200px',
 })
 </script>
 

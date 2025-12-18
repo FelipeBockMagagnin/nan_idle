@@ -8,15 +8,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useEnergyStore } from './stores/energyStore'
+import { useEnergyStore } from '@/stores/energyStore'
 
-import Sidebar from './components/Sidebar.vue'
+import Sidebar from '@/components/Sidebar.vue'
 
 const energyStore = useEnergyStore()
-let gameLoopInterval = null
+let gameLoopInterval: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
   gameLoopInterval = setInterval(() => {
@@ -25,7 +25,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  clearInterval(gameLoopInterval)
+  if (gameLoopInterval) {
+    clearInterval(gameLoopInterval)
+  }
 })
 </script>
 

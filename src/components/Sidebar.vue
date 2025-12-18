@@ -8,7 +8,7 @@
   <RouterLink to="/fight-boss"> Fight Boss </RouterLink>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { RouterLink } from 'vue-router'
 </script>
 

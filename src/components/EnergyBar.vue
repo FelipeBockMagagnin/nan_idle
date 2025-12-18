@@ -1,12 +1,12 @@
 <template>
   <span>Energy: </span>
   <strong>
-    {{ energyStore.getAvaliableEnergy() }} / {{ energyStore.energy.current }}
+    {{ energyStore.getAvailableEnergy() }} / {{ energyStore.energy.current }}
   </strong>
 </template>
 
-<script setup>
-import { useEnergyStore } from '../stores/energyStore'
+<script setup lang="ts">
+import { useEnergyStore } from '@/stores/energyStore'
 const energyStore = useEnergyStore()
 </script>
 

@@ -21,20 +21,20 @@
   </div>
 </template>
 
-<script setup>
-import { useHPStore } from '../stores/hpStore'
-import { useFightBossStore } from '../stores/fightBossStore'
+<script setup lang="ts">
+import { useHPStore } from '@/stores/hpStore'
+import { useFightBossStore } from '@/stores/fightBossStore'
 
-import HPBar from '../components/HPBar.vue'
+import HPBar from '@/components/HPBar.vue'
 
 const hpStore = useHPStore()
 const fightBossStore = useFightBossStore()
 
-function regularAttack() {
+function regularAttack(): void {
   fightBossStore.damageEnemy(10)
 }
 
-function strongAttack() {
+function strongAttack(): void {
   fightBossStore.damageEnemy(100)
 }
 </script>
