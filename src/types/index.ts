@@ -4,11 +4,6 @@ export interface PlayerStats {
   defence: number
 }
 
-export interface PlayerEnergy {
-  current: number
-  max: number
-}
-
 // Energy store types
 export interface Energy {
   current: number

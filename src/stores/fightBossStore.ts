@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Enemy } from '@/types'
 
-export const useFightBossStore = defineStore('fightBoss', () => {
+export const useFightBossStore = defineStore(
+  'fightBoss',
+  () => {
   const enemy = ref<Enemy>({
     hp: {
       current: 200,
@@ -28,4 +30,6 @@ export const useFightBossStore = defineStore('fightBoss', () => {
     enemy,
     damageEnemy,
   }
-})
+},
+  { persist: true }
+)

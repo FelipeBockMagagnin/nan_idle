@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { HP } from '@/types'
 
-export const useHPStore = defineStore('hp', () => {
+export const useHPStore = defineStore(
+  'hp',
+  () => {
   const hp = ref<HP>({
     current: 100,
     max: 100,
@@ -11,4 +13,6 @@ export const useHPStore = defineStore('hp', () => {
   return {
     hp,
   }
-})
+},
+  { persist: true }
+)

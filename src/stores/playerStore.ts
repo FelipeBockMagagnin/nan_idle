@@ -1,33 +1,31 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { PlayerEnergy, PlayerStats } from '@/types'
+import type { PlayerStats } from '@/types'
 
-export const usePlayerStore = defineStore('player', () => {
+export const usePlayerStore = defineStore(
+  'player',
+  () => {
   const gold = ref<number>(0)
-
-  const energy = ref<PlayerEnergy>({
-    current: 1,
-    max: 100,
-  })
 
   const stats = ref<PlayerStats>({
     attack: 0,
     defence: 0,
   })
 
-  function trainAttackStat(): void {
-    stats.value.attack++
+  function trainAttackStat(value: number): void {
+    stats.value.attack += value;
   }
 
-  function trainDefenceStat(): void {
-    stats.value.defence++
+  function trainDefenceStat(value: number): void {
+    stats.value.defence += value;
   }
 
   return {
     gold,
-    energy,
     stats,
     trainAttackStat,
     trainDefenceStat,
   }
-})
+},
+  { persist: true }
+)

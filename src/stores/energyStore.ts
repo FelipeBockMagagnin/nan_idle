@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Energy } from '@/types'
 
-export const useEnergyStore = defineStore('energy', () => {
+export const useEnergyStore = defineStore(
+  'energy',
+  () => {
   const energy = ref<Energy>({
     current: 0,
     allocated: 0,
@@ -48,4 +50,6 @@ export const useEnergyStore = defineStore('energy', () => {
     reclaimEnergy,
     getAvailableEnergy,
   }
-})
+},
+  { persist: true }
+)

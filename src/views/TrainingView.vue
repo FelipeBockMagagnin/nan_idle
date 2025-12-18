@@ -8,7 +8,7 @@
     <br />
     Regular Attack
     <br />
-    {{ regularAttackEnergy }} energy
+    {{ playerStore.stats.attack }} energy
     <br />
     <button @click="increaseRegularAttackEnergy">+</button>
     <button @click="decreaseRegularAttackEnergy">-</button>
@@ -17,7 +17,7 @@
     <br />
     Block Defence
     <br />
-    {{ blockDefenceEnergy }} energy
+    {{ playerStore.stats.defence }} energy
     <br />
     <button @click="increaseBlockDefenceEnergy">+</button>
     <button @click="decreaseBlockDefenceEnergy">-</button>
@@ -26,35 +26,34 @@
 
 <script setup lang="ts">
 import EnergyBar from '@/components/EnergyBar.vue'
-import { ref } from 'vue'
 
 import { useEnergyStore } from '@/stores/energyStore'
-const energyStore = useEnergyStore()
+import { usePlayerStore } from '@/stores/playerStore'
 
-const regularAttackEnergy = ref<number>(0)
-const blockDefenceEnergy = ref<number>(0)
+const energyStore = useEnergyStore()
+const playerStore = usePlayerStore()
 
 function increaseRegularAttackEnergy(): void {
   if (energyStore.allocateEnergy(1)) {
-    regularAttackEnergy.value += 1
+    playerStore.trainAttackStat(1)
   }
 }
 
 function decreaseRegularAttackEnergy(): void {
   if (energyStore.reclaimEnergy(1)) {
-    regularAttackEnergy.value -= 1
+    playerStore.trainAttackStat(-1)
   }
 }
 
 function increaseBlockDefenceEnergy(): void {
   if (energyStore.allocateEnergy(1)) {
-    blockDefenceEnergy.value += 1
+    playerStore.trainDefenceStat(1)
   }
 }
 
 function decreaseBlockDefenceEnergy(): void {
   if (energyStore.reclaimEnergy(1)) {
-    blockDefenceEnergy.value -= 1
+    playerStore.trainDefenceStat(-1)
   }
 }
 </script>
