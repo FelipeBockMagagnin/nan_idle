@@ -1,7 +1,9 @@
+import Decimal from 'break_infinity.js'
+
 // Player-related types
 export interface PlayerStats {
-  attack: number
-  defence: number
+  attack: Decimal
+  defence: Decimal
 }
 
 // Energy store types

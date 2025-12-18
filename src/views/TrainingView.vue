@@ -8,7 +8,7 @@
     <br />
     Regular Attack
     <br />
-    {{ playerStore.stats.attack }} energy
+    {{ formatDecimal(playerStore.stats.attack) }} energy
     <br />
     <button @click="increaseRegularAttackEnergy">+</button>
     <button @click="decreaseRegularAttackEnergy">-</button>
@@ -17,7 +17,7 @@
     <br />
     Block Defence
     <br />
-    {{ playerStore.stats.defence }} energy
+    {{ formatDecimal(playerStore.stats.defence) }} energy
     <br />
     <button @click="increaseBlockDefenceEnergy">+</button>
     <button @click="decreaseBlockDefenceEnergy">-</button>
@@ -26,34 +26,36 @@
 
 <script setup lang="ts">
 import EnergyBar from '@/components/EnergyBar.vue'
+import Decimal from 'break_infinity.js'
 
 import { useEnergyStore } from '@/stores/energyStore'
 import { usePlayerStore } from '@/stores/playerStore'
+import { formatDecimal } from '@/utils/formatDecimal'
 
 const energyStore = useEnergyStore()
 const playerStore = usePlayerStore()
 
 function increaseRegularAttackEnergy(): void {
   if (energyStore.allocateEnergy(1)) {
-    playerStore.trainAttackStat(1)
+    playerStore.trainAttackStat(new Decimal('1e10'))
   }
 }
 
 function decreaseRegularAttackEnergy(): void {
   if (energyStore.reclaimEnergy(1)) {
-    playerStore.trainAttackStat(-1)
+    playerStore.trainAttackStat(new Decimal(-1))
   }
 }
 
 function increaseBlockDefenceEnergy(): void {
   if (energyStore.allocateEnergy(1)) {
-    playerStore.trainDefenceStat(1)
+    playerStore.trainDefenceStat(new Decimal('1e40'))
   }
 }
 
 function decreaseBlockDefenceEnergy(): void {
   if (energyStore.reclaimEnergy(1)) {
-    playerStore.trainDefenceStat(-1)
+    playerStore.trainDefenceStat(new Decimal(-1))
   }
 }
 </script>
