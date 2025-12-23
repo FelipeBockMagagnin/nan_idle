@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Training</h1>
+    <h2 class="page-title">Training</h2>
 
     <EnergyBar />
 
@@ -37,7 +37,7 @@ const playerStore = usePlayerStore()
 
 function increaseRegularAttackEnergy(): void {
   if (energyStore.allocateEnergy(1)) {
-    playerStore.trainAttackStat(new Decimal('1e10'))
+    playerStore.trainAttackStat(new Decimal(1))
   }
 }
 
@@ -49,7 +49,7 @@ function decreaseRegularAttackEnergy(): void {
 
 function increaseBlockDefenceEnergy(): void {
   if (energyStore.allocateEnergy(1)) {
-    playerStore.trainDefenceStat(new Decimal('1e40'))
+    playerStore.trainDefenceStat(new Decimal(1))
   }
 }
 

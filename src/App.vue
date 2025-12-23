@@ -1,15 +1,21 @@
 <template>
-  <div class="game-layout">
-    <Sidebar />
+  <main class="game-content">
+    <a @click="toggleSidebar" class="sidebar-toggle-btn">
+      <v-icon name="gi-hamburger-menu" />
+    </a>
+    <RouterView />
+  </main>
 
-    <main class="game-content">
-      <RouterView />
-    </main>
-  </div>
+  <div
+    v-if="isSidebarOpen"
+    class="sidebar-backdrop"
+    @click="toggleSidebar"
+  ></div>
+  <Sidebar :isOpen="isSidebarOpen" />
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useEnergyStore } from '@/stores/energyStore'
 
@@ -17,6 +23,12 @@ import Sidebar from '@/components/Sidebar.vue'
 
 const energyStore = useEnergyStore()
 let gameLoopInterval: ReturnType<typeof setInterval> | null = null
+
+const isSidebarOpen = ref(false)
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
 
 onMounted(() => {
   gameLoopInterval = setInterval(() => {
@@ -31,4 +43,13 @@ onUnmounted(() => {
 })
 </script>
 
-<style></style>
+<style scoped>
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  color: white;
+  z-index: 1000;
+  cursor: pointer;
+}
+</style>
