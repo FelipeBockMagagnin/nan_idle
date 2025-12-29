@@ -2,17 +2,21 @@
   <div class="hp-bar-container" :style="{ width: props.width }">
     <div
       class="hp-bar-fill"
-      :style="{ width: (props.currentHP * 100) / props.maxHP + '%' }"
+      :style="{
+        width: props.currentHP.multiply(100).divide(props.maxHP) + '%',
+      }"
     ></div>
     <div class="hp-label">{{ props.currentHP }} / {{ props.maxHP }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Decimal from 'break_infinity.js'
+
 interface Props {
   width?: string
-  currentHP: number
-  maxHP: number
+  currentHP: Decimal
+  maxHP: Decimal
 }
 
 const props = withDefaults(defineProps<Props>(), {
