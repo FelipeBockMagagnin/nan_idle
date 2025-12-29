@@ -20,6 +20,7 @@ import { RouterView } from 'vue-router'
 import { useEnergyStore } from '@/stores/energyStore'
 
 import Sidebar from '@/components/Sidebar.vue'
+import Decimal from 'break_infinity.js'
 
 const energyStore = useEnergyStore()
 let gameLoopInterval: ReturnType<typeof setInterval> | null = null
@@ -32,7 +33,7 @@ const toggleSidebar = () => {
 
 onMounted(() => {
   gameLoopInterval = setInterval(() => {
-    energyStore.regenEnergy(1)
+    energyStore.regenEnergy(new Decimal(1))
   }, 1000)
 })
 

@@ -1,61 +1,70 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { serializer } from '../plugins/decimalSerializer'
 import { useEnergyStore } from './energyStore'
+import Decimal from 'break_infinity.js'
 
 describe('energyStore', () => {
   beforeEach(() => {
-    setActivePinia(createPinia())
+    const pinia = createPinia()
+    pinia.use((context) => {
+      context.store.$persistedState.persist = true
+      context.store.$persistedState.serializer = serializer
+      return piniaPluginPersistedstate(context)
+    })
+    setActivePinia(pinia)
   })
 
   describe('initial state', () => {
     it('should start with 0 current energy', () => {
       const store = useEnergyStore()
-      expect(store.energy.current).toBe(0)
+      expect(store.energy.current).toStrictEqual(new Decimal(0))
     })
 
     it('should start with 0 allocated energy', () => {
       const store = useEnergyStore()
-      expect(store.energy.allocated).toBe(0)
+      expect(store.energy.allocated).toStrictEqual(new Decimal(0))
     })
   })
 
   describe('regenEnergy', () => {
     it('should increase current energy by given value', () => {
       const store = useEnergyStore()
-      store.regenEnergy(10)
-      expect(store.energy.current).toBe(10)
+      store.regenEnergy(new Decimal(10))
+      expect(store.energy.current).toStrictEqual(new Decimal(10))
     })
 
     it('should not exceed max energy', () => {
       const store = useEnergyStore()
-      store.energy.current = 100
-      store.regenEnergy(10)
-      expect(store.energy.current).toBe(100)
+      store.energy.current = new Decimal(100)
+      store.regenEnergy(new Decimal(10))
+      expect(store.energy.current).toStrictEqual(new Decimal(100))
     })
   })
 
   describe('allocateEnergy', () => {
     it('should allocate energy when available', () => {
       const store = useEnergyStore()
-      store.energy.current = 50
-      const result = store.allocateEnergy(20)
+      store.energy.current = new Decimal(50)
+      const result = store.allocateEnergy(new Decimal(20))
       expect(result).toBe(true)
-      expect(store.energy.allocated).toBe(20)
+      expect(store.energy.allocated).toStrictEqual(new Decimal(20))
     })
 
     it('should fail when insufficient energy available', () => {
       const store = useEnergyStore()
-      store.energy.current = 10
-      const result = store.allocateEnergy(20)
+      store.energy.current = new Decimal(10)
+      const result = store.allocateEnergy(new Decimal(20))
       expect(result).toBe(false)
-      expect(store.energy.allocated).toBe(0)
+      expect(store.energy.allocated).toStrictEqual(new Decimal(0))
     })
 
     it('should consider already allocated energy', () => {
       const store = useEnergyStore()
-      store.energy.current = 30
-      store.energy.allocated = 20
-      const result = store.allocateEnergy(15)
+      store.energy.current = new Decimal(30)
+      store.energy.allocated = new Decimal(20)
+      const result = store.allocateEnergy(new Decimal(15))
       expect(result).toBe(false)
     })
   })
@@ -63,27 +72,27 @@ describe('energyStore', () => {
   describe('reclaimEnergy', () => {
     it('should reclaim allocated energy', () => {
       const store = useEnergyStore()
-      store.energy.allocated = 20
-      const result = store.reclaimEnergy(10)
+      store.energy.allocated = new Decimal(20)
+      const result = store.reclaimEnergy(new Decimal(10))
       expect(result).toBe(true)
-      expect(store.energy.allocated).toBe(10)
+      expect(store.energy.allocated).toStrictEqual(new Decimal(10))
     })
 
     it('should fail when reclaiming more than allocated', () => {
       const store = useEnergyStore()
-      store.energy.allocated = 5
-      const result = store.reclaimEnergy(10)
+      store.energy.allocated = new Decimal(5)
+      const result = store.reclaimEnergy(new Decimal(10))
       expect(result).toBe(false)
-      expect(store.energy.allocated).toBe(5)
+      expect(store.energy.allocated).toStrictEqual(new Decimal(5))
     })
   })
 
   describe('getAvailableEnergy', () => {
     it('should return current minus allocated', () => {
       const store = useEnergyStore()
-      store.energy.current = 50
-      store.energy.allocated = 20
-      expect(store.getAvailableEnergy()).toBe(30)
+      store.energy.current = new Decimal(50)
+      store.energy.allocated = new Decimal(20)
+      expect(store.getAvailableEnergy()).toStrictEqual(new Decimal(30))
     })
   })
 })

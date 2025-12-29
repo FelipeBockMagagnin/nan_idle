@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { useHPStore } from './hpStore'
+import Decimal from 'break_infinity.js'
 
 describe('hpStore', () => {
   beforeEach(() => {
@@ -10,12 +11,12 @@ describe('hpStore', () => {
   describe('initial state', () => {
     it('should start with 100 current HP', () => {
       const store = useHPStore()
-      expect(store.hp.current).toBe(100)
+      expect(store.hp.current.eq(new Decimal(100))).toBe(true)
     })
 
     it('should start with 100 max HP', () => {
       const store = useHPStore()
-      expect(store.hp.max).toBe(100)
+      expect(store.hp.max.eq(new Decimal(100))).toBe(true)
     })
   })
 })

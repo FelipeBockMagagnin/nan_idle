@@ -8,15 +8,15 @@ export interface PlayerStats {
 
 // Energy store types
 export interface Energy {
-  current: number
-  allocated: number
-  max: number
+  current: Decimal
+  allocated: Decimal
+  max: Decimal
 }
 
 // HP-related types
 export interface HP {
-  current: number
-  max: number
+  current: Decimal
+  max: Decimal
 }
 
 // Enemy types
