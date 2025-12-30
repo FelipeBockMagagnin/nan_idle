@@ -27,7 +27,6 @@ export const useTrainingStore = defineStore(
       value: Decimal
     ): boolean {
       const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
-
       if (
         training.value[skillName].allocatedEnergy
           .add(value)
@@ -40,6 +39,11 @@ export const useTrainingStore = defineStore(
         training.value[skillName].allocatedEnergy.add(value)
 
       return true
+    }
+
+    function getAllocatedEnergyValue(skill: TrainingSkills): Decimal {
+      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
+      return training.value[skillName].allocatedEnergy
     }
 
     function increaseSkillLevel(skill: TrainingSkills, value: Decimal): void {
@@ -58,6 +62,7 @@ export const useTrainingStore = defineStore(
       allocateTrainingEnergy,
       increaseSkillLevel,
       updateSkillProgress,
+      getAllocatedEnergyValue,
     }
   },
   {
