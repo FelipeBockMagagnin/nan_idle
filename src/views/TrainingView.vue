@@ -2,16 +2,23 @@
   <div>
     <h2 class="page-title">Training</h2>
 
-    <EnergyIndicator />
-    <AttackIndicator />
-    <DefenceIndicator />
+    <div style="display: flex; padding: 0px 10px; margin-bottom: 5px">
+      <EnergyIndicator />
+      <AttackIndicator />
+      <DefenceIndicator />
+    </div>
 
-    <br />
-    <br />
     Regular Attack
     <br />
-    {{ formatDecimal(playerStore.stats.attack) }} energy
+    {{
+      formatDecimal(
+        trainingStore.getAllocatedEnergyValue(TrainingSkills.RegularAttack)
+      )
+    }}
+    energy allocated
     <br />
+
+    <TimerIndicator :progress="progress" />
     <button @click="increaseRegularAttackEnergy">+</button>
     <button @click="decreaseRegularAttackEnergy">-</button>
 
@@ -19,8 +26,14 @@
     <br />
     Block Defence
     <br />
-    {{ formatDecimal(playerStore.stats.defence) }} energy
+    {{
+      formatDecimal(
+        trainingStore.getAllocatedEnergyValue(TrainingSkills.BlockDefence)
+      )
+    }}
+    energy allocated
     <br />
+    <TimerIndicator :progress="progress" />
     <button @click="increaseBlockDefenceEnergy">+</button>
     <button @click="decreaseBlockDefenceEnergy">-</button>
   </div>
@@ -34,33 +47,60 @@ import DefenceIndicator from '@/components/indicators/DefenceIndicator.vue'
 import Decimal from 'break_infinity.js'
 
 import { useEnergyStore } from '@/stores/energyStore'
-import { usePlayerStore } from '@/stores/playerStore'
+import { useTrainingStore } from '@/stores/trainingStore'
 import { formatDecimal } from '@/utils/formatDecimal'
+import { TrainingSkills } from '@/enums'
+import TimerIndicator from '@/components/indicators/TimerIndicator.vue'
+import { onMounted, ref } from 'vue'
 
 const energyStore = useEnergyStore()
-const playerStore = usePlayerStore()
+const trainingStore = useTrainingStore()
+
+let progress = ref(0)
+onMounted(() => {
+  setInterval(() => {
+    if (progress.value >= 100) {
+      progress.value = 0
+      return
+    }
+
+    progress.value += 1
+  }, 100)
+})
 
 function increaseRegularAttackEnergy(): void {
   if (energyStore.allocateEnergy(new Decimal(1))) {
-    playerStore.trainAttackStat(new Decimal(1))
+    trainingStore.allocateTrainingEnergy(
+      TrainingSkills.RegularAttack,
+      new Decimal(1)
+    )
   }
 }
 
 function decreaseRegularAttackEnergy(): void {
   if (energyStore.reclaimEnergy(new Decimal(1))) {
-    playerStore.trainAttackStat(new Decimal(-1))
+    trainingStore.allocateTrainingEnergy(
+      TrainingSkills.RegularAttack,
+      new Decimal(-1)
+    )
   }
 }
 
 function increaseBlockDefenceEnergy(): void {
   if (energyStore.allocateEnergy(new Decimal(1))) {
-    playerStore.trainDefenceStat(new Decimal(1))
+    trainingStore.allocateTrainingEnergy(
+      TrainingSkills.BlockDefence,
+      new Decimal(1)
+    )
   }
 }
 
 function decreaseBlockDefenceEnergy(): void {
   if (energyStore.reclaimEnergy(new Decimal(1))) {
-    playerStore.trainDefenceStat(new Decimal(-1))
+    trainingStore.allocateTrainingEnergy(
+      TrainingSkills.BlockDefence,
+      new Decimal(-1)
+    )
   }
 }
 </script>
