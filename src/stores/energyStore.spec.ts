@@ -1,19 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import { serializer } from '../plugins/decimalSerializer'
 import { useEnergyStore } from './energyStore'
 import Decimal from 'break_infinity.js'
 
 describe('energyStore', () => {
   beforeEach(() => {
-    const pinia = createPinia()
-    pinia.use((context) => {
-      context.store.$persistedState.persist = true
-      context.store.$persistedState.serializer = serializer
-      return piniaPluginPersistedstate(context)
-    })
-    setActivePinia(pinia)
+    setActivePinia(createPinia())
+    vi.stubGlobal('alert', vi.fn())
   })
 
   describe('initial state', () => {
