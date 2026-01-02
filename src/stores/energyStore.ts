@@ -14,8 +14,7 @@ export const useEnergyStore = defineStore(
     })
 
     const onGameTick = (deltaTime: number) => {
-      console.log(deltaTime)
-      regenEnergy(new Decimal(1))
+      regenEnergy(new Decimal(deltaTime/1000))
     }
 
     gameManager.subscribe(onGameTick)

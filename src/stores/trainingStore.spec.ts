@@ -1,29 +1,14 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { useTrainingStore } from './trainingStore'
 import { TrainingSkills } from '@/enums'
 import Decimal from 'break_infinity.js'
+import { usePlayerStore } from './playerStore'
 
 describe('trainingStore', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
-  })
-
-  describe('initial state', () => {
-    it('should initialize training skills with default values', () => {
-      const store = useTrainingStore()
-      const skillCount = Object.keys(TrainingSkills).length
-      expect(Object.keys(store.training).length).toBe(skillCount)
-
-      for (const skill in TrainingSkills) {
-        expect(store.training[skill]).toEqual({
-          allocatedEnergy: new Decimal(0),
-          level: new Decimal(0),
-          progress: new Decimal(0),
-          trainingSpeed: new Decimal(1),
-        })
-      }
-    })
+    vi.clearAllMocks()
   })
 
   describe('actions', () => {
@@ -35,8 +20,7 @@ describe('trainingStore', () => {
 
         store.allocateTrainingEnergy(skill, value)
 
-        const skillName = TrainingSkills[skill]
-        expect(store.training[skillName].allocatedEnergy).toEqual(value)
+        expect(store.training[skill].allocatedEnergy).toEqual(value)
       })
 
       it('should not affect other skills when allocating energy', () => {
@@ -47,8 +31,7 @@ describe('trainingStore', () => {
 
         store.allocateTrainingEnergy(skillToAllocate, value)
 
-        const otherSkillName = TrainingSkills[otherSkill]
-        expect(store.training[otherSkillName].allocatedEnergy).toEqual(
+        expect(store.training[otherSkill].allocatedEnergy).toEqual(
           new Decimal(0)
         )
       })
@@ -64,6 +47,80 @@ describe('trainingStore', () => {
           new Decimal(-2)
         )
         expect(allocatedReturn).toStrictEqual(false)
+      })
+    })
+
+    describe('updateSkillsProgress', () => {
+      it('should increase the progress of a skill with allocated energy', () => {
+        const store = useTrainingStore()
+        const skill = TrainingSkills.RegularAttack
+        store.allocateTrainingEnergy(skill, new Decimal(1))
+
+        store.updateSkillsProgress(1000)
+
+        expect(store.training[skill].progress.toNumber()).toBeGreaterThan(0)
+      })
+
+      it('should not increase the progress of a skill with no allocated energy', () => {
+        const store = useTrainingStore()
+
+        store.updateSkillsProgress(1000)
+
+        const skill = TrainingSkills.RegularAttack
+        expect(store.training[skill].progress.toNumber()).toBe(0)
+      })
+
+      it('should level up the skill when progress reaches the difficulty', () => {
+        const store = useTrainingStore()
+        const skill = TrainingSkills.RegularAttack
+        store.allocateTrainingEnergy(skill, new Decimal(100))
+        store.training[skill].trainingDificulty = new Decimal(10)
+
+        store.updateSkillsProgress(1000)
+
+        expect(store.training[skill].level.toNumber()).toBeGreaterThan(1)
+      })
+
+      it('should increase the player stats when a skill levels up', () => {
+        const playerStore = usePlayerStore()
+        playerStore.stats.attack = new Decimal(1)
+
+        const store = useTrainingStore()
+        const skill = TrainingSkills.RegularAttack
+        store.allocateTrainingEnergy(skill, new Decimal(1))
+        store.training[skill].progress = new Decimal(100)
+
+        store.updateSkillsProgress(1)
+
+        expect(playerStore.stats.attack.toNumber()).toBeGreaterThan(2)
+      })
+
+      it('should increase the player stats multiple times when a skill levels up by more than 1 level', () => {
+        const playerStore = usePlayerStore()
+        playerStore.stats.attack = new Decimal(1)
+
+        const store = useTrainingStore()
+        const skill = TrainingSkills.RegularAttack
+        store.allocateTrainingEnergy(skill, new Decimal(1))
+        store.training[skill].progress = new Decimal(2000)
+
+        store.updateSkillsProgress(1)
+
+        expect(playerStore.stats.attack.toNumber()).toBeGreaterThan(10)
+      })
+
+      it('should increase the difficulty of a Skill when a skill levels up', () => {
+        const store = useTrainingStore()
+        const skill = TrainingSkills.RegularAttack
+        store.allocateTrainingEnergy(skill, new Decimal(100))
+        store.training[skill].trainingDificulty = new Decimal(10)
+        const initialDifficulty = store.training[skill].trainingDificulty
+
+        store.updateSkillsProgress(1000)
+
+        expect(
+          store.training[skill].trainingDificulty.toNumber()
+        ).toBeGreaterThan(initialDifficulty.toNumber())
       })
     })
   })

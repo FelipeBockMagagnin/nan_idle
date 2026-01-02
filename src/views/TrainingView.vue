@@ -13,7 +13,9 @@
 
     <div class="training-item-container">
       <TimerIndicator
-        :progress="progress"
+        :progress="
+          trainingStore.getskillProgressPercent(TrainingSkills.RegularAttack)
+        "
         width="200px"
         :innerText="
           formatDecimal(
@@ -38,11 +40,13 @@
 
     <div class="training-item-container">
       <TimerIndicator
-        :progress="progress"
+        :progress="
+          trainingStore.getskillProgressPercent(TrainingSkills.BlockDefence)
+        "
         width="200px"
         :innerText="
           formatDecimal(
-            trainingStore.getLevelValue(TrainingSkills.RegularAttack)
+            trainingStore.getLevelValue(TrainingSkills.BlockDefence)
           )
         "
         barColor="#3e3eb5"
@@ -72,22 +76,9 @@ import { useTrainingStore } from '@/stores/trainingStore'
 import { formatDecimal } from '@/utils/formatDecimal'
 import { TrainingSkills } from '@/enums'
 import TimerIndicator from '@/components/indicators/TimerIndicator.vue'
-import { onMounted, ref } from 'vue'
 
 const energyStore = useEnergyStore()
 const trainingStore = useTrainingStore()
-
-let progress = ref(0)
-onMounted(() => {
-  setInterval(() => {
-    if (progress.value >= 100) {
-      progress.value = 0
-      return
-    }
-
-    progress.value += 1
-  }, 100)
-})
 
 function increaseRegularAttackEnergy(): void {
   if (energyStore.allocateEnergy(new Decimal(1))) {

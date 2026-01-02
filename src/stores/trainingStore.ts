@@ -1,20 +1,34 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Training, TrainingTrait } from '@/types'
-import { TrainingSkills } from '@/enums'
+import { TrainingSkills, SkillType } from '@/enums'
 import Decimal from 'break_infinity.js'
+import { gameManager } from '@/services/gameManager'
+import { usePlayerStore } from '@/stores/playerStore'
 
 function getInitialTrainingState(): Training {
-  const training: Training = {}
-  for (const skill in TrainingSkills) {
-    training[skill as keyof typeof TrainingSkills] = {
+  return {
+    [TrainingSkills.RegularAttack]: {
       allocatedEnergy: new Decimal(0),
-      level: new Decimal(0),
+      level: new Decimal(1),
       progress: new Decimal(0),
       trainingSpeed: new Decimal(1),
-    }
+      trainingDificulty: new Decimal(10),
+      trainingDificultyIncrease: new Decimal(1.2),
+      skillType: SkillType.Attack,
+      skillStatIncreaseValue: new Decimal(1),
+    },
+    [TrainingSkills.BlockDefence]: {
+      allocatedEnergy: new Decimal(0),
+      level: new Decimal(1),
+      progress: new Decimal(0),
+      trainingSpeed: new Decimal(1.2),
+      trainingDificulty: new Decimal(10),
+      trainingDificultyIncrease: new Decimal(1.2),
+      skillType: SkillType.Defence,
+      skillStatIncreaseValue: new Decimal(1),
+    },
   }
-  return training
 }
 
 export const useTrainingStore = defineStore(
@@ -22,53 +36,113 @@ export const useTrainingStore = defineStore(
   () => {
     const training = ref<Training>(getInitialTrainingState())
 
+    const onGameTick = (deltaTime: number) => {
+      updateSkillsProgress(deltaTime)
+    }
+
+    gameManager.subscribe(onGameTick)
+
+    function getSkill(skill: TrainingSkills): TrainingTrait {
+      return training.value[skill]
+    }
+
     function allocateTrainingEnergy(
       skill: TrainingSkills,
       value: Decimal
     ): boolean {
-      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
-      if (
-        training.value[skillName].allocatedEnergy
-          .add(value)
-          .lessThan(new Decimal(0))
-      ) {
+      const skillData = getSkill(skill)
+      if (skillData.allocatedEnergy.add(value).lessThan(new Decimal(0))) {
         return false
       }
 
-      training.value[skillName].allocatedEnergy =
-        training.value[skillName].allocatedEnergy.add(value)
+      skillData.allocatedEnergy = skillData.allocatedEnergy.add(value)
 
       return true
     }
 
     function getAllocatedEnergyValue(skill: TrainingSkills): Decimal {
-      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
-      return training.value[skillName].allocatedEnergy
+      return getSkill(skill).allocatedEnergy
     }
 
     function increaseSkillLevel(skill: TrainingSkills, value: Decimal): void {
-      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
-      training.value[skillName].level =
-        training.value[skillName].level.plus(value)
+      const skillData = getSkill(skill)
+      skillData.level = skillData.level.plus(value)
     }
 
     function getLevelValue(skill: TrainingSkills): Decimal {
-      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
-      return training.value[skillName].level
+      return getSkill(skill).level
     }
 
-    function updateSkillProgress(skill: TrainingSkills, value: Decimal): void {
-      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
-      training.value[skillName].progress = value
+    function getskillProgressPercent(skill: TrainingSkills): number {
+      const skillData = getSkill(skill)
+      return skillData.progress
+        .multiply(100)
+        .divide(skillData.trainingDificulty)
+        .toNumber()
+    }
+
+    function updateSkillsProgress(deltaTime: number): void {
+      for (const skillName of Object.keys(
+        training.value
+      ) as (keyof Training)[]) {
+        const skillData = training.value[skillName]
+
+        if (skillData.allocatedEnergy.lessThanOrEqualTo(new Decimal(0))) {
+          continue
+        }
+
+        const increase = new Decimal(deltaTime)
+          .multiply(skillData.allocatedEnergy)
+          .divide(1000)
+
+        let totalProgress = skillData.progress.add(increase)
+        console.log({
+          increase: increase.toNumber(),
+          totalProgress: totalProgress.toNumber(),
+          progress: skillData.progress.toNumber(),
+        })
+        if (totalProgress.greaterThanOrEqualTo(skillData.trainingDificulty)) {
+          const levelsGained = totalProgress
+            .divide(skillData.trainingDificulty)
+            .floor()
+
+          skillData.level = skillData.level.add(levelsGained)
+
+          totalProgress = totalProgress.minus(
+            levelsGained.multiply(skillData.trainingDificulty)
+          )
+
+          const playerStore = usePlayerStore()
+
+          switch (skillData.skillType) {
+            case SkillType.Attack:
+              playerStore.trainAttackStat(
+                levelsGained.multiply(skillData.skillStatIncreaseValue)
+              )
+              break
+            case SkillType.Defence:
+              playerStore.trainDefenceStat(
+                levelsGained.multiply(skillData.skillStatIncreaseValue)
+              )
+          }
+
+          skillData.trainingDificulty = skillData.trainingDificulty.multiply(
+            skillData.trainingDificultyIncrease
+          )
+        }
+
+        skillData.progress = totalProgress
+      }
     }
 
     return {
       training,
       allocateTrainingEnergy,
       increaseSkillLevel,
-      updateSkillProgress,
       getAllocatedEnergyValue,
       getLevelValue,
+      getskillProgressPercent,
+      updateSkillsProgress,
     }
   },
   {
@@ -82,6 +156,13 @@ export const useTrainingStore = defineStore(
               level: state.training[skill].level.toString(),
               progress: state.training[skill].progress.toString(),
               trainingSpeed: state.training[skill].trainingSpeed.toString(),
+              trainingDificulty:
+                state.training[skill].trainingDificulty.toString(),
+              trainingDificultyIncrease:
+                state.training[skill].trainingDificultyIncrease.toString(),
+              skillStatIncreaseValue:
+                state.training[skill].skillStatIncreaseValue.toString(),
+              skillType: state.training[skill].skillType.toString(),
             }
           }
           return JSON.stringify({ training: serializedTraining })
@@ -95,6 +176,14 @@ export const useTrainingStore = defineStore(
               level: new Decimal(training[skill].level),
               progress: new Decimal(training[skill].progress),
               trainingSpeed: new Decimal(training[skill].trainingSpeed),
+              trainingDificulty: new Decimal(training[skill].trainingDificulty),
+              trainingDificultyIncrease: new Decimal(
+                training[skill].trainingDificultyIncrease
+              ),
+              skillStatIncreaseValue: new Decimal(
+                training[skill].skillStatIncreaseValue
+              ),
+              skillType: training[skill].skillStatIncreaseValue,
             }
           }
           return { training: deserializedTraining }

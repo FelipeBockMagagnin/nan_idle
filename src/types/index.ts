@@ -1,3 +1,4 @@
+import { SkillType } from '@/enums'
 import Decimal from 'break_infinity.js'
 
 // Player-related types
@@ -32,4 +33,8 @@ export type TrainingTrait = {
   level: Decimal
   trainingSpeed: Decimal
   progress: Decimal
+  trainingDificulty: Decimal
+  trainingDificultyIncrease: Decimal
+  skillType: SkillType
+  skillStatIncreaseValue: Decimal
 }

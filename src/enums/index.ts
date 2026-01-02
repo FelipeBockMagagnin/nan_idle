@@ -1,4 +1,9 @@
 export enum TrainingSkills {
-  RegularAttack = 1,
-  BlockDefence = 2
+  RegularAttack = 'RegularAttack',
+  BlockDefence = 'BlockDefence',
+}
+
+export enum SkillType {
+  Defence = 'Defence',
+  Attack = 'Attack',
 }

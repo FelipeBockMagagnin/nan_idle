@@ -1,7 +1,7 @@
 export class GameManager {
   private static _instance: GameManager
 
-  private TickInterval: number = 1000
+  private TickInterval: number = 100
   private intervalId: number | null = null
   private subscribers: ((deltaTime: number) => void)[] = []
   private lastTickTimestamp: number = 0

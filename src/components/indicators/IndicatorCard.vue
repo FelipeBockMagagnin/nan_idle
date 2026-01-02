@@ -7,13 +7,14 @@
     </template>
 
     <strong>
-      {{ props.value }}
-      <template v-if="props.max"> / {{ props.max }} </template>
+      {{ formatDecimal(props.value) }}
+      <template v-if="props.max"> / {{ formatDecimal(props.max) }} </template>
     </strong>
   </div>
 </template>
 
 <script setup lang="ts">
+import { formatDecimal } from '@/utils/formatDecimal'
 import Decimal from 'break_infinity.js'
 
 interface Props {
