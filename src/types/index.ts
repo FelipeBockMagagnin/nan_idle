@@ -4,7 +4,10 @@ import Decimal from 'break_infinity.js'
 // Player-related types
 export type PlayerStats = {
   attack: Decimal
-  defence: Decimal
+  defence: Decimal,
+  currentHP: Decimal,
+  maxHP: Decimal,
+  hpRegen: Decimal
 }
 
 // Energy store types

@@ -6,11 +6,14 @@
         width: props.currentHP.multiply(100).divide(props.maxHP) + '%',
       }"
     ></div>
-    <div class="hp-label">{{ props.currentHP }} / {{ props.maxHP }}</div>
+    <div class="hp-label">
+      {{ formatDecimal(props.currentHP) }} / {{ formatDecimal(props.maxHP) }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { formatDecimal } from '@/utils/formatDecimal'
 import Decimal from 'break_infinity.js'
 
 interface Props {
@@ -38,7 +41,7 @@ const props = withDefaults(defineProps<Props>(), {
   height: 100%;
   width: 75%;
   background: linear-gradient(90deg, #af4c4c, #be3636);
-  transition: width 0.5s ease-in-out;
+  transition: width 0.1s ease-in-out;
 }
 
 .hp-label {
