@@ -52,6 +52,11 @@ export const useTrainingStore = defineStore(
         training.value[skillName].level.plus(value)
     }
 
+    function getLevelValue(skill: TrainingSkills): Decimal {
+      const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
+      return training.value[skillName].level
+    }
+
     function updateSkillProgress(skill: TrainingSkills, value: Decimal): void {
       const skillName = TrainingSkills[skill] as keyof typeof TrainingSkills
       training.value[skillName].progress = value
@@ -63,6 +68,7 @@ export const useTrainingStore = defineStore(
       increaseSkillLevel,
       updateSkillProgress,
       getAllocatedEnergyValue,
+      getLevelValue,
     }
   },
   {

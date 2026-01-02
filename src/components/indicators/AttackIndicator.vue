@@ -1,5 +1,9 @@
 <template>
-  <IndicatorCard name="Attack" :value="playerStore.stats.attack" />
+  <IndicatorCard
+    name="Attack"
+    :value="playerStore.stats.attack"
+    icon="ri-sword-fill"
+  />
 </template>
 
 <script setup lang="ts">
@@ -10,4 +14,3 @@ const playerStore = usePlayerStore()
 </script>
 
 <style scoped></style>
-s

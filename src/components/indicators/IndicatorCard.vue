@@ -1,7 +1,11 @@
 <template>
   <div class="indicator-container" :style="{ width: props.width }">
-    <span>{{ props.name }}: </span>
-    <br />
+    <v-icon v-if="icon" :name="icon" />
+    <template v-else>
+      <span>{{ props.name }}: </span>
+      <br />
+    </template>
+
     <strong>
       {{ props.value }}
       <template v-if="props.max"> / {{ props.max }} </template>
@@ -17,6 +21,7 @@ interface Props {
   value: Decimal
   max?: Decimal
   width?: string
+  icon?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {

@@ -1,5 +1,9 @@
 <template>
-  <IndicatorCard name="Defence" :value="playerStore.stats.defence" />
+  <IndicatorCard
+    name="Defence"
+    :value="playerStore.stats.defence"
+    icon="md-shield"
+  />
 </template>
 
 <script setup lang="ts">

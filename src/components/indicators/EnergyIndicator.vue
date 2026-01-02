@@ -3,6 +3,7 @@
     name="Energy"
     :value="energyStore.getAvailableEnergy()"
     :max="energyStore.energy.current"
+    icon="md-electricbolt"
   />
 </template>
 

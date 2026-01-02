@@ -2,7 +2,7 @@
   <div>
     <h2 class="page-title">Training</h2>
 
-    <div style="display: flex; padding: 0px 10px; margin-bottom: 5px">
+    <div style="display: flex; padding: 0px 10px; margin-bottom: 10px">
       <EnergyIndicator />
       <AttackIndicator />
       <DefenceIndicator />
@@ -10,32 +10,53 @@
 
     Regular Attack
     <br />
-    {{
-      formatDecimal(
-        trainingStore.getAllocatedEnergyValue(TrainingSkills.RegularAttack)
-      )
-    }}
-    energy allocated
-    <br />
 
-    <TimerIndicator :progress="progress" />
-    <button @click="increaseRegularAttackEnergy">+</button>
-    <button @click="decreaseRegularAttackEnergy">-</button>
+    <div class="training-item-container">
+      <TimerIndicator
+        :progress="progress"
+        width="200px"
+        :innerText="
+          formatDecimal(
+            trainingStore.getLevelValue(TrainingSkills.RegularAttack)
+          )
+        "
+      />
+      <div>
+        <button @click="increaseRegularAttackEnergy">+</button>
+        <span>{{
+          formatDecimal(
+            trainingStore.getAllocatedEnergyValue(TrainingSkills.RegularAttack)
+          )
+        }}</span>
+        <button @click="decreaseRegularAttackEnergy">-</button>
+      </div>
+    </div>
 
-    <br />
     <br />
     Block Defence
     <br />
-    {{
-      formatDecimal(
-        trainingStore.getAllocatedEnergyValue(TrainingSkills.BlockDefence)
-      )
-    }}
-    energy allocated
-    <br />
-    <TimerIndicator :progress="progress" />
-    <button @click="increaseBlockDefenceEnergy">+</button>
-    <button @click="decreaseBlockDefenceEnergy">-</button>
+
+    <div class="training-item-container">
+      <TimerIndicator
+        :progress="progress"
+        width="200px"
+        :innerText="
+          formatDecimal(
+            trainingStore.getLevelValue(TrainingSkills.RegularAttack)
+          )
+        "
+        barColor="#3e3eb5"
+      />
+      <div>
+        <button @click="increaseBlockDefenceEnergy">+</button>
+        <span>{{
+          formatDecimal(
+            trainingStore.getAllocatedEnergyValue(TrainingSkills.BlockDefence)
+          )
+        }}</span>
+        <button @click="decreaseBlockDefenceEnergy">-</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -105,4 +126,11 @@ function decreaseBlockDefenceEnergy(): void {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.training-item-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>
