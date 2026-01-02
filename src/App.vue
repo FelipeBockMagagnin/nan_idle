@@ -15,33 +15,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 import { RouterView } from 'vue-router'
-import { useEnergyStore } from '@/stores/energyStore'
 
 import Sidebar from '@/components/Sidebar.vue'
-import Decimal from 'break_infinity.js'
-
-const energyStore = useEnergyStore()
-let gameLoopInterval: ReturnType<typeof setInterval> | null = null
 
 const isSidebarOpen = ref(false)
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value
 }
-
-onMounted(() => {
-  gameLoopInterval = setInterval(() => {
-    energyStore.regenEnergy(new Decimal(1))
-  }, 1000)
-})
-
-onUnmounted(() => {
-  if (gameLoopInterval) {
-    clearInterval(gameLoopInterval)
-  }
-})
 </script>
 
 <style scoped>

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Energy } from '@/types'
 import Decimal from 'break_infinity.js'
+import { gameManager } from '@/services/gameManager'
 
 export const useEnergyStore = defineStore(
   'energy',
@@ -11,6 +12,13 @@ export const useEnergyStore = defineStore(
       allocated: new Decimal(0),
       max: new Decimal(100),
     })
+
+    const onGameTick = (deltaTime: number) => {
+      console.log(deltaTime)
+      regenEnergy(new Decimal(1))
+    }
+
+    gameManager.subscribe(onGameTick)
 
     function allocateEnergy(value: Decimal): boolean {
       if (value.greaterThan(getAvailableEnergy())) {
@@ -39,7 +47,7 @@ export const useEnergyStore = defineStore(
     }
 
     function regenEnergy(value: Decimal): void {
-      if (energy.value.current.equals(energy.value.max)) return
+      if (energy.value.current.greaterThanOrEqualTo(energy.value.max)) return
 
       energy.value.current = energy.value.current.plus(value)
     }
