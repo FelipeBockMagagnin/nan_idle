@@ -10,7 +10,7 @@ function getInitialTrainingState(): Training {
   return {
     [TrainingSkills.RegularAttack]: {
       allocatedEnergy: new Decimal(0),
-      level: new Decimal(1),
+      level: new Decimal(0),
       progress: new Decimal(0),
       trainingSpeed: new Decimal(1),
       trainingDificulty: new Decimal(10),
@@ -20,7 +20,7 @@ function getInitialTrainingState(): Training {
     },
     [TrainingSkills.BlockDefence]: {
       allocatedEnergy: new Decimal(0),
-      level: new Decimal(1),
+      level: new Decimal(0),
       progress: new Decimal(0),
       trainingSpeed: new Decimal(1.2),
       trainingDificulty: new Decimal(10),
@@ -96,11 +96,6 @@ export const useTrainingStore = defineStore(
           .divide(1000)
 
         let totalProgress = skillData.progress.add(increase)
-        console.log({
-          increase: increase.toNumber(),
-          totalProgress: totalProgress.toNumber(),
-          progress: skillData.progress.toNumber(),
-        })
         if (totalProgress.greaterThanOrEqualTo(skillData.trainingDificulty)) {
           const levelsGained = totalProgress
             .divide(skillData.trainingDificulty)

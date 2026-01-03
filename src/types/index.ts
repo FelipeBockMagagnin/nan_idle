@@ -4,9 +4,9 @@ import Decimal from 'break_infinity.js'
 // Player-related types
 export type PlayerStats = {
   attack: Decimal
-  defence: Decimal,
-  currentHP: Decimal,
-  maxHP: Decimal,
+  defence: Decimal
+  currentHP: Decimal
+  maxHP: Decimal
   hpRegen: Decimal
 }
 
@@ -24,8 +24,24 @@ export type HP = {
 }
 
 // Enemy types
-export type Enemy = {
-  hp: HP
+export interface Enemy {
+  name: string
+  image: string
+}
+
+// Boss types
+export interface BossStats {
+  hp: Decimal
+  maxHp: Decimal
+  attack: Decimal
+  defence: Decimal
+  hpRegen: Decimal
+  xp: Decimal
+}
+
+export interface Boss extends Enemy {
+  id: number
+  stats: BossStats
 }
 
 //Training types

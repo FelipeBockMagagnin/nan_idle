@@ -70,13 +70,15 @@ export const usePlayerStore = defineStore(
   {
     persist: {
       serializer: {
-        serialize: (state) =>
+        serialize: (state) => 
           JSON.stringify({
             gold: state.gold.toString(),
             stats: {
               attack: state.stats.attack.toString(),
               defence: state.stats.defence.toString(),
-              hp: state.stats.hp.toString(),
+              currentHP: state.stats.currentHP.toString(),
+              maxHP: state.stats.maxHP.toString(),
+              hpRegen: state.stats.hpRegen.toString(),
             },
           }),
         deserialize: (str) => {
@@ -86,7 +88,9 @@ export const usePlayerStore = defineStore(
             stats: {
               attack: new Decimal(data.stats.attack),
               defence: new Decimal(data.stats.defence),
-              hp: new Decimal(data.stats.hp),
+              currentHP: new Decimal(data.stats.currentHP),
+              maxHP: new Decimal(data.stats.maxHP),
+              hpRegen: new Decimal(data.stats.hpRegen),
             },
           }
         },

@@ -7,7 +7,7 @@
       }"
     ></div>
     <div class="hp-label">
-      {{ formatDecimal(props.currentHP) }} / {{ formatDecimal(props.maxHP) }}
+      {{ formatDecimal(props.currentHP) }}
     </div>
   </div>
 </template>

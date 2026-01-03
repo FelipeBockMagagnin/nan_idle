@@ -1,5 +1,5 @@
 <template>
-  <div class="indicator-container" :style="{ width: props.width }">
+  <div :style="{ border: getBorder(), width: props.width }">
     <v-icon v-if="icon" :name="icon" />
     <template v-else>
       <span>{{ props.name }}: </span>
@@ -14,24 +14,31 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/enums'
 import { formatDecimal } from '@/utils/formatDecimal'
 import Decimal from 'break_infinity.js'
 
 interface Props {
-  name: string
+  name?: string
   value: Decimal
   max?: Decimal
   width?: string
-  icon?: string
+  icon?: Icons
+  showBorder?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
+  showBorder: true,
 })
+
+function getBorder() {
+  if (props.showBorder) {
+    return '1px solid greenyellow'
+  }
+
+  return ''
+}
 </script>
 
-<style scoped>
-.indicator-container {
-  border: 1px solid greenyellow;
-}
-</style>
+<style scoped></style>

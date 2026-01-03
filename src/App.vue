@@ -12,6 +12,7 @@
     @click="toggleSidebar"
   ></div>
   <Sidebar :isOpen="isSidebarOpen" />
+  <Alert />
 </template>
 
 <script setup lang="ts">
@@ -19,6 +20,7 @@ import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 
 import Sidebar from '@/components/Sidebar.vue'
+import Alert from '@/components/Alert.vue'
 
 const isSidebarOpen = ref(false)
 
