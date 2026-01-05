@@ -16,10 +16,10 @@ const routes: RouteRecordRaw[] = [
     component: FightBossView,
   },
   {
-    path: '/adventure-zone',
-    name: 'Adventure Zone',
+    path: '/adventure',
+    name: 'Adventure',
     component: AdventureZoneView,
-  }
+  },
 ]
 
 const router = createRouter({

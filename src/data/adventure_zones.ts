@@ -9,7 +9,7 @@ export const adventureZones: AdventureZone[] = [
   {
     id: 1,
     name: 'Tutorial',
-    enemyIds: [1],
+    enemyIds: [1, 2, 3],
   },
   {
     id: 2,

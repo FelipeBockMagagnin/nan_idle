@@ -116,6 +116,7 @@ export const useTrainingStore = defineStore(
       getLevelValue,
       getskillProgressPercent,
       updateSkillsProgress,
+      getSkill,
     }
   },
   {

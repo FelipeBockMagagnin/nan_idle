@@ -36,8 +36,14 @@ export const usePlayerStore = defineStore(
      * @param value
      * @returns true if the player is dead
      */
-    function dealDamage(value: Decimal): boolean {
-      const newHP = stats.value.currentHP.minus(value)
+    function dealDamage(attackDamage: Decimal): boolean {
+      const realAttack = attackDamage.minus(stats.value.defence)
+
+      if (realAttack.lessThanOrEqualTo(0)) {
+        return false
+      }
+
+      const newHP = stats.value.currentHP.minus(realAttack)
 
       if (newHP.lessThanOrEqualTo(new Decimal(0))) {
         stats.value.currentHP = new Decimal(0)
@@ -70,7 +76,7 @@ export const usePlayerStore = defineStore(
   {
     persist: {
       serializer: {
-        serialize: (state) => 
+        serialize: (state) =>
           JSON.stringify({
             gold: state.gold.toString(),
             stats: {

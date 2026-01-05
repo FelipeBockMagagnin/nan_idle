@@ -36,14 +36,18 @@
       />
 
       <br />
-      X
-      <br />
-      <br />
+
       <div v-if="adventureZoneStore.currentEnemy" class="fight-container">
+        X
+        <br />
+        <br />
         {{ adventureZoneStore.currentEnemy.name }} - #{{
           adventureZoneStore.currentEnemy.id
         }}
-        <img :src="adventureZoneStore.currentEnemy.image" class="enemy-image" />
+        <img
+          :src="'/src/assets/enemy/' + adventureZoneStore.currentEnemy.image"
+          class="enemy-image"
+        />
         <HPBar
           :currentHP="adventureZoneStore.currentEnemy.stats.hp"
           :maxHP="adventureZoneStore.currentEnemy.stats.maxHp"
@@ -64,6 +68,10 @@
         </div>
       </div>
     </div>
+
+    <button @click="selectAttack(TrainingSkills.RegularAttack)">
+      Regular Attack
+    </button>
   </div>
 </template>
 
@@ -76,7 +84,7 @@ import EnergyIndicator from '@/components/indicators/EnergyIndicator.vue'
 import AttackIndicator from '@/components/indicators/AttackIndicator.vue'
 import DefenceIndicator from '@/components/indicators/DefenceIndicator.vue'
 import IndicatorCard from '@/components/indicators/IndicatorCard.vue'
-import { Icons } from '@/enums'
+import { Icons, TrainingSkills } from '@/enums'
 
 import { adventureZones } from '@/data/adventure_zones'
 
@@ -86,6 +94,10 @@ const adventureZoneStore = useAdventureZoneStore()
 function onZoneChange(event: Event) {
   const target = event.target as HTMLSelectElement
   adventureZoneStore.setAdventureZone(parseInt(target.value))
+}
+
+function selectAttack(skill: TrainingSkills) {
+  adventureZoneStore.setSelectedAttack(skill)
 }
 </script>
 
