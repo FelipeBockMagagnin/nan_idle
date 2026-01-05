@@ -1,40 +1,20 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Training, TrainingTrait } from '@/types'
+import type { Skill, Skills } from '@/types'
 import { TrainingSkills, SkillType } from '@/enums'
 import Decimal from 'break_infinity.js'
 import { gameManager } from '@/services/gameManager'
 import { usePlayerStore } from '@/stores/playerStore'
+import { getInitialSkills } from '@/data/skills'
 
-function getInitialTrainingState(): Training {
-  return {
-    [TrainingSkills.RegularAttack]: {
-      allocatedEnergy: new Decimal(0),
-      level: new Decimal(0),
-      progress: new Decimal(0),
-      trainingSpeed: new Decimal(1),
-      trainingDificulty: new Decimal(10),
-      trainingDificultyIncrease: new Decimal(1.2),
-      skillType: SkillType.Attack,
-      skillStatIncreaseValue: new Decimal(1),
-    },
-    [TrainingSkills.BlockDefence]: {
-      allocatedEnergy: new Decimal(0),
-      level: new Decimal(0),
-      progress: new Decimal(0),
-      trainingSpeed: new Decimal(1.2),
-      trainingDificulty: new Decimal(10),
-      trainingDificultyIncrease: new Decimal(1.2),
-      skillType: SkillType.Defence,
-      skillStatIncreaseValue: new Decimal(1),
-    },
-  }
+function getInitialTrainingState(): Skills {
+  return getInitialSkills()
 }
 
 export const useTrainingStore = defineStore(
   'training',
   () => {
-    const training = ref<Training>(getInitialTrainingState())
+    const training = ref<Skills>(getInitialTrainingState())
 
     const onGameTick = (deltaTime: number) => {
       updateSkillsProgress(deltaTime)
@@ -42,7 +22,7 @@ export const useTrainingStore = defineStore(
 
     gameManager.subscribe(onGameTick)
 
-    function getSkill(skill: TrainingSkills): TrainingTrait {
+    function getSkill(skill: TrainingSkills): Skill {
       return training.value[skill]
     }
 
@@ -82,9 +62,7 @@ export const useTrainingStore = defineStore(
     }
 
     function updateSkillsProgress(deltaTime: number): void {
-      for (const skillName of Object.keys(
-        training.value
-      ) as (keyof Training)[]) {
+      for (const skillName of Object.keys(training.value) as (keyof Skills)[]) {
         const skillData = training.value[skillName]
 
         if (skillData.allocatedEnergy.lessThanOrEqualTo(new Decimal(0))) {
@@ -144,7 +122,7 @@ export const useTrainingStore = defineStore(
     persist: {
       serializer: {
         serialize: (state) => {
-          const serializedTraining: Record<string, TrainingTrait> = {}
+          const serializedTraining: Record<string, Skill> = {}
           for (const skill in state.training) {
             serializedTraining[skill] = {
               allocatedEnergy: state.training[skill].allocatedEnergy.toString(),
@@ -164,7 +142,7 @@ export const useTrainingStore = defineStore(
         },
         deserialize: (str) => {
           const { training } = JSON.parse(str)
-          const deserializedTraining: Training = {}
+          const deserializedTraining: Skills = {}
           for (const skill in training) {
             deserializedTraining[skill] = {
               allocatedEnergy: new Decimal(training[skill].allocatedEnergy),

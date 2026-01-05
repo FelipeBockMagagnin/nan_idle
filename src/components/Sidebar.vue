@@ -5,6 +5,7 @@
     <div class="sidebar-menu-container">
       <RouterLink RouterLink to="/"> Training </RouterLink>
       <RouterLink to="/fight-boss"> Fight Boss </RouterLink>
+      <RouterLink to="/adventure-zone"> Adventure Zone </RouterLink>
       <button v-if="isLocalhost" @click="resetData">Reset Data</button>
     </div>
   </aside>

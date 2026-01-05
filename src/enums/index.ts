@@ -13,3 +13,7 @@ export enum Icons {
   Sword = 'ri-sword-fill',
   Energy = 'md-electricbolt',
 }
+
+export enum ItemSlotEnum {
+  shield, sword, helmet, chest, pants, boots, amulet, ring
+}

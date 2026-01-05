@@ -1,4 +1,4 @@
-import { SkillType } from '@/enums'
+import { ItemSlotEnum, SkillType } from '@/enums'
 import Decimal from 'break_infinity.js'
 
 // Player-related types
@@ -24,30 +24,58 @@ export type HP = {
 }
 
 // Enemy types
-export interface Enemy {
+export interface Combatant {
+  id: number
   name: string
   image: string
 }
 
-// Boss types
-export interface BossStats {
+export type EnemyStats = {
   hp: Decimal
   maxHp: Decimal
   attack: Decimal
   defence: Decimal
   hpRegen: Decimal
+}
+
+export interface Enemy extends Combatant {
+  stats: EnemyStats
+  goldDrop: Decimal
+  itemsDrop: ItemDrop[]
+}
+
+// Boss types
+export interface BossStats extends EnemyStats {
   xp: Decimal
 }
 
-export interface Boss extends Enemy {
-  id: number
+export interface Boss extends Combatant {
   stats: BossStats
 }
 
-//Training types
-export type Training = Record<string, TrainingTrait>
+//Adventure Zone
+export type AdventureZone = {
+  id: number
+  name: string
+  enemyIds: number[]
+}
 
-export type TrainingTrait = {
+export type ItemDrop = {
+  itemId: number
+  chance: number
+}
+
+export type Item = {
+  id: number
+  slot: ItemSlotEnum
+  name: string
+  stats: any // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+//Skils types
+export type Skills = Record<string, Skill>
+
+export type Skill = {
   allocatedEnergy: Decimal
   level: Decimal
   trainingSpeed: Decimal
