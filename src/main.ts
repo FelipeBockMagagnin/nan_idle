@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
-import { gameManager } from '@/services/gameManager'
-import router from './router'
+import router from './presentation/router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
@@ -26,5 +25,3 @@ app.use(router)
 app.component('v-icon', OhVueIcon)
 
 app.mount('#app')
-
-gameManager.start()

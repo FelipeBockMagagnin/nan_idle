@@ -16,11 +16,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 
-import Sidebar from '@/components/Sidebar.vue'
-import Alert from '@/components/Alert.vue'
+import Sidebar from '@/presentation/components/Sidebar.vue'
+import Alert from '@/presentation/components/Alert.vue'
+import { useMainStore } from '@/presentation/stores/mainStore'
+import { gameLoop } from '@/infrastructure/services/GameLoop'
+
+const mainStore = useMainStore()
+
+onMounted(() => {
+  // 1. Initialize (Load Save)
+  mainStore.initGame()
+
+  // 2. Start Logic
+  gameLoop.start()
+})
 
 const isSidebarOpen = ref(false)
 
