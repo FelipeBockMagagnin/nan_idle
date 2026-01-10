@@ -21,14 +21,26 @@ Based on the original diagram, the game plans to include:
 - **🎓 Online Course:** Train "knowledge" stats like `attack` and `defence`.
 - **... and much more!** (Pit, Sr. Training, Sass, Virtual Box, etc.)
 
-## 💻 Tech Stack
+## 💻 Tech Stack & Architecture
 
-This project is built with a modern front-end stack, focusing on performance and the potential to become a PWA published on the Play Store and App Store:
+This project follows **Clean Architecture** principles to ensure a decoupled, testable, and maintainable codebase. The project is organized into layers:
 
-- **[Vue.js 3](https://vuejs.org/):** The main reactive framework.
-- **[Vite](https://vitejs.dev/):** High-performance build tool for development and build.
-- **[Pinia](https://pinia.vuejs.org/):** The state management solution for Vue.
-- **[Vue Router](https://router.vuejs.org/):** For page navigation.
+- **Domain:** Pure business logic (Entities, Interfaces).
+- **Application:** Orchestration logic (Use Cases, Services).
+- **Infrastructure:** External implementations (Repositories, Data Sources, External Services).
+- **Presentation:** UI and State Management (Vue Components, Pinia Stores).
+
+### Technologies Used
+
+- **[Vue.js 3](https://vuejs.org/):** Main reactive framework (Composition API).
+- **[TypeScript](https://www.typescriptlang.org/):** For static typing and better DX.
+- **[Vite](https://vitejs.dev/):** High-performance build tool.
+- **[Pinia](https://pinia.vuejs.org/):** State management.
+- **[Vue Router](https://router.vuejs.org/):** Page navigation.
+- **[Break_infinity.js](https://github.com/Patashu/BreakInfinity.js):** Handling extremely large numbers.
+- **[Vitest](https://vitest.dev/):** Unit testing framework.
+- **[ESLint](https://eslint.org/) & [Prettier](https://prettier.io/):** Code quality and formatting.
+- **[Husky](https://typicode.github.io/husky/):** Git hooks for automated checks.
 
 ---
 
