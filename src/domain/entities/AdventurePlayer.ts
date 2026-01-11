@@ -1,21 +1,21 @@
 import Decimal from 'break_infinity.js'
 
-export type PlayerStats = {
-  attack: Decimal
-  defence: Decimal
+export type PlayerAdventureStats = {
+  power: Decimal
+  toughness: Decimal
   currentHP: Decimal
   maxHP: Decimal
   hpRegen: Decimal
 }
 
-export class Player {
-  private _stats: PlayerStats
+export class AdventurePlayer {
+  private _stats: PlayerAdventureStats
 
-  constructor(stats: PlayerStats) {
+  constructor(stats: PlayerAdventureStats) {
     this._stats = stats
   }
 
-  get stats(): PlayerStats {
+  get stats(): PlayerAdventureStats {
     return this._stats
   }
 
@@ -29,17 +29,17 @@ export class Player {
     this._stats.currentHP = Decimal.min(newHp, this._stats.maxHP)
   }
 
-  trainAttack(amount: Decimal): void {
-    this._stats.attack = this._stats.attack.plus(amount)
+  trainPower(amount: Decimal): void {
+    this._stats.power = this._stats.power.plus(amount)
   }
 
-  trainDefence(amount: Decimal): void {
-    this._stats.defence = this._stats.defence.plus(amount)
+  trainToughness(amount: Decimal): void {
+    this._stats.toughness = this._stats.toughness.plus(amount)
   }
 
   takeDamage(damage: Decimal): boolean {
     //Damage formular = damage - (thoughness / 2)
-    const realDamage = damage.minus(this._stats.defence.divide(2))
+    const realDamage = damage.minus(this._stats.toughness.divide(2))
 
     if (realDamage.lessThanOrEqualTo(0)) return false
 

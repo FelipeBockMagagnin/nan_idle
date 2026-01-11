@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { Enemy } from '@/domain/entities/Enemy'
-import { EnemyRepository } from '@/infrastructure/repositories/EnemyRepository'
+import { Boss } from '@/domain/entities/Boss'
+import { BossRepository } from '@/infrastructure/repositories/BossRepository'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { showAlert } from '@/application/services/AlertService'
 import { FightBossTickUseCase } from '@/application/use-cases/boss/FightBossTickUseCase'
 import { PlayerRepository } from '@/infrastructure/repositories/PlayerRepository'
 
 export const useFightBossStore = defineStore('fightBoss', () => {
-  const enemy = ref<Enemy | null>(null)
+  const enemy = ref<Boss | null>(null)
   const currentBossIndex = ref<number>(1)
   const fighting = ref<boolean>(false)
 
@@ -28,7 +28,7 @@ export const useFightBossStore = defineStore('fightBoss', () => {
   gameLoop.subscribe(onGameTick)
 
   function setBoss(index: number) {
-    const boss = EnemyRepository.getEnemy(index)
+    const boss = BossRepository.getEnemy(index)
     if (boss) {
       enemy.value = boss
     }
@@ -38,9 +38,10 @@ export const useFightBossStore = defineStore('fightBoss', () => {
     if (!fighting.value || !enemy.value) return
 
     const player = playerRepository.getPlayer()
+
     const result = fightBossTickUseCase.execute(
       player,
-      enemy.value as Enemy,
+      enemy.value as Boss,
       deltaTime
     )
 
@@ -61,7 +62,7 @@ export const useFightBossStore = defineStore('fightBoss', () => {
   function defeatEnemy(): void {
     if (!enemy.value) return
 
-    showAlert(`${enemy.value.name} defeated. + ${enemy.value.bossStats.xp} XP`)
+    showAlert(`${enemy.value.name} defeated. + ${enemy.value.stats.xp} XP`)
     advanceToNextBoss()
     changeFightState()
     setBoss(currentBossIndex.value)

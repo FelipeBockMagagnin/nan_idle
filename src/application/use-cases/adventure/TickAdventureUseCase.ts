@@ -19,7 +19,7 @@ export class TickAdventureUseCase {
         const enemyId = adventure.getNextEnemyId()
         const enemy = this.adventureRepository.createEnemy(enemyId)
         if (enemy) {
-          enemy.adventureStats.hp = enemy.adventureStats.maxHp
+          enemy.stats.hp = enemy.stats.maxHp
           adventure.setEnemy(enemy)
         }
       }

@@ -16,4 +16,3 @@ const energyStore = useEnergyStore()
 </script>
 
 <style scoped></style>
-s

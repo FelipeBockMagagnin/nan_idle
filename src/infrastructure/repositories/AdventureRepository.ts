@@ -1,7 +1,7 @@
 import { IAdventureRepository } from '@/domain/interfaces/repositories/IAdventureRepository'
-import { Enemy } from '@/domain/entities/Enemy'
+import { Boss } from '@/domain/entities/Boss'
 import { AdventureZoneRepository } from './AdventureZoneRepository'
-import { EnemyRepository } from './EnemyRepository'
+import { BossRepository } from './BossRepository'
 import { AdventureZone } from '@/domain/entities/Adventure'
 import { Adventure } from '@/domain/entities/Adventure'
 
@@ -25,7 +25,7 @@ export class AdventureRepository implements IAdventureRepository {
     return AdventureZoneRepository.getAdventureZones()
   }
 
-  createEnemy(id: number): Enemy | null {
-    return EnemyRepository.getEnemy(id)
+  createEnemy(id: number): Boss | null {
+    return BossRepository.getEnemy(id)
   }
 }

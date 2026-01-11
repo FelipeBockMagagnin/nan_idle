@@ -1,4 +1,4 @@
-import { Enemy } from '@/domain/entities/Enemy'
+import { Boss } from '@/domain/entities/Boss'
 import { Skill } from '@/domain/entities/Skill'
 import { Player } from '@/domain/entities/Player'
 
@@ -14,7 +14,7 @@ export type AdventureZone = {
 }
 
 export class Adventure {
-  private _currentEnemy: Enemy | null = null
+  private _currentEnemy: Boss | null = null
   private _playerSelectedAttack: Skill | null = null
   private _adventureZone: AdventureZone | null = null
 
@@ -27,7 +27,7 @@ export class Adventure {
     return this._adventureZone.id
   }
 
-  get currentEnemy(): Enemy | null {
+  get currentEnemy(): Boss | null {
     return this._currentEnemy
   }
 
@@ -48,7 +48,7 @@ export class Adventure {
     ]
   }
 
-  setEnemy(enemy: Enemy): void {
+  setEnemy(enemy: Boss): void {
     this._currentEnemy = enemy
   }
 
@@ -72,9 +72,8 @@ export class Adventure {
     // Player attacks enemy
     if (this._playerSelectedAttack) {
       const damage = this._playerSelectedAttack.level
-      this._currentEnemy.takeAdventureDamage(damage)
 
-      if (this._currentEnemy.adventureStats.hp.lessThanOrEqualTo(0)) {
+      if (this._currentEnemy.takeDamage(damage)) {
         this.clearEnemy()
         result.enemyDefeated = true
         return result
@@ -84,13 +83,13 @@ export class Adventure {
     }
 
     // Enemy Attacks Player
-    if (player.takeDamage(this._currentEnemy.adventureStats.power)) {
+    if (player.takeDamage(this._currentEnemy.stats.attack)) {
       result.playerDied = true
       return result
     }
 
     // Regen Enemy HP if alive
-    this._currentEnemy.regenerateAdventureHP(deltaTime)
+    this._currentEnemy.regenerate(deltaTime)
 
     return result
   }

@@ -1,4 +1,3 @@
-// src/stores/mainStore.ts
 import { defineStore } from 'pinia'
 import { LocalStorageService } from '@/infrastructure/services/LocalStorageService'
 import { PlayerRepository } from '@/infrastructure/repositories/PlayerRepository'

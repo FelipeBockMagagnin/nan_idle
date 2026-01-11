@@ -1,6 +1,6 @@
 <template>
   <aside class="sidebar" :class="{ 'is-open': isOpen }">
-    <h2 style="margin: 3px">NaN IDLE</h2>
+    <h3 style="margin: 8px">NaN IDLE</h3>
 
     <div class="sidebar-menu-container">
       <RouterLink RouterLink to="/"> Training </RouterLink>

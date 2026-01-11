@@ -1,4 +1,4 @@
-import { Enemy } from '@/domain/entities/Enemy'
+import { Boss } from '@/domain/entities/Boss'
 import { AdventureZone } from '@/domain/entities/Adventure'
 import { Adventure } from '@/domain/entities/Adventure'
 
@@ -7,5 +7,5 @@ export interface IAdventureRepository {
 
   getAdventureZone(id: number): AdventureZone | null
   getAdventureZones(): AdventureZone[]
-  createEnemy(id: number): Enemy | null
+  createEnemy(id: number): Boss | null
 }

@@ -39,9 +39,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 .hp-bar-fill {
   height: 100%;
-  width: 75%;
   background: linear-gradient(90deg, #af4c4c, #be3636);
-  transition: width 0.1s ease-in-out;
+  transition: width 0.1ms ease-in-out;
 }
 
 .hp-label {

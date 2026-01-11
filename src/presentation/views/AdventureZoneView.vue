@@ -56,10 +56,10 @@
         />
         <HPBar
           :currentHP="
-            adventureZoneStore.adventure.currentEnemy.adventureStats.hp
+            adventureZoneStore.adventure.currentEnemy.stats.hp
           "
           :maxHP="
-            adventureZoneStore.adventure.currentEnemy.adventureStats.maxHp
+            adventureZoneStore.adventure.currentEnemy.stats.maxHp
           "
         />
         <div style="display: flex; width: 60%">
@@ -67,7 +67,7 @@
             style="margin-right: 10px"
             :icon="Icons.Sword"
             :value="
-              adventureZoneStore.adventure.currentEnemy.adventureStats.power
+              adventureZoneStore.adventure.currentEnemy.stats.attack
             "
             :show-border="false"
           />
