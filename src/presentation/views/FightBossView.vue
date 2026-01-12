@@ -5,7 +5,7 @@
     <div class="fight-boss-container">
       <div class="fight-boss-container">
         Player
-        <img src="/src/assets/player/player_2.jpg" class="boss-image" />
+        <img src="/assets/player/player_2.jpg" class="boss-image" />
 
         <HPBar
           :currentHP="playerStore.stats.currentHP"
@@ -25,7 +25,7 @@
       <div v-if="fightBossStore.enemy" class="fight-boss-container">
         {{ fightBossStore.enemy.name }} - #{{ fightBossStore.enemy.id }}
         <img
-          :src="'/src/assets/enemy/' + fightBossStore.enemy.image"
+          :src="'/assets/enemy/' + fightBossStore.enemy.image"
           class="boss-image"
         />
         <HPBar

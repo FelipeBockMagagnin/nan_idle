@@ -28,7 +28,7 @@
 
     <div class="fight-container">
       Player
-      <img src="/src/assets/player/player_1.jpeg" class="enemy-image" />
+      <img src="/assets/player/player_1.jpeg" class="enemy-image" />
 
       <HPBar
         :currentHP="playerStore.stats.currentHP"
@@ -49,7 +49,7 @@
         }}
         <img
           :src="
-            '/src/assets/enemy/' +
+            '/assets/enemy/' +
             adventureZoneStore.adventure.currentEnemy.image
           "
           class="enemy-image"
