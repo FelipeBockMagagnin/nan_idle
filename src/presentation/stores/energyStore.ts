@@ -5,11 +5,15 @@ import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { EnergyRepository } from '@/infrastructure/repositories/EnergyRepository'
 import Decimal from 'break_infinity.js'
 import { RegenEnergyUseCase } from '@/application/use-cases/energy/RegenEnergyUseCase'
+import { GetAvaliableEnergyUseCase } from '@/application/use-cases/energy/GetAvaliableEnergyUseCase'
 
 export const useEnergyStore = defineStore('energy', () => {
   const energyRepository = new EnergyRepository()
 
   const regenEnergyUseCase = new RegenEnergyUseCase(energyRepository)
+  const getAvaliableEnergyUseCase = new GetAvaliableEnergyUseCase(
+    energyRepository
+  )
   const energyEntity = energyRepository.getEnergy()
   const energy = ref<Energy>(energyEntity)
 
@@ -21,7 +25,7 @@ export const useEnergyStore = defineStore('energy', () => {
   gameLoop.subscribe(onGameTick)
 
   function getAvailableEnergy(): Decimal {
-    return energyEntity.getAvailableEnergy()
+    return getAvaliableEnergyUseCase.execute()
   }
 
   return {
