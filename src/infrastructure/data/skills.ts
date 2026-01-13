@@ -13,7 +13,10 @@ export const getInitialSkills = (): Skill[] => {
       new Decimal(10),
       new Decimal(1),
       new Decimal(0),
-      new Decimal(0)
+      new Decimal(0),
+      1,
+      0,
+      2
     ),
     new Skill(
       TrainingSkillsEnum.BlockDefence,
@@ -24,7 +27,10 @@ export const getInitialSkills = (): Skill[] => {
       new Decimal(10),
       new Decimal(1),
       new Decimal(0),
-      new Decimal(0)
+      new Decimal(0),
+      0.5,
+      0,
+      1
     ),
   ]
 }

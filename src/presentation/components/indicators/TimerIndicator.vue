@@ -1,12 +1,16 @@
 <template>
   <div
     class="bar-container"
-    :style="{ width: props.width, backgroundColor: props.backgroundColor }"
+    :style="{
+      width: props.width,
+      backgroundColor: props.backgroundColor,
+      height: props.height,
+    }"
   >
     <div
       class="bar-fill"
       :style="{
-        width: props.progress + '%',
+        width: getProgress() + '%',
         background: props.barColor,
       }"
     ></div>
@@ -21,12 +25,25 @@ interface Props {
   backgroundColor?: string
   innerText?: string
   barColor?: string
+  height?: string
+  inverted?: boolean
+}
+
+function getProgress() {
+  if (props.inverted) {
+    return 100 - props.progress
+  }
+
+  return props.progress
+  
 }
 
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
   backgroundColor: '#333',
   barColor: '#be3636',
+  height: 'auto',
+  inverted: true,
 })
 </script>
 

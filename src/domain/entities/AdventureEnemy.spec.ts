@@ -19,6 +19,8 @@ describe('Adventure Enemy Entity', () => {
         hpRegen: new Decimal(1),
         goldDrop: new Decimal(1),
         itemsDrop: [],
+        attackCooldown: 1,
+        respawnTime: 1,
       },
     }
     enemy = new AdventureEnemy(initialStats)

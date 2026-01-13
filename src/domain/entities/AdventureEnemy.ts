@@ -16,15 +16,29 @@ export type AdventureEnemyStats = {
   hpRegen: Decimal
   goldDrop: Decimal
   itemsDrop: ItemDrop[]
+  respawnTime: number
+  attackCooldown: number
 }
 
 export class AdventureEnemy {
-  constructor(private _data: AdventureEnemyData) {}
+  constructor(private _data: AdventureEnemyData) {
+    this.currentAttackCooldown = _data.stats.attackCooldown
+  }
 
-  get id() { return this._data.id }
-  get name() { return this._data.name }
-  get image() { return this._data.image }
-  get stats() { return this._data.stats }
+  currentAttackCooldown: number
+
+  get id() {
+    return this._data.id
+  }
+  get name() {
+    return this._data.name
+  }
+  get image() {
+    return this._data.image
+  }
+  get stats() {
+    return this._data.stats
+  }
 
   regenerate(deltaTime: number): void {
     if (this.stats.hp.greaterThanOrEqualTo(this.stats.maxHp)) return
@@ -50,5 +64,29 @@ export class AdventureEnemy {
     this.stats.hp = newHp
 
     return false
+  }
+
+  attackOnCooldown() {
+    return this.currentAttackCooldown > 0
+  }
+
+  resetAttackCooldown() {
+    return (this.currentAttackCooldown = this.stats.attackCooldown)
+  }
+
+  decreaseAttackCooldown(deltaTime: number) {
+    this.currentAttackCooldown -= deltaTime
+  }
+
+  getAttackCooldownPercent() {
+    return (this.currentAttackCooldown * 100) /
+            this.stats.attackCooldown
+  }
+
+  decreaseRespawnTime(deltaTime: number): void {
+    if (this.stats.respawnTime <= 0) return
+
+    const newRespawnTime = this.stats.respawnTime - deltaTime
+    this.stats.respawnTime = Math.min(newRespawnTime, 0)
   }
 }

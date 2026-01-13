@@ -11,7 +11,10 @@ export class Skill {
     public baseEnergyCost: Decimal,
     public baseStatsPerLevel: Decimal,
     public unlockThreshold: Decimal,
-    public trainingSpeed: Decimal
+    public trainingSpeed: Decimal,
+    public combatMultiplier: number,
+    public currentAttackCooldown: number,
+    public attackCooldown: number
   ) {}
 
   get skill(): Skill {
@@ -23,6 +26,8 @@ export class Skill {
    * @returns level gained in this tick.
    */
   tick(deltaTime: number): boolean {
+    this.decreaseAttackCooldown(deltaTime)
+
     if (this.allocatedEnergy.lte(0)) return false
 
     const increase = this.allocatedEnergy.times(deltaTime)
@@ -35,6 +40,19 @@ export class Skill {
     }
 
     return false
+  }
+
+  attackOnCooldown() {
+    return this.currentAttackCooldown > 0
+  }
+
+  resetAttackCooldown() {
+    return (this.currentAttackCooldown = this.attackCooldown)
+  }
+
+  decreaseAttackCooldown(deltaTime: number) {
+    const newAttackCooldown = this.currentAttackCooldown - deltaTime
+    this.currentAttackCooldown = Math.max(newAttackCooldown, 0)
   }
 
   allocateEnergy(amount: Decimal): boolean {

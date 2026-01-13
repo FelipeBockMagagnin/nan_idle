@@ -24,13 +24,15 @@ export const enemies: IEnemyData[] = [
       xp: new Decimal(10),
     },
     adventureStats: {
-      power: new Decimal(10),
-      toughness: new Decimal(5),
+      power: new Decimal(2),
+      toughness: new Decimal(0),
       hp: new Decimal(40),
       maxHp: new Decimal(40),
-      hpRegen: new Decimal(0.5),
+      hpRegen: new Decimal(0),
       goldDrop: new Decimal(2),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
   {
@@ -53,6 +55,8 @@ export const enemies: IEnemyData[] = [
       hpRegen: new Decimal(1),
       goldDrop: new Decimal(4),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
   {
@@ -75,6 +79,8 @@ export const enemies: IEnemyData[] = [
       hpRegen: new Decimal(1.5),
       goldDrop: new Decimal(7),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
   {
@@ -97,6 +103,8 @@ export const enemies: IEnemyData[] = [
       hpRegen: new Decimal(2),
       goldDrop: new Decimal(12),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
   {
@@ -119,6 +127,8 @@ export const enemies: IEnemyData[] = [
       hpRegen: new Decimal(3),
       goldDrop: new Decimal(20),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
   {
@@ -141,6 +151,8 @@ export const enemies: IEnemyData[] = [
       hpRegen: new Decimal(4),
       goldDrop: new Decimal(35),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
   {
@@ -163,6 +175,8 @@ export const enemies: IEnemyData[] = [
       hpRegen: new Decimal(10),
       goldDrop: new Decimal(100),
       itemsDrop: [{ itemId: 1, chance: 100 }],
+      attackCooldown: 5,
+      respawnTime: 1,
     },
   },
 ]

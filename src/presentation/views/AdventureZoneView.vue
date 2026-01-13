@@ -31,58 +31,67 @@
       <img src="/assets/player/player_1.jpeg" class="enemy-image" />
 
       <HPBar
-        :currentHP="playerStore.stats.currentHP"
-        :maxHP="playerStore.stats.maxHP"
+        :currentHP="adventureZoneStore.adventurePlayer.stats.currentHP"
+        :maxHP="adventureZoneStore.adventurePlayer.stats.maxHP"
       />
 
       <br />
 
-      <div
-        v-if="adventureZoneStore.adventure.currentEnemy"
-        class="fight-container"
-      >
+      <div v-if="adventureZoneStore.currentEnemy" class="fight-container">
         X
         <br />
         <br />
-        {{ adventureZoneStore.adventure.currentEnemy?.name }} - #{{
-          adventureZoneStore.adventure.currentEnemy.id
+        {{ adventureZoneStore.currentEnemy?.name }} - #{{
+          adventureZoneStore.currentEnemy.id
         }}
         <img
-          :src="
-            '/assets/enemy/' +
-            adventureZoneStore.adventure.currentEnemy.image
-          "
+          :src="'/assets/enemy/' + adventureZoneStore.currentEnemy.image"
           class="enemy-image"
         />
         <HPBar
-          :currentHP="
-            adventureZoneStore.adventure.currentEnemy.stats.hp
-          "
-          :maxHP="
-            adventureZoneStore.adventure.currentEnemy.stats.maxHp
-          "
+          :currentHP="adventureZoneStore.currentEnemy.stats.hp"
+          :maxHP="adventureZoneStore.currentEnemy.stats.maxHp"
+        />
+
+        <TimerIndicator
+          height="10px"
+          barColor="white"
+          :progress="adventureZoneStore.currentEnemy.getAttackCooldownPercent()"
+          :inverted="true"
         />
         <div style="display: flex; width: 60%">
           <IndicatorCard
             style="margin-right: 10px"
             :icon="Icons.Sword"
-            :value="
-              adventureZoneStore.adventure.currentEnemy.stats.attack
-            "
+            :value="adventureZoneStore.currentEnemy.stats.power"
             :show-border="false"
           />
         </div>
       </div>
     </div>
 
-    <button @click="selectAttack(TrainingSkillsEnum.RegularAttack)">
-      Regular Attack
+    <button
+      @click="selectAttack(TrainingSkillsEnum.RegularAttack)"
+      style="width: 150px"
+    >
+      <span
+        v-if="
+          !adventureZoneStore
+            .getPlayersSkill(TrainingSkillsEnum.RegularAttack)
+            ?.attackOnCooldown()
+        "
+        >Regular Attack</span
+      >
+      <span v-else>{{
+        adventureZoneStore.getPlayerAttackCooldown(
+          TrainingSkillsEnum.RegularAttack
+        )
+      }}</span>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { usePlayerStore } from '@/presentation/stores/playerStore'
 import { useAdventureZoneStore } from '@/presentation/stores/adventureZoneStore'
 
 import HPBar from '@/presentation/components/HPBar.vue'
@@ -91,8 +100,8 @@ import AttackIndicator from '@/presentation/components/indicators/AttackIndicato
 import DefenceIndicator from '@/presentation/components/indicators/DefenceIndicator.vue'
 import IndicatorCard from '@/presentation/components/indicators/IndicatorCard.vue'
 import { Icons, TrainingSkillsEnum } from '@/domain/enums'
+import TimerIndicator from '../components/indicators/TimerIndicator.vue'
 
-const playerStore = usePlayerStore()
 const adventureZoneStore = useAdventureZoneStore()
 
 function onZoneChange(event: Event) {
@@ -101,7 +110,7 @@ function onZoneChange(event: Event) {
 }
 
 function selectAttack(skill: TrainingSkillsEnum) {
-  adventureZoneStore.setSelectedAttack(skill)
+  adventureZoneStore.playerAttack(skill)
 }
 </script>
 

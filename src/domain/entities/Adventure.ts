@@ -1,11 +1,5 @@
-import { Boss } from '@/domain/entities/Boss'
 import { Skill } from '@/domain/entities/Skill'
-import { Player } from '@/domain/entities/Player'
-
-export type AdventureTickResult = {
-  enemyDefeated: boolean
-  playerDied: boolean
-}
+import { AdventureEnemy } from './AdventureEnemy'
 
 export type AdventureZone = {
   id: number
@@ -14,7 +8,7 @@ export type AdventureZone = {
 }
 
 export class Adventure {
-  private _currentEnemy: Boss | null = null
+  private _currentEnemy: AdventureEnemy | null = null
   private _playerSelectedAttack: Skill | null = null
   private _adventureZone: AdventureZone | null = null
 
@@ -27,7 +21,7 @@ export class Adventure {
     return this._adventureZone.id
   }
 
-  get currentEnemy(): Boss | null {
+  get currentEnemy(): AdventureEnemy | null {
     return this._currentEnemy
   }
 
@@ -48,7 +42,7 @@ export class Adventure {
     ]
   }
 
-  setEnemy(enemy: Boss): void {
+  setEnemy(enemy: AdventureEnemy): void {
     this._currentEnemy = enemy
   }
 
@@ -59,38 +53,5 @@ export class Adventure {
   clearEnemy(): void {
     this._currentEnemy = null
     this._playerSelectedAttack = null
-  }
-
-  tick(deltaTime: number, player: Player): AdventureTickResult {
-    const result: AdventureTickResult = {
-      enemyDefeated: false,
-      playerDied: false,
-    }
-
-    if (!this._currentEnemy) return result
-
-    // Player attacks enemy
-    if (this._playerSelectedAttack) {
-      const damage = this._playerSelectedAttack.level
-
-      if (this._currentEnemy.takeDamage(damage)) {
-        this.clearEnemy()
-        result.enemyDefeated = true
-        return result
-      }
-
-      this._playerSelectedAttack = null
-    }
-
-    // Enemy Attacks Player
-    if (player.takeDamage(this._currentEnemy.stats.attack)) {
-      result.playerDied = true
-      return result
-    }
-
-    // Regen Enemy HP if alive
-    this._currentEnemy.regenerate(deltaTime)
-
-    return result
   }
 }
