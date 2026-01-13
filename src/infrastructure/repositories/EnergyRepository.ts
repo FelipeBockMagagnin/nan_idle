@@ -1,5 +1,5 @@
 import { Energy } from '@/domain/entities/Energy'
-import { EnergySaveData } from '@/domain/entities/saveData'
+import { EnergySaveData } from '@/domain/types/saveData'
 import { IEnergyRepository } from '@/domain/interfaces/repositories/IEnergyRepository'
 import Decimal from 'break_infinity.js'
 

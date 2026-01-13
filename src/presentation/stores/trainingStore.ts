@@ -2,35 +2,22 @@ import { defineStore } from 'pinia'
 import { ref, triggerRef } from 'vue'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { TrainingSkillsEnum } from '@/domain/enums'
-import type { TrainingSaveData } from '@/domain/entities/saveData'
+import type { TrainingSaveData } from '@/domain/types/saveData'
 import Decimal from 'break_infinity.js'
-import { TrainingRepository } from '@/infrastructure/repositories/TrainingRepository'
-import { PlayerRepository } from '@/infrastructure/repositories/PlayerRepository'
-import { TickTrainingUseCase } from '@/application/use-cases/training/TickTrainingUseCase'
-import { AllocateEnergyUseCase } from '@/application/use-cases/training/AllocateEnergyUseCase'
-import { EnergyRepository } from '@/infrastructure/repositories/EnergyRepository'
-import { ReclaimEnergyUseCase } from '@/application/use-cases/training/ReclaimEnergyUseCase'
+import { container } from '@/infrastructure/container'
 
 export const useTrainingStore = defineStore('training', () => {
-  const repository = new TrainingRepository()
-  const playerRepository = new PlayerRepository()
-  const energyRepository = new EnergyRepository()
+  const {
+    trainingRepo,
+    tickTrainingUseCase,
+    allocateEnergyUseCase,
+    reclaimEnergyUseCase,
+  } = container
 
-  const tickUseCase = new TickTrainingUseCase(repository, playerRepository)
-
-  const allocateUseCase = new AllocateEnergyUseCase(
-    repository,
-    energyRepository
-  )
-  const reclaimEnergyUseCase = new ReclaimEnergyUseCase(
-    repository,
-    energyRepository
-  )
-
-  const training = ref(repository.getSkills())
+  const training = ref(trainingRepo.getSkills())
 
   gameLoop.subscribe((delta) => {
-    tickUseCase.execute(delta)
+    tickTrainingUseCase.execute(delta)
     triggerRef(training)
   })
 
@@ -42,7 +29,7 @@ export const useTrainingStore = defineStore('training', () => {
     skill: TrainingSkillsEnum,
     value: Decimal
   ): boolean {
-    const success = allocateUseCase.execute(skill, value)
+    const success = allocateEnergyUseCase.execute(skill, value)
     return success
   }
 
@@ -65,11 +52,11 @@ export const useTrainingStore = defineStore('training', () => {
   }
 
   function exportSaveData(): TrainingSaveData {
-    return repository.exportData()
+    return trainingRepo.exportData()
   }
 
   function importSaveData(data: TrainingSaveData) {
-    repository.importData(data)
+    trainingRepo.importData(data)
   }
 
   function getskillProgressPercent(skill: TrainingSkillsEnum): number {

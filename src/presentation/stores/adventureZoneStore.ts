@@ -1,74 +1,37 @@
 import { defineStore } from 'pinia'
-import { computed, ref, triggerRef } from 'vue'
+import { computed } from 'vue'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
-import { AdventureRepository } from '@/infrastructure/repositories/AdventureRepository'
-import { TrainingRepository } from '@/infrastructure/repositories/TrainingRepository'
-import { TickAdventureUseCase } from '@/application/use-cases/adventure/TickAdventureUseCase'
-import { EnterZoneUseCase } from '@/application/use-cases/adventure/EnterZoneUseCase'
-import { GetAdventureZonesUseCase } from '@/application/use-cases/adventure/GetAdventureZonesUseCase'
 import { TrainingSkillsEnum } from '@/domain/enums'
-import { AdventurePlayerRepository } from '@/infrastructure/repositories/AdventurePlayerRepository'
-import { PlayerAttackUseCase } from '@/application/use-cases/adventure/PlayerAttackUseCase'
-import { GetPlayerAttackCooldownUseCase } from '@/application/use-cases/adventure/GetPlayerAttackCooldownUseCase'
-import { GetAdventureUseCase } from '@/application/use-cases/adventure/GetAdventureUseCase'
-import { GetAdventurePlayerUseCase } from '@/application/use-cases/adventure/GetAdventurePlayerUseCase'
-import { GetAdventureZoneUseCase } from '@/application/use-cases/adventure/GetAdventureZoneUseCase'
-import { GetPlayerSkillUseCase } from '@/application/use-cases/adventure/GetPlayerSkillUseCase'
+import { container } from '@/infrastructure/container'
 
 export const useAdventureZoneStore = defineStore('adventureZone', () => {
-  const adventureRepository = new AdventureRepository()
-  const adventurePlayerRepository = new AdventurePlayerRepository()
-  const trainingRepository = new TrainingRepository()
+  const {
+    adventureService,
+    adventurePlayerService,
+    adventureZoneService,
+    skillsService,
+    tickAdventureUseCase,
+    playerAttackUseCase,
+  } = container
 
-  const tickUseCase = new TickAdventureUseCase(
-    adventureRepository,
-    adventurePlayerRepository,
-    trainingRepository
-  )
-  const enterZoneUseCase = new EnterZoneUseCase(adventureRepository)
-  const playerAttackUseCase = new PlayerAttackUseCase(
-    adventureRepository,
-    adventurePlayerRepository,
-    trainingRepository
-  )
-  const getPlayerAttackCooldownUseCase = new GetPlayerAttackCooldownUseCase(
-    trainingRepository
-  )
-  const getPlayerSkillUseCase = new GetPlayerSkillUseCase(trainingRepository)
-  const getAdventureZonesUseCase = new GetAdventureZonesUseCase(
-    adventureRepository
-  )
-  const getAdventureUseCase = new GetAdventureUseCase(adventureRepository)
-  const getAdventurePlayerUseCase = new GetAdventurePlayerUseCase(
-    adventurePlayerRepository
-  )
-  const getAdventureZoneUseCase = new GetAdventureZoneUseCase(
-    adventureRepository
-  )
+  const adventure = adventureService.getAdventure()
+  const adventurePlayer = adventurePlayerService.getAdventurePlayer()
 
-  const adventure = ref(getAdventureUseCase.execute())
-  const adventurePlayer = ref(getAdventurePlayerUseCase.execute())
-
-  const adventureZoneId = computed(() => adventure.value.zoneId)
-  const currentEnemy = computed(() => adventure.value.currentEnemy)
-
+  const currentEnemy = computed(() => adventure.currentEnemy)
   const adventureZone = computed(() => {
-    return getAdventureZoneUseCase.execute(adventureZoneId.value)
+    return adventureZoneService.getAdventureZone(adventure.zoneId)
   })
 
-  const adventureZones = computed(() => getAdventureZonesUseCase.execute())
+  const adventureZones = computed(() => adventureZoneService.getAllAdventureZones())
 
   const onGameTick = (deltaTime: number) => {
-    tickUseCase.execute(deltaTime)
-    triggerRef(adventure)
-    triggerRef(adventurePlayer)
-    triggerRef(currentEnemy)
+    tickAdventureUseCase.execute(deltaTime)
   }
 
   gameLoop.subscribe(onGameTick)
 
   function setAdventureZone(id: number) {
-    enterZoneUseCase.execute(id)
+    adventureService.enterAdventureZone(id)
   }
 
   function playerAttack(skill: TrainingSkillsEnum) {
@@ -76,15 +39,14 @@ export const useAdventureZoneStore = defineStore('adventureZone', () => {
   }
 
   function getPlayerAttackCooldown(skill: TrainingSkillsEnum) {
-    return getPlayerAttackCooldownUseCase.execute(skill)
+    return skillsService.getPlayerAttackCooldown(skill)
   }
 
   function getPlayersSkill(skill: TrainingSkillsEnum) {
-    return getPlayerSkillUseCase.execute(skill)
+    return skillsService.getSkill(skill)
   }
 
   return {
-    adventure,
     adventureZone,
     adventureZones,
     currentEnemy,

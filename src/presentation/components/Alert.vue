@@ -1,7 +1,7 @@
 <template>
   <div class="alert-stack-container">
     <TransitionGroup name="fade" tag="div">
-      <div v-for="alert in alerts" :key="alert.id" class="alert-container">
+      <div v-for="alert in alertStore.alerts" :key="alert.id" class="alert-container">
         <div class="alert-message">
           {{ alert.message }}
         </div>
@@ -11,7 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { alerts } from '@/application/services/AlertService'
+import { useAlertStore } from '@/presentation/stores/alertStore'
+
+const alertStore = useAlertStore()
 </script>
 
 <style scoped>

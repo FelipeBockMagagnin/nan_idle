@@ -1,15 +1,17 @@
 import { IAdventureRepository } from '@/domain/interfaces/repositories/IAdventureRepository'
 import { IAdventurePlayerRepository } from '@/domain/interfaces/repositories/IAdventurePlayerRepository'
 import { showAlert } from '@/application/services/AlertService'
-import { AdventureZoneRepository } from '@/infrastructure/repositories/AdventureZoneRepository'
 import { RespawnEnemyUseCase } from './RespawnEnemyUseCase'
 import { ITrainingRepository } from '@/domain/interfaces/repositories/ITrainingRepository'
+import { IAdventureZoneRepository } from '@/domain/interfaces/repositories/IAdventureZoneRepository'
 
 export class TickAdventureUseCase {
   constructor(
     private adventureRepository: IAdventureRepository,
     private adventurePlayerRepository: IAdventurePlayerRepository,
-    private trainingRepository: ITrainingRepository
+    private trainingRepository: ITrainingRepository,
+    private adventureZoneRepository: IAdventureZoneRepository,
+    private respawnEnemyUseCase: RespawnEnemyUseCase
   ) {}
 
   execute(deltaTime: number): void {
@@ -17,10 +19,7 @@ export class TickAdventureUseCase {
     const player = this.adventurePlayerRepository.getAdventurePlayer()
 
     //Respawn Enemy
-    const respawnEnemyUseCase = new RespawnEnemyUseCase(
-      this.adventureRepository
-    )
-    respawnEnemyUseCase.execute(deltaTime)
+    this.respawnEnemyUseCase.execute(deltaTime)
 
     // decrease player skills cooldown
     const skills = this.trainingRepository.getSkills()
@@ -41,7 +40,7 @@ export class TickAdventureUseCase {
       if (playerDied) {
         showAlert('You died!')
         adventure.clearEnemy()
-        adventure.enterZone(AdventureZoneRepository.getAdventureZone(0))
+        adventure.enterZone(this.adventureZoneRepository.getAdventureZone(0))
         return
       }
     }

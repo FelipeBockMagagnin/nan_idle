@@ -3,11 +3,11 @@
     <div
       class="hp-bar-fill"
       :style="{
-        width: props.currentHP.multiply(100).divide(props.maxHP) + '%',
+        width: props?.currentHP?.multiply(100).divide(props?.maxHP || 1) + '%',
       }"
     ></div>
     <div class="hp-label">
-      {{ formatDecimal(props.currentHP) }}
+      {{ formatDecimal(props?.currentHP || new Decimal(0)) }}
     </div>
   </div>
 </template>
@@ -18,8 +18,8 @@ import Decimal from 'break_infinity.js'
 
 interface Props {
   width?: string
-  currentHP: Decimal
-  maxHP: Decimal
+  currentHP?: Decimal
+  maxHP?: Decimal
 }
 
 const props = withDefaults(defineProps<Props>(), {

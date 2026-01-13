@@ -1,22 +1,23 @@
-import { reactive } from 'vue'
+type AlertListener = (message: string) => void;
 
-interface Alert {
-  id: number;
-  message: string;
+export class AlertService {
+  private listeners: AlertListener[] = [];
+
+  subscribe(listener: AlertListener): void {
+    this.listeners.push(listener);
+  }
+
+  unsubscribe(listener: AlertListener): void {
+    this.listeners = this.listeners.filter(l => l !== listener);
+  }
+
+  showAlert(message: string): void {
+    this.listeners.forEach(listener => listener(message));
+  }
 }
 
-export const alerts = reactive<Alert[]>([])
-
-let idCounter = 0
+export const alertService = new AlertService();
 
 export function showAlert(message: string) {
-  const id = idCounter++
-  alerts.push({ id, message })
-
-  setTimeout(() => {
-    const index = alerts.findIndex(alert => alert.id === id)
-    if (index !== -1) {
-      alerts.splice(index, 1)
-    }
-  }, 2000)
+  alertService.showAlert(message);
 }

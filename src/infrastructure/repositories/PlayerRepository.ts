@@ -2,7 +2,7 @@ import { Player } from '@/domain/entities/Player'
 import type { IPlayerRepository } from '@/domain/interfaces/repositories/IPlayerRepository'
 import type { PlayerStats } from '@/domain/entities/Player'
 import Decimal from 'break_infinity.js'
-import { PlayerSaveData } from '@/domain/entities/saveData'
+import { PlayerSaveData } from '@/domain/types/saveData'
 
 let playerIntance: Player | null = null
 export class PlayerRepository implements IPlayerRepository {

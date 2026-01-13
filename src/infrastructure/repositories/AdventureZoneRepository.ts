@@ -1,10 +1,11 @@
-import { adventureZones } from '@/infrastructure/data/adventure_zones'
+import { adventureZones } from '@/infrastructure/data/adventureZones'
 import type { AdventureZone } from '@/domain/entities/Adventure'
+import { IAdventureZoneRepository } from '@/domain/interfaces/repositories/IAdventureZoneRepository'
 
-export class AdventureZoneRepository {
-  private static adventureZones: AdventureZone[] = adventureZones
+export class AdventureZoneRepository implements IAdventureZoneRepository {
+  private adventureZones: AdventureZone[] = adventureZones
 
-  static getAdventureZone(id: number): AdventureZone | null {
+  getAdventureZone(id: number): AdventureZone | null {
     const zone = this.adventureZones.find((zone) => zone.id === id)
     if (zone) {
       return zone
@@ -12,7 +13,7 @@ export class AdventureZoneRepository {
     return null
   }
 
-  static getAdventureZones(): AdventureZone[] {
+  getAdventureZones(): AdventureZone[] {
     return this.adventureZones
   }
 }

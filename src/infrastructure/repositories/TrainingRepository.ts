@@ -1,7 +1,7 @@
 import { ITrainingRepository } from '@/domain/interfaces/repositories/ITrainingRepository'
 import { Skill } from '@/domain/entities/Skill'
 import { getInitialSkills } from '@/infrastructure/data/skills'
-import { TrainingSaveData } from '@/domain/entities/saveData'
+import { TrainingSaveData } from '@/domain/types/saveData'
 import { TrainingSkillsEnum } from '@/domain/enums'
 import Decimal from 'break_infinity.js'
 

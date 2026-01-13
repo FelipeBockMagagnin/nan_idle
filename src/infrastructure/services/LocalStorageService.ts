@@ -1,4 +1,4 @@
-import { GlobalSaveData } from '@/domain/entities/saveData'
+import { GlobalSaveData } from '@/domain/types/saveData'
 import { IStorageService } from '@/domain/interfaces/services/IStorageService'
 
 const SAVE_KEY = 'NAN_IDLE_SAVE_V1'

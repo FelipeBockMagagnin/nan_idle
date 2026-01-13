@@ -1,7 +1,7 @@
 import { IPlayerRepository } from '@/domain/interfaces/repositories/IPlayerRepository'
 import { ITrainingRepository } from '@/domain/interfaces/repositories/ITrainingRepository'
 import { IStorageService } from '@/domain/interfaces/services/IStorageService'
-import { GlobalSaveData } from '@/domain/entities/saveData'
+import { GlobalSaveData } from '@/domain/types/saveData'
 import { IEnergyRepository } from '@/domain/interfaces/repositories/IEnergyRepository'
 
 export class SaveGameUseCase {

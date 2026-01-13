@@ -1,8 +1,9 @@
 import { IAdventureRepository } from '@/domain/interfaces/repositories/IAdventureRepository'
+import { IAdventureZoneRepository } from '@/domain/interfaces/repositories/IAdventureZoneRepository'
 import { AdventureEnemyRepository } from '@/infrastructure/repositories/AdventureEnemyRepository'
 
 export class RespawnEnemyUseCase {
-  constructor(private adventureRepository: IAdventureRepository) {}
+  constructor(private adventureRepository: IAdventureRepository, private adventureZoneRepository: IAdventureZoneRepository) {}
 
   execute(deltaTime: number): void {
     const adventure = this.adventureRepository.getAdventure()
@@ -15,7 +16,7 @@ export class RespawnEnemyUseCase {
     }
 
     if (!adventure.currentEnemy && adventure.zoneId !== 0) {
-      const zone = this.adventureRepository.getAdventureZone(adventure.zoneId)
+      const zone = this.adventureZoneRepository.getAdventureZone(adventure.zoneId)
       if (zone) {
         const enemyId = adventure.getNextEnemyId()
         const enemy = AdventureEnemyRepository.getEnemy(enemyId)

@@ -14,10 +14,10 @@
       <label for="adventure-zone-select">Select Zone:</label>
       <select id="adventure-zone-select" @change="onZoneChange">
         <option
-          v-for="zone in adventureZoneStore.adventureZones"
+          v-for="zone in adventureZones"
           :key="zone.id"
           :value="zone.id"
-          :selected="zone.id === adventureZoneStore.adventureZone?.id"
+          :selected="zone.id === adventureZone?.id"
         >
           {{ zone.name }}
         </option>
@@ -31,8 +31,8 @@
       <img src="/assets/player/player_1.jpeg" class="enemy-image" />
 
       <HPBar
-        :currentHP="adventureZoneStore.adventurePlayer.stats.currentHP"
-        :maxHP="adventureZoneStore.adventurePlayer.stats.maxHP"
+        :currentHP="adventurePlayer.stats.currentHP"
+        :maxHP="adventurePlayer.stats.maxHP"
       />
 
       <br />
@@ -41,29 +41,29 @@
         X
         <br />
         <br />
-        {{ adventureZoneStore.currentEnemy?.name }} - #{{
-          adventureZoneStore.currentEnemy.id
+        {{ currentEnemy?.name }} - #{{
+          currentEnemy?.id
         }}
         <img
-          :src="'/assets/enemy/' + adventureZoneStore.currentEnemy.image"
+          :src="'/assets/enemy/' + currentEnemy?.image"
           class="enemy-image"
         />
         <HPBar
-          :currentHP="adventureZoneStore.currentEnemy.stats.hp"
-          :maxHP="adventureZoneStore.currentEnemy.stats.maxHp"
+          :currentHP="currentEnemy?.stats.hp"
+          :maxHP="currentEnemy?.stats.maxHp"
         />
 
         <TimerIndicator
           height="10px"
           barColor="white"
-          :progress="adventureZoneStore.currentEnemy.getAttackCooldownPercent()"
+          :progress="currentEnemy?.getAttackCooldownPercent()"
           :inverted="true"
         />
         <div style="display: flex; width: 60%">
           <IndicatorCard
             style="margin-right: 10px"
             :icon="Icons.Sword"
-            :value="adventureZoneStore.currentEnemy.stats.power"
+            :value="currentEnemy?.stats.power"
             :show-border="false"
           />
         </div>
@@ -71,20 +71,20 @@
     </div>
 
     <button
-      @click="selectAttack(TrainingSkillsEnum.RegularAttack)"
+      @click="selectAttack(SkillEnum.RegularAttack)"
       style="width: 150px"
     >
       <span
         v-if="
           !adventureZoneStore
-            .getPlayersSkill(TrainingSkillsEnum.RegularAttack)
+            .getPlayersSkill(SkillEnum.RegularAttack)
             ?.attackOnCooldown()
         "
         >Regular Attack</span
       >
       <span v-else>{{
         adventureZoneStore.getPlayerAttackCooldown(
-          TrainingSkillsEnum.RegularAttack
+          SkillEnum.RegularAttack
         )
       }}</span>
     </button>
@@ -99,17 +99,19 @@ import EnergyIndicator from '@/presentation/components/indicators/EnergyIndicato
 import AttackIndicator from '@/presentation/components/indicators/AttackIndicator.vue'
 import DefenceIndicator from '@/presentation/components/indicators/DefenceIndicator.vue'
 import IndicatorCard from '@/presentation/components/indicators/IndicatorCard.vue'
-import { Icons, TrainingSkillsEnum } from '@/domain/enums'
+import { Icons, TrainingSkillsEnum as SkillEnum } from '@/domain/enums'
 import TimerIndicator from '../components/indicators/TimerIndicator.vue'
+import { storeToRefs } from 'pinia'
 
 const adventureZoneStore = useAdventureZoneStore()
+const { adventurePlayer, adventureZone, currentEnemy, adventureZones } = storeToRefs(adventureZoneStore)
 
 function onZoneChange(event: Event) {
   const target = event.target as HTMLSelectElement
   adventureZoneStore.setAdventureZone(parseInt(target.value))
 }
 
-function selectAttack(skill: TrainingSkillsEnum) {
+function selectAttack(skill: SkillEnum) {
   adventureZoneStore.playerAttack(skill)
 }
 </script>

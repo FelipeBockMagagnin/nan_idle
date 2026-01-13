@@ -66,19 +66,19 @@ export class AdventureEnemy {
     return false
   }
 
-  attackOnCooldown() {
+  attackOnCooldown(): boolean {
     return this.currentAttackCooldown > 0
   }
 
-  resetAttackCooldown() {
-    return (this.currentAttackCooldown = this.stats.attackCooldown)
+  resetAttackCooldown(): void {
+    this.currentAttackCooldown = this.stats.attackCooldown
   }
 
-  decreaseAttackCooldown(deltaTime: number) {
+  decreaseAttackCooldown(deltaTime: number): void {
     this.currentAttackCooldown -= deltaTime
   }
 
-  getAttackCooldownPercent() {
+  getAttackCooldownPercent(): number {
     return (this.currentAttackCooldown * 100) /
             this.stats.attackCooldown
   }

@@ -2,19 +2,13 @@ import { defineStore } from 'pinia'
 import { ref, triggerRef } from 'vue'
 import { Energy } from '@/domain/entities/Energy'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
-import { EnergyRepository } from '@/infrastructure/repositories/EnergyRepository'
 import Decimal from 'break_infinity.js'
-import { RegenEnergyUseCase } from '@/application/use-cases/energy/RegenEnergyUseCase'
-import { GetAvaliableEnergyUseCase } from '@/application/use-cases/energy/GetAvaliableEnergyUseCase'
+import { container } from '@/infrastructure/container'
 
 export const useEnergyStore = defineStore('energy', () => {
-  const energyRepository = new EnergyRepository()
+  const { energyRepo, regenEnergyUseCase, getAvaliableEnergyUseCase } = container
 
-  const regenEnergyUseCase = new RegenEnergyUseCase(energyRepository)
-  const getAvaliableEnergyUseCase = new GetAvaliableEnergyUseCase(
-    energyRepository
-  )
-  const energyEntity = energyRepository.getEnergy()
+  const energyEntity = energyRepo.getEnergy()
   const energy = ref<Energy>(energyEntity)
 
   const onGameTick = (deltaTime: number) => {

@@ -7,7 +7,7 @@
     </template>
 
     <strong>
-      {{ formatDecimal(props.value) }}
+      {{ formatDecimal(props?.value || new Decimal(0)) }}
       <template v-if="props.max"> / {{ formatDecimal(props.max) }} </template>
     </strong>
   </div>
@@ -20,7 +20,7 @@ import Decimal from 'break_infinity.js'
 
 interface Props {
   name?: string
-  value: Decimal
+  value?: Decimal
   max?: Decimal
   width?: string
   icon?: Icons

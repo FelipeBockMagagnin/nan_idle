@@ -3,6 +3,7 @@ import {
   PlayerAdventureStats,
 } from '@/domain/entities/AdventurePlayer'
 import Decimal from 'break_infinity.js'
+import { reactive } from 'vue'
 
 let playerIntance: AdventurePlayer | null = null
 
@@ -16,7 +17,7 @@ export class AdventurePlayerRepository {
         maxHP: new Decimal(100),
         hpRegen: new Decimal(1),
       }
-      playerIntance = new AdventurePlayer(initialStats)
+      playerIntance = reactive(new AdventurePlayer(initialStats)) as AdventurePlayer
     }
 
     return playerIntance

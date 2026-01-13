@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 interface Props {
-  progress: number
+  progress?: number
   width?: string
   backgroundColor?: string
   innerText?: string
@@ -42,8 +42,8 @@ const props = withDefaults(defineProps<Props>(), {
   width: '100%',
   backgroundColor: '#333',
   barColor: '#be3636',
-  height: 'auto',
   inverted: true,
+  progress: 0
 })
 </script>
 

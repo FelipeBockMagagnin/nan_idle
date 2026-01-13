@@ -1,4 +1,4 @@
-import { GlobalSaveData } from '@/domain/entities/saveData'
+import { GlobalSaveData } from '@/domain/types/saveData'
 
 export interface IStorageService {
   save(data: GlobalSaveData): void

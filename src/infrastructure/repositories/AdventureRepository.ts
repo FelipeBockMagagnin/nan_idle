@@ -1,25 +1,14 @@
 import { IAdventureRepository } from '@/domain/interfaces/repositories/IAdventureRepository'
-import { AdventureZoneRepository } from './AdventureZoneRepository'
-import { AdventureZone } from '@/domain/entities/Adventure'
 import { Adventure } from '@/domain/entities/Adventure'
+import { reactive } from 'vue'
 
 let adventureInstance: Adventure | null = null
 
 export class AdventureRepository implements IAdventureRepository {
   getAdventure(): Adventure {
     if (!adventureInstance) {
-      adventureInstance = new Adventure(
-        AdventureZoneRepository.getAdventureZone(0)
-      )
+      adventureInstance = reactive(new Adventure(null)) as Adventure
     }
     return adventureInstance
-  }
-
-  getAdventureZone(id: number): AdventureZone | null {
-    return AdventureZoneRepository.getAdventureZone(id)
-  }
-
-  getAdventureZones(): AdventureZone[] {
-    return AdventureZoneRepository.getAdventureZones()
   }
 }

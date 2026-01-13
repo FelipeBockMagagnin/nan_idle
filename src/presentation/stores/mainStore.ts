@@ -1,28 +1,5 @@
 import { defineStore } from 'pinia'
-import { LocalStorageService } from '@/infrastructure/services/LocalStorageService'
-import { PlayerRepository } from '@/infrastructure/repositories/PlayerRepository'
-import { TrainingRepository } from '@/infrastructure/repositories/TrainingRepository'
-import { SaveGameUseCase } from '@/application/use-cases/game/SaveGameUseCase'
-import { LoadGameUseCase } from '@/application/use-cases/game/LoadGameUseCase'
-import { EnergyRepository } from '@/infrastructure/repositories/EnergyRepository'
-
-const storageService = new LocalStorageService()
-const playerRepo = new PlayerRepository()
-const trainingRepo = new TrainingRepository()
-const energyRepo = new EnergyRepository()
-
-const saveGameUseCase = new SaveGameUseCase(
-  storageService,
-  playerRepo,
-  trainingRepo,
-  energyRepo
-)
-const loadGameUseCase = new LoadGameUseCase(
-  storageService,
-  playerRepo,
-  trainingRepo,
-  energyRepo
-)
+import { container } from '@/infrastructure/container'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -33,7 +10,7 @@ export const useMainStore = defineStore('main', {
 
   actions: {
     initGame() {
-      const loaded = loadGameUseCase.execute()
+      const loaded = container.loadGameUseCase.execute()
       if (loaded) {
         console.log('Game Loaded')
       } else {
@@ -44,12 +21,12 @@ export const useMainStore = defineStore('main', {
     },
 
     saveGame() {
-      saveGameUseCase.execute()
+      container.saveGameUseCase.execute()
       this.lastSaveTime = Date.now()
     },
 
     resetGame() {
-      storageService.clear()
+      container.storageService.clear()
       window.location.reload()
     },
 
