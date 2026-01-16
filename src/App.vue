@@ -1,22 +1,14 @@
 <template>
   <main class="game-content">
-    <a @click="toggleSidebar" class="sidebar-toggle-btn">
-      <v-icon name="gi-hamburger-menu" />
-    </a>
     <RouterView />
   </main>
 
-  <div
-    v-if="isSidebarOpen"
-    class="sidebar-backdrop"
-    @click="toggleSidebar"
-  ></div>
-  <Sidebar :isOpen="isSidebarOpen" />
+  <Sidebar :isOpen="true" />
   <Alert />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 
 import Sidebar from '@/presentation/components/Sidebar.vue'
@@ -33,21 +25,17 @@ onMounted(() => {
   // 2. Start Logic
   gameLoop.start()
 })
-
-const isSidebarOpen = ref(false)
-
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
 </script>
 
 <style scoped>
-.sidebar-toggle-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  color: white;
-  z-index: 1000;
-  cursor: pointer;
+.game-content {
+  margin-right: 150px;
+}
+
+@media (max-width: 768px) {
+  .game-content {
+    padding-bottom: 60px;
+    margin-right: 0;
+  }
 }
 </style>

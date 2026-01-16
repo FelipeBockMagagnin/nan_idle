@@ -6,13 +6,20 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
 import {
-  GiHamburgerMenu,
+  FaBolt,
   MdElectricbolt,
   RiSwordFill,
   MdShield,
+  FaMap
 } from 'oh-vue-icons/icons'
 
-addIcons(GiHamburgerMenu, MdElectricbolt, RiSwordFill, MdShield)
+addIcons(
+  FaBolt,
+  MdElectricbolt,
+  RiSwordFill,
+  MdShield,
+  FaMap
+)
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
