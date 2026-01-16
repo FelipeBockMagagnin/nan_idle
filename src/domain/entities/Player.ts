@@ -38,8 +38,7 @@ export class Player {
   }
 
   takeDamage(damage: Decimal): boolean {
-    //Damage formular = damage - (thoughness / 2)
-    const realDamage = damage.minus(this._stats.defence.divide(2))
+    const realDamage = damage.minus(this._stats.defence)
 
     if (realDamage.lessThanOrEqualTo(0)) return false
 

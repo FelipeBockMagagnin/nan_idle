@@ -41,8 +41,7 @@ export class Boss {
   }
 
   takeDamage(damage: Decimal): boolean {
-    //Damage formular = damage - (thoughness / 2)
-    const realDamage = damage.minus(this.stats.defence.divide(2))
+    const realDamage = damage.minus(this.stats.defence)
 
     if (realDamage.lessThanOrEqualTo(0)) return false
 

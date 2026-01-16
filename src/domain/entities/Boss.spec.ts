@@ -46,7 +46,7 @@ describe('Adventure Enemy Entity', () => {
   describe('takeDamage', () => {
     it('should reduce damage by toughness and apply to HP', () => {
       boss.takeDamage(new Decimal(10))
-      expect(boss.stats.hp.equals(92.5)).toBe(true)
+      expect(boss.stats.hp.equals(95)).toBe(true)
     })
 
     it('should return true if damage kills the player', () => {

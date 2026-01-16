@@ -56,7 +56,7 @@ describe('Player Entity', () => {
   describe('takeDamage', () => {
     it('should reduce damage by toughness and apply to HP', () => {
       player.takeDamage(new Decimal(10))
-      expect(player.stats.currentHP.equals(92.5)).toBe(true)
+      expect(player.stats.currentHP.equals(95)).toBe(true)
     })
 
     it('should return true if damage kills the player', () => {
