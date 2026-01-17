@@ -1,36 +1,6 @@
-import { TrainingSkillsEnum, SkillType } from '@/domain/enums'
-import Decimal from 'break_infinity.js'
 import { Skill } from '@/domain/entities/Skill'
+import { GameConfig } from '../config/GameConfig'
 
 export const getInitialSkills = (): Skill[] => {
-  return [
-    new Skill(
-      TrainingSkillsEnum.RegularAttack,
-      SkillType.Attack,
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(10),
-      new Decimal(1),
-      new Decimal(0),
-      new Decimal(0),
-      1,
-      0,
-      2
-    ),
-    new Skill(
-      TrainingSkillsEnum.BlockDefence,
-      SkillType.Defence,
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(10),
-      new Decimal(1),
-      new Decimal(0),
-      new Decimal(0),
-      0.5,
-      0,
-      1
-    ),
-  ]
+  return GameConfig.Skills
 }

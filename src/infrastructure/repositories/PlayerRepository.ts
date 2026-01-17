@@ -1,21 +1,14 @@
 import { Player } from '@/domain/entities/Player'
 import type { IPlayerRepository } from '@/domain/interfaces/repositories/IPlayerRepository'
-import type { PlayerStats } from '@/domain/entities/Player'
 import Decimal from 'break_infinity.js'
 import { PlayerSaveData } from '@/domain/types/saveData'
+import { GameConfig } from '../config/GameConfig'
 
 let playerIntance: Player | null = null
 export class PlayerRepository implements IPlayerRepository {
   getPlayer(): Player {
     if (!playerIntance) {
-      const initialStats: PlayerStats = {
-        attack: new Decimal(0),
-        defence: new Decimal(0),
-        currentHP: new Decimal(100),
-        maxHP: new Decimal(100),
-        hpRegen: new Decimal(1),
-      }
-      playerIntance = new Player(initialStats)
+      playerIntance = new Player(GameConfig.Player.InitialStats)
     }
 
     return playerIntance

@@ -9,11 +9,11 @@ export const adventureZones: AdventureZone[] = [
   {
     id: 1,
     name: 'Tutorial',
-    enemyIds: [1],
+    enemyIds: [1, 2],
   },
   {
     id: 2,
     name: 'Sewers',
-    enemyIds: [2],
+    enemyIds: [3, 4, 5],
   },
 ]

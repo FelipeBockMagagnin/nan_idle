@@ -2,13 +2,7 @@
   <div>
     <h2 class="page-title">Adventure Zone</h2>
 
-    <div style="display: flex; padding: 0px 10px; margin-bottom: 10px">
-      <EnergyIndicator />
-      <AttackIndicator />
-      <DefenceIndicator />
-    </div>
-
-    <br />
+    <span style="color: red">Inventory not implemented yet</span>
 
     <div>
       <label for="adventure-zone-select">Select Zone:</label>
@@ -35,15 +29,26 @@
         :maxHP="adventurePlayer.stats.maxHP"
       />
 
+      <div style="display: flex; width: 100px">
+        <IndicatorCard
+          :icon="Icons.Shield"
+          :value="adventurePlayer.stats.toughness"
+          :show-border="false"
+        />
+        <IndicatorCard
+          :icon="Icons.Sword"
+          :value="adventurePlayer.stats.power"
+          :show-border="false"
+        />
+      </div>
+
       <br />
 
       <div v-if="adventureZoneStore.currentEnemy" class="fight-container">
         X
         <br />
         <br />
-        {{ currentEnemy?.name }} - #{{
-          currentEnemy?.id
-        }}
+        {{ currentEnemy?.name }} - #{{ currentEnemy?.id }}
         <img
           :src="'/assets/enemy/' + currentEnemy?.image"
           class="enemy-image"
@@ -59,7 +64,13 @@
           :progress="currentEnemy?.getAttackCooldownPercent()"
           :inverted="true"
         />
-        <div style="display: flex; width: 60%">
+        <div style="display: flex; width: 100px">
+          <IndicatorCard
+            style="margin-right: 10px"
+            :icon="Icons.Shield"
+            :value="currentEnemy?.stats.toughness"
+            :show-border="false"
+          />
           <IndicatorCard
             style="margin-right: 10px"
             :icon="Icons.Sword"
@@ -70,10 +81,7 @@
       </div>
     </div>
 
-    <button
-      @click="selectAttack(SkillEnum.RegularAttack)"
-      style="width: 150px"
-    >
+    <button @click="selectAttack(SkillEnum.RegularAttack)" style="width: 150px">
       <span
         v-if="
           !adventureZoneStore
@@ -83,9 +91,7 @@
         >Regular Attack</span
       >
       <span v-else>{{
-        adventureZoneStore.getPlayerAttackCooldown(
-          SkillEnum.RegularAttack
-        )
+        adventureZoneStore.getPlayerAttackCooldown(SkillEnum.RegularAttack)
       }}</span>
     </button>
   </div>
@@ -95,16 +101,14 @@
 import { useAdventureZoneStore } from '@/presentation/stores/adventureZoneStore'
 
 import HPBar from '@/presentation/components/HPBar.vue'
-import EnergyIndicator from '@/presentation/components/indicators/EnergyIndicator.vue'
-import AttackIndicator from '@/presentation/components/indicators/AttackIndicator.vue'
-import DefenceIndicator from '@/presentation/components/indicators/DefenceIndicator.vue'
 import IndicatorCard from '@/presentation/components/indicators/IndicatorCard.vue'
 import { Icons, TrainingSkillsEnum as SkillEnum } from '@/domain/enums'
 import TimerIndicator from '../components/indicators/TimerIndicator.vue'
 import { storeToRefs } from 'pinia'
 
 const adventureZoneStore = useAdventureZoneStore()
-const { adventurePlayer, adventureZone, currentEnemy, adventureZones } = storeToRefs(adventureZoneStore)
+const { adventurePlayer, adventureZone, currentEnemy, adventureZones } =
+  storeToRefs(adventureZoneStore)
 
 function onZoneChange(event: Event) {
   const target = event.target as HTMLSelectElement

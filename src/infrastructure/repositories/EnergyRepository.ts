@@ -2,18 +2,14 @@ import { Energy } from '@/domain/entities/Energy'
 import { EnergySaveData } from '@/domain/types/saveData'
 import { IEnergyRepository } from '@/domain/interfaces/repositories/IEnergyRepository'
 import Decimal from 'break_infinity.js'
+import { GameConfig } from '../config/GameConfig'
 
 let energyInstance: Energy | null = null
 
 export class EnergyRepository implements IEnergyRepository {
   getEnergy(): Energy {
     if (!energyInstance) {
-      energyInstance = new Energy(
-        new Decimal(0),
-        new Decimal(0),
-        new Decimal(100),
-        new Decimal(1)
-      )
+      energyInstance = GameConfig.Energy
     }
     return energyInstance
   }

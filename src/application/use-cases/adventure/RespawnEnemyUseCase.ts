@@ -3,7 +3,10 @@ import { IAdventureZoneRepository } from '@/domain/interfaces/repositories/IAdve
 import { AdventureEnemyRepository } from '@/infrastructure/repositories/AdventureEnemyRepository'
 
 export class RespawnEnemyUseCase {
-  constructor(private adventureRepository: IAdventureRepository, private adventureZoneRepository: IAdventureZoneRepository) {}
+  constructor(
+    private adventureRepository: IAdventureRepository,
+    private adventureZoneRepository: IAdventureZoneRepository
+  ) {}
 
   execute(deltaTime: number): void {
     const adventure = this.adventureRepository.getAdventure()
@@ -16,11 +19,14 @@ export class RespawnEnemyUseCase {
     }
 
     if (!adventure.currentEnemy && adventure.zoneId !== 0) {
-      const zone = this.adventureZoneRepository.getAdventureZone(adventure.zoneId)
+      const zone = this.adventureZoneRepository.getAdventureZone(
+        adventure.zoneId
+      )
       if (zone) {
         const enemyId = adventure.getNextEnemyId()
         const enemy = AdventureEnemyRepository.getEnemy(enemyId)
         if (enemy) {
+          enemy.stats.hp = enemy?.stats.maxHp
           adventure.setEnemy(enemy)
         }
       }

@@ -1,23 +1,15 @@
-import {
-  AdventurePlayer,
-  PlayerAdventureStats,
-} from '@/domain/entities/AdventurePlayer'
-import Decimal from 'break_infinity.js'
+import { AdventurePlayer } from '@/domain/entities/AdventurePlayer'
 import { reactive } from 'vue'
+import { GameConfig } from '../config/GameConfig'
 
 let playerIntance: AdventurePlayer | null = null
 
 export class AdventurePlayerRepository {
   getAdventurePlayer(): AdventurePlayer {
     if (!playerIntance) {
-      const initialStats: PlayerAdventureStats = {
-        power: new Decimal(1),
-        toughness: new Decimal(1),
-        currentHP: new Decimal(100),
-        maxHP: new Decimal(100),
-        hpRegen: new Decimal(1),
-      }
-      playerIntance = reactive(new AdventurePlayer(initialStats)) as AdventurePlayer
+      playerIntance = reactive(
+        new AdventurePlayer(GameConfig.Player.InitialAdventureStats)
+      ) as AdventurePlayer
     }
 
     return playerIntance
