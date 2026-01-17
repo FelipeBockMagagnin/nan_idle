@@ -4,7 +4,10 @@ import { ITrainingRepository } from '@/domain/interfaces/repositories/ITrainingR
 import Decimal from 'break_infinity.js'
 
 export class AllocateEnergyUseCase {
-  constructor(private trainingRepository: ITrainingRepository, private energyRepository: IEnergyRepository) {}
+  constructor(
+    private trainingRepository: ITrainingRepository,
+    private energyRepository: IEnergyRepository
+  ) {}
 
   execute(skillId: TrainingSkillsEnum, amount: Decimal): boolean {
     const skill = this.trainingRepository.getSkill(skillId)
@@ -12,10 +15,14 @@ export class AllocateEnergyUseCase {
 
     const energy = this.energyRepository.getEnergy()
 
-    if(!energy.allocateEnergy(amount)) {
+    if (!energy.canAllocateEnergy(amount)) {
       return false
     }
 
-    return skill.allocateEnergy(amount)
+    if (!skill.allocateEnergy(amount)) {
+      return false
+    }
+
+    return energy.allocateEnergy(amount)
   }
 }

@@ -12,10 +12,10 @@ export class ReclaimEnergyUseCase {
 
     const energy = this.energyRepository.getEnergy()
 
-    if(!energy.reclaimEnergy(amount)) {
+    if(!skill.reclaimEnergy(amount)) {
       return false
     }
 
-    return skill.reclaimEnergy(amount)
+    return energy.reclaimEnergy(amount)
   }
 }

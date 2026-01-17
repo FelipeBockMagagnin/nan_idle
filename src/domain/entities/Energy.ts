@@ -12,10 +12,17 @@ export class Energy {
     return this
   }
 
-  allocateEnergy(value: Decimal): boolean {
+  canAllocateEnergy(value: Decimal): boolean {
     if (value.greaterThan(this.getAvailableEnergy())) {
       return false
     }
+
+    return true
+  }
+
+  allocateEnergy(value: Decimal): boolean {
+    const canAllocateEnergy = this.canAllocateEnergy(value)
+    if (!canAllocateEnergy) return false
 
     this.allocated = this.allocated.plus(value)
     return true
