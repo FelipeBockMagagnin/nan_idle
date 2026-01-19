@@ -5,7 +5,8 @@ export class Energy {
     public current: Decimal,
     public allocated: Decimal,
     public max: Decimal,
-    public regenerationRate: Decimal
+    public regenerationRate: Decimal,
+    public power: Decimal
   ) {}
 
   get energy(): Energy {
@@ -49,5 +50,24 @@ export class Energy {
 
     this.allocated = this.allocated.subtract(value)
     return true
+  }
+
+  getEnergyRegenProgress(): number {
+    return this.current
+      .minus(Math.floor(this.current.toNumber()))
+      .times(100)
+      .toNumber()
+  }
+
+  increaseCap(value: Decimal): void {
+    this.max = this.max.add(value)
+  }
+
+  increaseRegenationRate(value: Decimal): void {
+    this.regenerationRate = this.regenerationRate.add(value)
+  }
+
+  increasePower(value: Decimal): void {
+    this.power = this.power.add(value)
   }
 }

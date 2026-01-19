@@ -1,27 +1,39 @@
 import { defineStore } from 'pinia'
-import { ref, triggerRef } from 'vue'
-import Decimal from 'break_infinity.js'
-import type { PlayerStats } from '@/domain/entities/Player'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { container } from '@/infrastructure/container'
+import { XpUpgradeType } from '@/application/services/PlayerXpService'
+import Decimal from 'break_infinity.js'
+import { showAlert } from '@/application/services/AlertService'
 
 export const usePlayerStore = defineStore('player', () => {
-  const { playerRepo, regenHealthUseCase } = container
-
-  const gold = ref<Decimal>(new Decimal(0))
+  const { playerRepo, playerXpService, regenHealthUseCase } = container
 
   const playerEntity = playerRepo.getPlayer()
-  const stats = ref<PlayerStats>(playerEntity.stats)
+  const stats = playerEntity.stats
+  const resources = playerEntity.resources
 
   const onGameTick = (deltaTime: number) => {
     regenHealthUseCase.execute(deltaTime)
-    triggerRef(stats)
   }
 
   gameLoop.subscribe(onGameTick)
 
+  const buyXpUpgrade = (type: XpUpgradeType) => {
+    const buy = playerXpService.buyUpgrade(type)
+    if (!buy) {
+      showAlert('Insufficient XP')
+      return
+    }
+  }
+
+  const getXpUpgradeCost = (type: XpUpgradeType): Decimal => {
+    return playerXpService.getCost(type)
+  }
+
   return {
-    gold,
+    resources,
     stats,
+    buyXpUpgrade,
+    getXpUpgradeCost,
   }
 })

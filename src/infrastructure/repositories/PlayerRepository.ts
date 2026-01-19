@@ -3,12 +3,18 @@ import type { IPlayerRepository } from '@/domain/interfaces/repositories/IPlayer
 import Decimal from 'break_infinity.js'
 import { PlayerSaveData } from '@/domain/types/saveData'
 import { GameConfig } from '../config/GameConfig'
+import { reactive } from 'vue'
 
 let playerIntance: Player | null = null
 export class PlayerRepository implements IPlayerRepository {
   getPlayer(): Player {
     if (!playerIntance) {
-      playerIntance = new Player(GameConfig.Player.InitialStats)
+      playerIntance = reactive(
+        new Player(
+          GameConfig.Player.InitialStats,
+          GameConfig.Player.InitialResources
+        )
+      ) as Player
     }
 
     return playerIntance

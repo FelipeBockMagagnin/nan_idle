@@ -8,15 +8,26 @@ export type PlayerStats = {
   hpRegen: Decimal
 }
 
+export type PlayerResources = {
+  gold: Decimal
+  xp: Decimal
+}
+
 export class Player {
   private _stats: PlayerStats
+  private _resources: PlayerResources
 
-  constructor(stats: PlayerStats) {
+  constructor(stats: PlayerStats, resources: PlayerResources) {
     this._stats = stats
+    this._resources = resources
   }
 
   get stats(): PlayerStats {
     return this._stats
+  }
+
+  get resources(): PlayerResources {
+    return this._resources
   }
 
   regenerate(deltaTime: number): void {
@@ -52,5 +63,41 @@ export class Player {
     this._stats.currentHP = newHp
 
     return false
+  }
+
+  spendGold(value: Decimal): boolean {
+    if (value.greaterThan(this.resources.gold)) {
+      return false
+    }
+
+    this.resources.gold = this.resources.gold.subtract(value)
+
+    return true
+  }
+
+  increaseGold(value: Decimal): void {
+    this.resources.gold = this.resources.gold.add(value)
+  }
+
+  spendXp(value: Decimal): boolean {
+    if (!this.canSpendXpAmount(value)) {
+      return false
+    }
+
+    this.resources.xp = this.resources.xp.subtract(value)
+
+    return true
+  }
+
+  canSpendXpAmount(amount: Decimal) {
+    if (amount.greaterThan(this.resources.xp)) {
+      return false
+    }
+
+    return true
+  }
+
+  increaseXp(value: Decimal): void {
+    this.resources.xp = this.resources.xp.add(value)
   }
 }

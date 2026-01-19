@@ -22,6 +22,7 @@ export class FightBossTickUseCase {
     if (bossDied) {
       result.bossDied = true
       result.xpGained = enemy.stats.xp
+      player.increaseXp(enemy.stats.xp)
       return result
     }
 
@@ -33,7 +34,7 @@ export class FightBossTickUseCase {
       return result
     }
 
-    // regen player hp 
+    // regen player hp
     player.regenerate(deltaTime)
 
     // regen Boss HP

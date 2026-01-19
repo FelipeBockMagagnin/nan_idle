@@ -10,7 +10,8 @@ import {
   MdElectricbolt,
   RiSwordFill,
   MdShield,
-  FaMap
+  FaMap,
+  RiBubbleChartFill,
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -18,7 +19,8 @@ addIcons(
   MdElectricbolt,
   RiSwordFill,
   MdShield,
-  FaMap
+  FaMap,
+  RiBubbleChartFill
 )
 
 const pinia = createPinia()

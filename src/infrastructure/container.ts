@@ -11,6 +11,7 @@ import { AdventureZoneService } from '@/application/services/AdventureZoneServic
 import { AdventurePlayerService } from '@/application/services/AdventurePlayerService'
 import { AdventureService } from '@/application/services/AdventureService'
 import { SkillsService } from '@/application/services/SkillsService'
+import { PlayerXpService } from '@/application/services/PlayerXpService'
 
 import { TickAdventureUseCase } from '@/application/use-cases/adventure/TickAdventureUseCase'
 import { PlayerAttackUseCase } from '@/application/use-cases/adventure/PlayerAttackUseCase'
@@ -40,6 +41,7 @@ const adventureZoneService = new AdventureZoneService(zoneRepo)
 const adventurePlayerService = new AdventurePlayerService(adventurePlayerRepo)
 const skillsService = new SkillsService(trainingRepo)
 const adventureService = new AdventureService(adventureRepo, zoneRepo)
+const playerXpService = new PlayerXpService(playerRepo, energyRepo)
 
 // 3. Instantiate Use Cases
 const respawnEnemyUseCase = new RespawnEnemyUseCase(adventureRepo, zoneRepo)
@@ -79,8 +81,15 @@ const loadGameUseCase = new LoadGameUseCase(
 
 const regenHealthUseCase = new RegenHealthUseCase(playerRepo)
 
-const tickTrainingUseCase = new TickTrainingUseCase(trainingRepo, playerRepo)
-const allocateEnergyUseCase = new AllocateEnergyUseCase(trainingRepo, energyRepo)
+const tickTrainingUseCase = new TickTrainingUseCase(
+  trainingRepo,
+  playerRepo,
+  energyRepo
+)
+const allocateEnergyUseCase = new AllocateEnergyUseCase(
+  trainingRepo,
+  energyRepo
+)
 const reclaimEnergyUseCase = new ReclaimEnergyUseCase(trainingRepo, energyRepo)
 
 // 4. Export the container
@@ -90,13 +99,14 @@ export const container = {
   playerRepo,
   trainingRepo,
   bossRepo,
-  
+
   // Services
   adventureZoneService,
   adventurePlayerService,
   skillsService,
   adventureService,
   storageService,
+  playerXpService,
 
   // Use Cases
   tickAdventureUseCase,
@@ -109,5 +119,5 @@ export const container = {
   regenHealthUseCase,
   tickTrainingUseCase,
   allocateEnergyUseCase,
-  reclaimEnergyUseCase
+  reclaimEnergyUseCase,
 }

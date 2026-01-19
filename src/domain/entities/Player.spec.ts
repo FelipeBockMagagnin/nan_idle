@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import Decimal from 'break_infinity.js'
-import { Player, PlayerStats } from './Player'
+import { Player, PlayerResources, PlayerStats } from './Player'
 
 describe('Player Entity', () => {
   let player: Player
   let initialStats: PlayerStats
+  let playerInitialResources: PlayerResources
 
   beforeEach(() => {
     initialStats = {
@@ -14,7 +15,12 @@ describe('Player Entity', () => {
       maxHP: new Decimal(100),
       hpRegen: new Decimal(1),
     }
-    player = new Player(initialStats)
+
+    playerInitialResources = {
+      gold: new Decimal(0),
+      xp: new Decimal(0),
+    }
+    player = new Player(initialStats, playerInitialResources)
   })
 
   describe('regenerate', () => {
@@ -67,6 +73,50 @@ describe('Player Entity', () => {
     it('should return false if damage dont kills the player', () => {
       const died = player.takeDamage(new Decimal(1))
       expect(died).toBe(false)
+    })
+  })
+
+  describe('spendGold', () => {
+    it('should decrease gold quantity by provided amount', () => {
+      player.resources.gold = new Decimal(10)
+      const spend = player.spendGold(new Decimal(9))
+      expect(spend).toBe(true)
+    })
+
+    it('should not decrease gold quantity if dont have avaliable amount', () => {
+      player.resources.gold = new Decimal(1)
+      const spend = player.spendGold(new Decimal(9))
+      expect(spend).toBe(false)
+    })
+  })
+
+  describe('increaseGold', () => {
+    it('should increase gold quantity by provided amount', () => {
+      player.resources.gold = new Decimal(10)
+      player.increaseGold(new Decimal(9))
+      expect(player.resources.gold.equals(19)).toBe(true)
+    })
+  })
+
+  describe('spendXp', () => {
+    it('should decrease xp quantity by provided amount', () => {
+      player.resources.xp = new Decimal(10)
+      const spend = player.spendXp(new Decimal(9))
+      expect(spend).toBe(true)
+    })
+
+    it('should not decrease xp quantity if dont have avaliable amount', () => {
+      player.resources.xp = new Decimal(1)
+      const spend = player.spendXp(new Decimal(9))
+      expect(spend).toBe(false)
+    })
+  })
+
+  describe('increaseXp', () => {
+    it('should increase xp quantity by provided amount', () => {
+      player.resources.xp = new Decimal(10)
+      player.increaseXp(new Decimal(9))
+      expect(player.resources.xp.equals(19)).toBe(true)
     })
   })
 })

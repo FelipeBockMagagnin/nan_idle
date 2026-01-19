@@ -11,6 +11,10 @@
         <v-icon name="ri-sword-fill" />
         <span class="text">Fight Boss</span>
       </RouterLink>
+      <RouterLink to="/spend-xp">
+        <v-icon name="ri-bubble-chart-fill" />
+        <span class="text">Spend XP</span>
+      </RouterLink>
       <RouterLink to="/adventure">
         <v-icon name="fa-map" />
         <span class="text">Adventure</span>
