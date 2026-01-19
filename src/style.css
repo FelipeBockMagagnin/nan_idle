@@ -41,7 +41,7 @@ body {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid greenyellow;
   padding: 0.2em 0.6em;
   margin: 3px;
   font-size: 1em;
