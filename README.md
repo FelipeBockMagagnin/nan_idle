@@ -6,7 +6,7 @@
 
 ## 🎮 About The Game
 
-`NaN IDLE` is an idle/incremental game inspired by the classic _NGU Idle_, but with a theme 100% focused on the programming universe and the life of a developer.
+`NaN IDLE` is an idle/incremental game inspired by the classic _NGU Idle_, where you fight everything.
 
 Start as an noob and train your _skills_ (like `Attack` and `Defence`), fight _bosses_, earn _gold_, and watch your numbers go up to infinity!
 
@@ -14,12 +14,12 @@ Start as an noob and train your _skills_ (like `Attack` and `Defence`), fight _b
 
 Based on the original diagram, the game plans to include:
 
-- **🏋️ Training:** Train your basic stats (Attack, Defence, etc.) using Energy.
-- **👹 Fight Boss:** Battle bosses to earn XP, Gold, and Items.
-- **🗺️ Adventure:** An AFK game mode to automatically farm items and gold.
-- **⛏️ Miners:** Buy bitcoin miners to passively generate gold.
-- **🎓 Online Course:** Train "knowledge" stats like `attack` and `defence`.
-- **... and much more!** (Pit, Sr. Training, Sass, Virtual Box, etc.)
+- **🏋️ Training:** Train your basic stats (Attack, Defence and health) using Energy.
+- **👹 Fight Boss:** Battle bosses to earn XP.
+- **🗺️ Adventure:** Farm items and gold.
+- **🎓 Augmentation:** Train skill stats.
+- **⛏️ Miners:** Buy miners to passively generate gold.
+- **... and much more!** (Wheel, Rebirth, Online Course, etc.)
 
 ## 💻 Tech Stack & Architecture
 
