@@ -1,6 +1,6 @@
 import Decimal from 'break_infinity.js'
-import type { Boss } from '@/domain/entities/Boss'
-import type { Player } from '@/domain/entities/Player'
+import { IPlayerRepository } from '@/domain/interfaces/repositories/IPlayerRepository'
+import { IBossRepository } from '@/domain/interfaces/repositories/IBossRepository'
 
 export type FightBossTickResult = {
   playerDied: boolean
@@ -9,12 +9,22 @@ export type FightBossTickResult = {
 }
 
 export class FightBossTickUseCase {
-  execute(player: Player, enemy: Boss, deltaTime: number): FightBossTickResult {
+  constructor(
+    private playerRepository: IPlayerRepository,
+    private bossRepository: IBossRepository
+  ) {}
+
+  execute(bossId: number, deltaTime: number): FightBossTickResult {
+    const player = this.playerRepository.getPlayer()
+    const enemy = this.bossRepository.getEnemy(bossId)
+
     const result: FightBossTickResult = {
       playerDied: false,
       bossDied: false,
       xpGained: new Decimal(0),
     }
+
+    if (!enemy) return result
 
     // player attacks boss
     const bossDied = enemy.takeDamage(player.stats.attack)

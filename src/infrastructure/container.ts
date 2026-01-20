@@ -63,7 +63,7 @@ const playerAttackUseCase = new PlayerAttackUseCase(
 const regenEnergyUseCase = new RegenEnergyUseCase(energyRepo)
 const getAvaliableEnergyUseCase = new GetAvaliableEnergyUseCase(energyRepo)
 
-const fightBossTickUseCase = new FightBossTickUseCase()
+const fightBossTickUseCase = new FightBossTickUseCase(playerRepo, bossRepo)
 
 const saveGameUseCase = new SaveGameUseCase(
   storageService,

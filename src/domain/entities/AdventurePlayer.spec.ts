@@ -35,6 +35,12 @@ describe('Adventure Player Entity', () => {
       player.regenerate(1000)
       expect(player.stats.currentHP.equals(player.stats.maxHP)).toBe(true)
     })
+
+    it('should set currentHP to maxHP if it is greater than maxHP', () => {
+      player.stats.currentHP = new Decimal(1000)
+      player.regenerate(1)
+      expect(player.stats.currentHP.equals(player.stats.maxHP)).toBe(true)
+    })
   })
 
   describe('trainPower', () => {
@@ -57,6 +63,11 @@ describe('Adventure Player Entity', () => {
     it('should reduce damage by toughness and apply to HP', () => {
       player.takeDamage(new Decimal(10))
       expect(player.stats.currentHP.equals(92.5)).toBe(true)
+    })
+
+    it('should not take damage if the damage is less than the defense', () => {
+      player.takeDamage(new Decimal(1))
+      expect(player.stats.currentHP.equals(100)).toBe(true)
     })
 
     it('should return true if damage kills the player', () => {

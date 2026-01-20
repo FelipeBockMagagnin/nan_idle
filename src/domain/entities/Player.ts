@@ -31,8 +31,8 @@ export class Player {
   }
 
   regenerate(deltaTime: number): void {
-    if (this._stats.currentHP.greaterThan(this._stats.maxHP)) {
-      this._stats.currentHP = this._stats.maxHP
+    if (this._stats.currentHP.greaterThanOrEqualTo(this._stats.maxHP)) {
+      return
     }
 
     const regenAmount = this._stats.hpRegen.multiply(deltaTime)

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
-import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { TrainingSkillsEnum } from '@/domain/enums'
 import { container } from '@/infrastructure/container'
 
@@ -10,7 +9,6 @@ export const useAdventureZoneStore = defineStore('adventureZone', () => {
     adventurePlayerService,
     adventureZoneService,
     skillsService,
-    tickAdventureUseCase,
     playerAttackUseCase,
   } = container
 
@@ -23,12 +21,6 @@ export const useAdventureZoneStore = defineStore('adventureZone', () => {
   })
 
   const adventureZones = computed(() => adventureZoneService.getAllAdventureZones())
-
-  const onGameTick = (deltaTime: number) => {
-    tickAdventureUseCase.execute(deltaTime)
-  }
-
-  gameLoop.subscribe(onGameTick)
 
   function setAdventureZone(id: number) {
     adventureService.enterAdventureZone(id)

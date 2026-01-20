@@ -1,7 +1,8 @@
 import { enemies, IEnemyData } from '@/infrastructure/data/enemies'
 import { Boss } from '@/domain/entities/Boss'
+import { IBossRepository } from '@/domain/interfaces/repositories/IBossRepository'
 
-export class BossRepository {
+export class BossRepository implements IBossRepository {
   private enemies: IEnemyData[] = enemies
 
   getEnemy(id: number): Boss | null {

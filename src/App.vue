@@ -15,6 +15,7 @@ import Sidebar from '@/presentation/components/Sidebar.vue'
 import Alert from '@/presentation/components/Alert.vue'
 import { useMainStore } from '@/presentation/stores/mainStore'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
+import { GameService } from '@/application/services/GameService'
 
 const mainStore = useMainStore()
 
@@ -22,8 +23,8 @@ onMounted(() => {
   // 1. Initialize (Load Save)
   mainStore.initGame()
 
-  // 2. Start Logic
-  gameLoop.start()
+  const gameService = new GameService(gameLoop)
+  gameService.start()
 })
 </script>
 

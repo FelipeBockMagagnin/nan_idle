@@ -29,8 +29,5 @@ export const useMainStore = defineStore('main', {
       container.storageService.clear()
       window.location.reload()
     },
-
-    // loadGame is no longer exposed or needed as an action since initGame handles it via UseCase
-    // but if we need a manual load, we can add it.
   },
 })

@@ -6,7 +6,7 @@ import { showAlert } from '@/application/services/AlertService'
 import { container } from '@/infrastructure/container'
 
 export const useFightBossStore = defineStore('fightBoss', () => {
-  const { playerRepo, fightBossTickUseCase, bossRepo } = container
+  const { fightBossTickUseCase, bossRepo } = container
 
   const enemy = ref<Boss | null>(null)
   const currentBossIndex = ref<number>(1)
@@ -34,13 +34,7 @@ export const useFightBossStore = defineStore('fightBoss', () => {
   function fightTick(deltaTime: number) {
     if (!fighting.value || !enemy.value) return
 
-    const player = playerRepo.getPlayer()
-
-    const result = fightBossTickUseCase.execute(
-      player,
-      enemy.value as Boss,
-      deltaTime
-    )
+    const result = fightBossTickUseCase.execute(enemy.value.id, deltaTime)
 
     if (result.bossDied) {
       defeatEnemy()

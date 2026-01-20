@@ -16,6 +16,10 @@ export class Adventure {
     this._adventureZone = adventureZone
   }
 
+  get AdventureZone(): AdventureZone | null {
+    return this._adventureZone
+  }
+
   get zoneId(): number {
     if (!this._adventureZone?.id) return 0
     return this._adventureZone.id

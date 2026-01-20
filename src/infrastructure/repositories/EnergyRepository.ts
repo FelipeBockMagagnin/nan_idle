@@ -3,13 +3,14 @@ import { EnergySaveData } from '@/domain/types/saveData'
 import { IEnergyRepository } from '@/domain/interfaces/repositories/IEnergyRepository'
 import Decimal from 'break_infinity.js'
 import { GameConfig } from '../config/GameConfig'
+import { reactive } from 'vue'
 
 let energyInstance: Energy | null = null
 
 export class EnergyRepository implements IEnergyRepository {
   getEnergy(): Energy {
     if (!energyInstance) {
-      energyInstance = GameConfig.Energy
+      energyInstance = reactive(GameConfig.Energy) as Energy
     }
     return energyInstance
   }

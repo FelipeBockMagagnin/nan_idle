@@ -1,6 +1,4 @@
 import { defineStore } from 'pinia'
-import { ref, triggerRef } from 'vue'
-import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { TrainingSkillsEnum } from '@/domain/enums'
 import type { TrainingSaveData } from '@/domain/types/saveData'
 import Decimal from 'break_infinity.js'
@@ -9,20 +7,14 @@ import { container } from '@/infrastructure/container'
 export const useTrainingStore = defineStore('training', () => {
   const {
     trainingRepo,
-    tickTrainingUseCase,
     allocateEnergyUseCase,
     reclaimEnergyUseCase,
   } = container
 
-  const training = ref(trainingRepo.getSkills())
-
-  gameLoop.subscribe((delta) => {
-    tickTrainingUseCase.execute(delta)
-    triggerRef(training)
-  })
+  const training = trainingRepo.getSkills()
 
   function getSkill(skill: TrainingSkillsEnum) {
-    return training.value.find((s) => s.id === skill)
+    return training.find((s) => s.id === skill)
   }
 
   function allocateTrainingEnergy(

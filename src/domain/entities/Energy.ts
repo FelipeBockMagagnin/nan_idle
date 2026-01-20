@@ -1,13 +1,27 @@
 import Decimal from 'break_infinity.js'
 
+export type EnergyOptions = {
+  current: Decimal
+  allocated: Decimal
+  max: Decimal
+  regenerationRate: Decimal
+  power: Decimal
+}
+
 export class Energy {
-  constructor(
-    public current: Decimal,
-    public allocated: Decimal,
-    public max: Decimal,
-    public regenerationRate: Decimal,
-    public power: Decimal
-  ) {}
+  public current: Decimal
+  public allocated: Decimal
+  public max: Decimal
+  public regenerationRate: Decimal
+  public power: Decimal
+
+  constructor(options: EnergyOptions) {
+    this.current = options.current
+    this.allocated = options.allocated
+    this.max = options.max
+    this.regenerationRate = options.regenerationRate
+    this.power = options.power
+  }
 
   get energy(): Energy {
     return this
@@ -41,10 +55,6 @@ export class Energy {
 
   reclaimEnergy(value: Decimal): boolean {
     if (value.greaterThan(this.allocated)) {
-      return false
-    }
-
-    if (this.allocated.subtract(value).lessThan(new Decimal(0))) {
       return false
     }
 

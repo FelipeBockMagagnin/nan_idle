@@ -23,6 +23,26 @@ describe('Adventure Enemy Entity', () => {
     boss = new Boss(initialStats)
   })
 
+  describe('getters', () => {
+    describe('id', () => {
+      it('should return the boss id', () => {
+        expect(boss.id).toBe(1)
+      })
+    })
+
+    describe('name', () => {
+      it('should return the boss name', () => {
+        expect(boss.name).toBe('test case')
+      })
+    })
+
+    describe('image', () => {
+      it('should return the boss image', () => {
+        expect(boss.image).toBe('image test')
+      })
+    })
+  })
+
   describe('regenerate', () => {
     it('should not regenerate if life is greater or equal to max HP', () => {
       const maxHP = boss.stats.maxHp
@@ -47,6 +67,11 @@ describe('Adventure Enemy Entity', () => {
     it('should reduce damage by toughness and apply to HP', () => {
       boss.takeDamage(new Decimal(10))
       expect(boss.stats.hp.equals(95)).toBe(true)
+    })
+
+    it('should not take damage if the damage is less than the defense', () => {
+      boss.takeDamage(new Decimal(4))
+      expect(boss.stats.hp.equals(100)).toBe(true)
     })
 
     it('should return true if damage kills the player', () => {

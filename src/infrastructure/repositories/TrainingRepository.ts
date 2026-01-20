@@ -4,14 +4,16 @@ import { getInitialSkills } from '@/infrastructure/data/skills'
 import { TrainingSaveData } from '@/domain/types/saveData'
 import { TrainingSkillsEnum } from '@/domain/enums'
 import Decimal from 'break_infinity.js'
+import { reactive } from 'vue'
 
 let skillsInstance: Skill[] = []
 
 export class TrainingRepository implements ITrainingRepository {
   getSkills(): Skill[] {
     if (skillsInstance.length === 0) {
-      skillsInstance = getInitialSkills()
+      skillsInstance = reactive(getInitialSkills()) as Skill[]
     }
+    
     return skillsInstance
   }
 

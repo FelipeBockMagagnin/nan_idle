@@ -1,21 +1,49 @@
 import Decimal from 'break_infinity.js'
 import { SkillType, TrainingSkillsEnum } from '@/domain/enums'
 
+export type SkillOptions = {
+  id: TrainingSkillsEnum
+  skillType: SkillType
+  level: Decimal
+  progress: Decimal
+  allocatedEnergy: Decimal
+  baseEnergyCost: Decimal
+  baseStatsPerLevel: Decimal
+  unlockThreshold: Decimal
+  trainingSpeed: Decimal
+  combatMultiplier: number
+  currentAttackCooldown: number
+  attackCooldown: number
+}
+
 export class Skill {
-  constructor(
-    public id: TrainingSkillsEnum,
-    public skillType: SkillType,
-    public level: Decimal,
-    public progress: Decimal,
-    public allocatedEnergy: Decimal,
-    public baseEnergyCost: Decimal,
-    public baseStatsPerLevel: Decimal,
-    public unlockThreshold: Decimal,
-    public trainingSpeed: Decimal,
-    public combatMultiplier: number,
-    public currentAttackCooldown: number,
-    public attackCooldown: number
-  ) {}
+  id: TrainingSkillsEnum
+  skillType: SkillType
+  level: Decimal
+  progress: Decimal
+  allocatedEnergy: Decimal
+  baseEnergyCost: Decimal
+  baseStatsPerLevel: Decimal
+  unlockThreshold: Decimal
+  trainingSpeed: Decimal
+  combatMultiplier: number
+  currentAttackCooldown: number
+  attackCooldown: number
+
+  constructor(options: SkillOptions) {
+    this.id = options.id
+    this.skillType = options.skillType
+    this.level = options.level
+    this.progress = options.progress
+    this.allocatedEnergy = options.allocatedEnergy
+    this.baseEnergyCost = options.baseEnergyCost
+    this.baseStatsPerLevel = options.baseStatsPerLevel
+    this.unlockThreshold = options.unlockThreshold
+    this.trainingSpeed = options.trainingSpeed
+    this.combatMultiplier = options.combatMultiplier
+    this.currentAttackCooldown = options.currentAttackCooldown
+    this.attackCooldown = options.attackCooldown
+  }
 
   get skill(): Skill {
     return this

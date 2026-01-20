@@ -75,7 +75,9 @@ export class AdventureEnemy {
   }
 
   decreaseAttackCooldown(deltaTime: number): void {
-    this.currentAttackCooldown -= deltaTime
+    if(this.currentAttackCooldown <= 0) return
+    const newAttackCooldown = this.currentAttackCooldown - deltaTime
+    this.currentAttackCooldown = Math.max(newAttackCooldown, 0)
   }
 
   getAttackCooldownPercent(): number {
@@ -87,6 +89,6 @@ export class AdventureEnemy {
     if (this.stats.respawnTime <= 0) return
 
     const newRespawnTime = this.stats.respawnTime - deltaTime
-    this.stats.respawnTime = Math.min(newRespawnTime, 0)
+    this.stats.respawnTime = Math.max(newRespawnTime, 0)
   }
 }

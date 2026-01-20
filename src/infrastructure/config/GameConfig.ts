@@ -37,43 +37,43 @@ export const GameConfig = {
     [XpUpgradeType.ENERGY_POWER]: { cost: 50, gain: 1 },
   } as SpendXpCosts,
 
-  Energy: new Energy(
-    new Decimal(0),
-    new Decimal(0),
-    new Decimal(10),
-    new Decimal(1),
-    new Decimal(1)
-  ),
+  Energy: new Energy({
+    allocated: new Decimal(0),
+    current: new Decimal(0),
+    max: new Decimal(10),
+    power: new Decimal(1),
+    regenerationRate: new Decimal(1),
+  }),
 
   Skills: [
-    new Skill(
-      TrainingSkillsEnum.RegularAttack,
-      SkillType.Attack,
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(10),
-      new Decimal(1),
-      new Decimal(0),
-      new Decimal(1),
-      1,
-      1,
-      1
-    ),
+    new Skill({
+      id: TrainingSkillsEnum.RegularAttack,
+      skillType: SkillType.Attack,
+      level: new Decimal(0),
+      progress: new Decimal(0),
+      allocatedEnergy: new Decimal(0),
+      baseEnergyCost: new Decimal(10),
+      baseStatsPerLevel: new Decimal(1),
+      unlockThreshold: new Decimal(0),
+      trainingSpeed: new Decimal(1),
+      combatMultiplier: 1,
+      currentAttackCooldown: 1,
+      attackCooldown: 1,
+    }),
 
-    new Skill(
-      TrainingSkillsEnum.BlockDefence,
-      SkillType.Defence,
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(0),
-      new Decimal(10),
-      new Decimal(1),
-      new Decimal(0),
-      new Decimal(1),
-      0,
-      1,
-      1
-    ),
+    new Skill({
+      id: TrainingSkillsEnum.BlockDefence,
+      skillType: SkillType.Defence,
+      level: new Decimal(0),
+      progress: new Decimal(0),
+      allocatedEnergy: new Decimal(0),
+      baseEnergyCost: new Decimal(10),
+      baseStatsPerLevel: new Decimal(1),
+      unlockThreshold: new Decimal(0),
+      trainingSpeed: new Decimal(1),
+      combatMultiplier: 0,
+      currentAttackCooldown: 1,
+      attackCooldown: 1,
+    }),
   ] as Skill[],
 }
