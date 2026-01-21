@@ -11,4 +11,12 @@ export class BossFightRepository implements IBossFightRepository {
     }
     return bossFightInstance
   }
+  exportData(): number {
+    const bossFight = this.getBossFight()
+    return bossFight.bossId
+  }
+  importData(data: number): void {
+    const bossFight = this.getBossFight()
+    bossFight.setBossCurrentBossIndex(data)
+  }
 }

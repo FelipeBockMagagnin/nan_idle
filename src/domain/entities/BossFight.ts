@@ -31,4 +31,8 @@ export class BossFight {
     this.currentBossIndex++
     this.setBoss(null)
   }
+
+  setBossCurrentBossIndex(index: number) {
+    this.currentBossIndex = index
+  }
 }

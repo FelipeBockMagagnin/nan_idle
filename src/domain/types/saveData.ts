@@ -30,5 +30,6 @@ export interface GlobalSaveData {
   }
   player: PlayerSaveData
   training: TrainingSaveData
-  energy: EnergySaveData
+  energy: EnergySaveData,
+  currentBossIndex: number
 }

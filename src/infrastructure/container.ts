@@ -71,14 +71,16 @@ const saveGameUseCase = new SaveGameUseCase(
   storageService,
   playerRepo,
   trainingRepo,
-  energyRepo
+  energyRepo,
+  bossFightRepo
 )
 
 const loadGameUseCase = new LoadGameUseCase(
   storageService,
   playerRepo,
   trainingRepo,
-  energyRepo
+  energyRepo,
+  bossFightRepo
 )
 
 const regenHealthUseCase = new RegenHealthUseCase(playerRepo)
