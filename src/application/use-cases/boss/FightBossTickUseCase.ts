@@ -1,6 +1,8 @@
 import Decimal from 'break_infinity.js'
 import { IPlayerRepository } from '@/domain/interfaces/repositories/IPlayerRepository'
 import { IBossRepository } from '@/domain/interfaces/repositories/IBossRepository'
+import { IBossFightRepository } from '@/domain/interfaces/repositories/IBossFightRepository'
+import { showAlert } from '@/application/services/AlertService'
 
 export type FightBossTickResult = {
   playerDied: boolean
@@ -11,45 +13,48 @@ export type FightBossTickResult = {
 export class FightBossTickUseCase {
   constructor(
     private playerRepository: IPlayerRepository,
-    private bossRepository: IBossRepository
+    private bossRepository: IBossRepository,
+    private bossFightRepository: IBossFightRepository
   ) {}
 
-  execute(bossId: number, deltaTime: number): FightBossTickResult {
-    const player = this.playerRepository.getPlayer()
-    const enemy = this.bossRepository.getEnemy(bossId)
+  execute(deltaTime: number): void {
+    deltaTime = deltaTime/3
+    const bossFight = this.bossFightRepository.getBossFight()
 
-    const result: FightBossTickResult = {
-      playerDied: false,
-      bossDied: false,
-      xpGained: new Decimal(0),
+    //spawn next enemy
+    if (!bossFight.boss) {
+      console.log(bossFight.bossId + 1)
+      bossFight.setBoss(this.bossRepository.getEnemy(bossFight.bossId + 1))
+      return
     }
 
-    if (!enemy) return result
+    if (!bossFight.isFighting()) {
+      return
+    }
 
     // player attacks boss
-    const bossDied = enemy.takeDamage(player.stats.attack)
+    const player = this.playerRepository.getPlayer()
+    const bossDied = bossFight.boss.takeDamage(player.stats.attack)
 
     if (bossDied) {
-      result.bossDied = true
-      result.xpGained = enemy.stats.xp
-      player.increaseXp(enemy.stats.xp)
-      return result
+      bossFight.changeFightingState(false)
+      player.increaseXp(bossFight.boss.stats.xp)
+      showAlert(
+        `${bossFight.boss.name} defeated. + ${bossFight.boss.stats.xp} XP`
+      )
+      bossFight.defeatBoss()
+      return
     }
 
     // boss attacks player
-    const playerDied = player.takeDamage(enemy.stats.attack)
+    const playerDied = player.takeDamage(bossFight.boss.stats.attack)
 
     if (playerDied) {
-      result.playerDied = true
-      return result
+      bossFight.changeFightingState(false)
+      return
     }
 
-    // regen player hp
-    player.regenerate(deltaTime)
-
     // regen Boss HP
-    enemy.regenerate(deltaTime)
-
-    return result
+    bossFight.boss.regenerate(deltaTime)
   }
 }

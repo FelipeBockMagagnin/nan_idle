@@ -5,7 +5,7 @@ export class GameService {
   private regenEnergyUseCase = container.regenEnergyUseCase
   private tickTrainingUseCase = container.tickTrainingUseCase
   private tickAdventureUseCase = container.tickAdventureUseCase
- // private fightBossTickUseCase = container.fightBossTickUseCase
+  private fightBossTickUseCase = container.fightBossTickUseCase
   private regenHealthUseCase = container.regenHealthUseCase
 
   constructor(private gameLoop: GameLoop) {
@@ -16,7 +16,7 @@ export class GameService {
     this.regenEnergyUseCase.execute(deltaTime)
     this.tickTrainingUseCase.execute(deltaTime)
     this.tickAdventureUseCase.execute(deltaTime)
-    //this.fightBossTickUseCase.execute(deltaTime)
+    this.fightBossTickUseCase.execute(deltaTime)
     this.regenHealthUseCase.execute(deltaTime)
   }
 

@@ -54,7 +54,7 @@
       @click="fight"
       v-if="playerStore.stats.currentHP.greaterThanOrEqualTo(1)"
     >
-      {{ fightBossStore.fighting ? 'Stop' : 'Fight' }}
+      {{ fightBossStore.isFighting() ? 'Stop' : 'Fight' }}
     </button>
   </div>
 </template>
