@@ -3,7 +3,7 @@ import { Boss } from './Boss'
 export class BossFight {
   private currentBoss: Boss | null = null
   private fighting: boolean = false
-  private currentBossIndex: number = 0
+  private currentBossIndex: number = 1
 
   constructor() {}
 

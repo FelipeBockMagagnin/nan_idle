@@ -18,13 +18,11 @@ export class FightBossTickUseCase {
   ) {}
 
   execute(deltaTime: number): void {
-    deltaTime = deltaTime/3
     const bossFight = this.bossFightRepository.getBossFight()
 
     //spawn next enemy
     if (!bossFight.boss) {
-      console.log(bossFight.bossId + 1)
-      bossFight.setBoss(this.bossRepository.getEnemy(bossFight.bossId + 1))
+      bossFight.setBoss(this.bossRepository.getEnemy(bossFight.bossId))
       return
     }
 
