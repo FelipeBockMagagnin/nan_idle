@@ -11,6 +11,12 @@ export interface PlayerStatsData {
   defence: string
   hpRegen: string
   maxHP: string
+  resources: PlayerResourcesSaveData
+}
+
+export type PlayerResourcesSaveData = {
+  gold: string
+  xp: string
 }
 
 export interface PlayerSaveData {
@@ -21,6 +27,7 @@ export interface EnergySaveData {
   current: string
   allocated: string
   max: string
+  power: string
 }
 
 export interface GlobalSaveData {

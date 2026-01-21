@@ -22,6 +22,7 @@ export class EnergyRepository implements IEnergyRepository {
       allocated: energy.allocated.toString(),
       current: energy.current.toString(),
       max: energy.max.toString(),
+      power: energy.power.toString(),
     }
   }
 
@@ -31,6 +32,7 @@ export class EnergyRepository implements IEnergyRepository {
       energy.current = new Decimal(data.current)
       energy.allocated = new Decimal(data.allocated)
       energy.max = new Decimal(data.max)
+      energy.power = new Decimal(data.power)
     }
   }
 }

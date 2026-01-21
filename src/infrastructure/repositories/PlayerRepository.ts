@@ -29,6 +29,10 @@ export class PlayerRepository implements IPlayerRepository {
         defence: player.stats.defence.toString(),
         hpRegen: player.stats.hpRegen.toString(),
         maxHP: player.stats.maxHP.toString(),
+        resources: {
+          gold: player.resources.gold.toString(),
+          xp: player.resources.xp.toString(),
+        },
       },
     }
   }
@@ -40,6 +44,8 @@ export class PlayerRepository implements IPlayerRepository {
       player.stats.defence = new Decimal(data.stats.defence)
       player.stats.hpRegen = new Decimal(data.stats.hpRegen)
       player.stats.maxHP = new Decimal(data.stats.maxHP)
+      player.resources.gold = new Decimal(data.stats.resources.gold)
+      player.resources.xp = new Decimal(data.stats.resources.xp)
     }
   }
 
