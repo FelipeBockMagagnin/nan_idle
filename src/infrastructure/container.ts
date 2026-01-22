@@ -65,7 +65,11 @@ const playerAttackUseCase = new PlayerAttackUseCase(
 const regenEnergyUseCase = new RegenEnergyUseCase(energyRepo)
 const getAvaliableEnergyUseCase = new GetAvaliableEnergyUseCase(energyRepo)
 
-const fightBossTickUseCase = new FightBossTickUseCase(playerRepo, bossRepo, bossFightRepo)
+const fightBossTickUseCase = new FightBossTickUseCase(
+  playerRepo,
+  bossRepo,
+  bossFightRepo
+)
 
 const saveGameUseCase = new SaveGameUseCase(
   storageService,
@@ -85,11 +89,7 @@ const loadGameUseCase = new LoadGameUseCase(
 
 const regenHealthUseCase = new RegenHealthUseCase(playerRepo)
 
-const tickTrainingUseCase = new TickTrainingUseCase(
-  trainingRepo,
-  playerRepo,
-  energyRepo
-)
+const tickTrainingUseCase = new TickTrainingUseCase(trainingRepo, playerRepo)
 const allocateEnergyUseCase = new AllocateEnergyUseCase(
   trainingRepo,
   energyRepo

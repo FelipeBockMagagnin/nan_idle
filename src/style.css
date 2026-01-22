@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  font-family: "Montserrat", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "roboto", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -53,6 +53,11 @@ button {
   transition: border-color 0.25s;
   touch-action: manipulation;
 }
+
+button:focus {
+  outline: unset !important;
+}
+
 button:hover {
   border-color: #646cff;
 }

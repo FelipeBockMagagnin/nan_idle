@@ -48,7 +48,7 @@ const MAX_SUFFIX_EXPONENT = 101 // Up to 999.99 Duotrigintillion (10^101)
  * Example: 1.50 -> "1.5", 1.00 -> "1"
  */
 function formatWithDecimals(num: number, decimals: number): string {
-  return num.toFixed(decimals).replace(/\.?0+$/, '')
+  return num.toFixed(decimals)
 }
 
 /**
@@ -78,8 +78,13 @@ export function formatDecimal(value: Decimal, decimals: number = 2): string {
   const mantissa = value.mantissa
 
   // Small numbers: display as-is
-  if (exponent < 3) {
-    return value.floor().toNumber().toString()
+  if (exponent < 6) {
+    const newValue = value
+      .floor()
+      .toString()
+      .split('.')[0]
+      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+    return newValue
   }
 
   // Very large numbers: use scientific notation

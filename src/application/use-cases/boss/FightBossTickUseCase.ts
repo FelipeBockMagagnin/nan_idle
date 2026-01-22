@@ -30,9 +30,18 @@ export class FightBossTickUseCase {
       return
     }
 
-    // player attacks boss
     const player = this.playerRepository.getPlayer()
-    const bossDied = bossFight.boss.takeDamage(player.stats.attack)
+
+    // boss attacks player
+    const playerDied = player.takeDamage(bossFight.boss.stats.attack, deltaTime)
+
+    if (playerDied) {
+      bossFight.changeFightingState(false)
+      return
+    }
+
+    // player attacks boss
+    const bossDied = bossFight.boss.takeDamage(player.stats.attack, deltaTime)
 
     if (bossDied) {
       bossFight.changeFightingState(false)
@@ -41,14 +50,6 @@ export class FightBossTickUseCase {
         `${bossFight.boss.name} defeated. + ${bossFight.boss.stats.xp} XP`
       )
       bossFight.defeatBoss()
-      return
-    }
-
-    // boss attacks player
-    const playerDied = player.takeDamage(bossFight.boss.stats.attack)
-
-    if (playerDied) {
-      bossFight.changeFightingState(false)
       return
     }
 

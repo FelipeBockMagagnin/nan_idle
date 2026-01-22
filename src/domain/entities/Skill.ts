@@ -10,7 +10,6 @@ export type SkillOptions = {
   baseEnergyCost: Decimal
   baseStatsPerLevel: Decimal
   unlockThreshold: Decimal
-  trainingSpeed: Decimal
   combatMultiplier: number
   currentAttackCooldown: number
   attackCooldown: number
@@ -25,7 +24,6 @@ export class Skill {
   baseEnergyCost: Decimal
   baseStatsPerLevel: Decimal
   unlockThreshold: Decimal
-  trainingSpeed: Decimal
   combatMultiplier: number
   currentAttackCooldown: number
   attackCooldown: number
@@ -39,7 +37,6 @@ export class Skill {
     this.baseEnergyCost = options.baseEnergyCost
     this.baseStatsPerLevel = options.baseStatsPerLevel
     this.unlockThreshold = options.unlockThreshold
-    this.trainingSpeed = options.trainingSpeed
     this.combatMultiplier = options.combatMultiplier
     this.currentAttackCooldown = options.currentAttackCooldown
     this.attackCooldown = options.attackCooldown

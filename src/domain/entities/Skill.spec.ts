@@ -15,7 +15,6 @@ describe('Skill', () => {
       baseEnergyCost: new Decimal(100),
       baseStatsPerLevel: new Decimal(1),
       unlockThreshold: new Decimal(0),
-      trainingSpeed: new Decimal(1),
       combatMultiplier: 1,
       currentAttackCooldown: 0,
       attackCooldown: 2,

@@ -12,16 +12,14 @@
           :maxHP="playerStore.stats.maxHP"
         />
 
-        <div style="display: flex; width: 60%">
+        <div>
           <AttackIndicator :show-border="false" />
           <DefenceIndicator :show-border="false" />
         </div>
       </div>
 
-      <br />
-      X
-      <br />
-      <br />
+      <v-icon :name="Icons.Sword" style="margin: 10px" />
+
       <div v-if="fightBossStore.enemy" class="fight-boss-container">
         {{ fightBossStore.enemy.name }} - #{{ fightBossStore.enemy.id }}
         <img
@@ -32,9 +30,8 @@
           :currentHP="fightBossStore.enemy.stats.hp"
           :maxHP="fightBossStore.enemy.stats.maxHp"
         />
-        <div style="display: flex; width: 60%">
+        <div>
           <IndicatorCard
-            style="margin-right: 10px"
             :icon="Icons.Sword"
             :value="fightBossStore.enemy.stats.attack"
             :show-border="false"

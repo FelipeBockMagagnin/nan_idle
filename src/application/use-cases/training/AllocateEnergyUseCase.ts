@@ -15,6 +15,8 @@ export class AllocateEnergyUseCase {
 
     const energy = this.energyRepository.getEnergy()
 
+    amount = Decimal.min(amount, energy.getAvailableEnergy())
+
     if (!energy.canAllocateEnergy(amount)) {
       return false
     }

@@ -40,8 +40,8 @@ export class Boss {
     this.stats.hp = Decimal.min(newHp, this.stats.maxHp)
   }
 
-  takeDamage(damage: Decimal): boolean {
-    const realDamage = damage.minus(this.stats.defence)
+  takeDamage(damage: Decimal, deltaTime: number = 1): boolean {
+    const realDamage = damage.minus(this.stats.defence).multiply(deltaTime)
 
     if (realDamage.lessThanOrEqualTo(0)) return false
 

@@ -12,11 +12,11 @@ import {
 export const GameConfig = {
   Player: {
     InitialStats: {
-      attack: new Decimal(0),
-      defence: new Decimal(0),
-      currentHP: new Decimal(100),
-      maxHP: new Decimal(100),
-      hpRegen: new Decimal(10),
+      attack: new Decimal(100),
+      defence: new Decimal(100),
+      currentHP: new Decimal(1000),
+      maxHP: new Decimal(1000),
+      hpRegen: new Decimal(5),
     } as PlayerStats,
     InitialAdventureStats: {
       power: new Decimal(10),
@@ -39,8 +39,8 @@ export const GameConfig = {
 
   Energy: new Energy({
     allocated: new Decimal(0),
-    current: new Decimal(0),
-    max: new Decimal(10),
+    current: new Decimal(250),
+    max: new Decimal(500),
     power: new Decimal(1),
     regenerationRate: new Decimal(1),
   }),
@@ -52,10 +52,9 @@ export const GameConfig = {
       level: new Decimal(0),
       progress: new Decimal(0),
       allocatedEnergy: new Decimal(0),
-      baseEnergyCost: new Decimal(10),
-      baseStatsPerLevel: new Decimal(1),
+      baseEnergyCost: new Decimal(50),
+      baseStatsPerLevel: new Decimal(150),
       unlockThreshold: new Decimal(0),
-      trainingSpeed: new Decimal(1),
       combatMultiplier: 1,
       currentAttackCooldown: 1,
       attackCooldown: 1,
@@ -67,10 +66,9 @@ export const GameConfig = {
       level: new Decimal(0),
       progress: new Decimal(0),
       allocatedEnergy: new Decimal(0),
-      baseEnergyCost: new Decimal(10),
-      baseStatsPerLevel: new Decimal(1),
+      baseEnergyCost: new Decimal(50),
+      baseStatsPerLevel: new Decimal(150),
       unlockThreshold: new Decimal(0),
-      trainingSpeed: new Decimal(1),
       combatMultiplier: 0,
       currentAttackCooldown: 1,
       attackCooldown: 1,

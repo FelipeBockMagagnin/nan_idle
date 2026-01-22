@@ -8,6 +8,25 @@
       <DefenceIndicator />
     </div>
 
+    <div style="position: absolute; top: 5px; left: 10px">
+      <button
+        :style="{
+          borderWidth: energyAllocationValue.equals(100) ? '1px' : '0',
+        }"
+        @click="setEnergyAllocationValue(100)"
+      >
+        100
+      </button>
+      <button
+        :style="{
+          borderWidth: energyAllocationValue.equals(250) ? '1px' : '0',
+        }"
+        @click="setEnergyAllocationValue(250)"
+      >
+        250
+      </button>
+    </div>
+
     Regular Attack
     <br />
 
@@ -79,29 +98,41 @@ import { formatDecimal } from '@/presentation/utils/formatDecimal'
 import TimerIndicator from '@/presentation/components/indicators/TimerIndicator.vue'
 import Decimal from 'break_infinity.js'
 import { TrainingSkillsEnum } from '@/domain/enums'
+import { ref } from 'vue'
 
 const trainingStore = useTrainingStore()
+const energyAllocationValue = ref<Decimal>(new Decimal(250))
+
+function setEnergyAllocationValue(value: number) {
+  energyAllocationValue.value = new Decimal(value)
+}
 
 function increaseRegularAttackEnergy(): void {
   trainingStore.allocateTrainingEnergy(
     TrainingSkillsEnum.RegularAttack,
-    new Decimal(1)
+    energyAllocationValue.value
   )
 }
 
 function decreaseRegularAttackEnergy(): void {
-  trainingStore.reclaimEnergy(TrainingSkillsEnum.RegularAttack, new Decimal(1))
+  trainingStore.reclaimEnergy(
+    TrainingSkillsEnum.RegularAttack,
+    energyAllocationValue.value
+  )
 }
 
 function increaseBlockDefenceEnergy(): void {
   trainingStore.allocateTrainingEnergy(
     TrainingSkillsEnum.BlockDefence,
-    new Decimal(1)
+    energyAllocationValue.value
   )
 }
 
 function decreaseBlockDefenceEnergy(): void {
-  trainingStore.reclaimEnergy(TrainingSkillsEnum.BlockDefence, new Decimal(1))
+  trainingStore.reclaimEnergy(
+    TrainingSkillsEnum.BlockDefence,
+    energyAllocationValue.value
+  )
 }
 </script>
 

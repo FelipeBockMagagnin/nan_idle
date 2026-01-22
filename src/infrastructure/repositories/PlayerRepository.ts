@@ -44,6 +44,7 @@ export class PlayerRepository implements IPlayerRepository {
       player.stats.defence = new Decimal(data.stats.defence)
       player.stats.hpRegen = new Decimal(data.stats.hpRegen)
       player.stats.maxHP = new Decimal(data.stats.maxHP)
+      player.stats.currentHP = new Decimal(data.stats.maxHP)
       player.resources.gold = new Decimal(data.stats.resources.gold)
       player.resources.xp = new Decimal(data.stats.resources.xp)
     }
