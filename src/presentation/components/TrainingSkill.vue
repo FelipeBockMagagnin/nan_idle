@@ -1,17 +1,19 @@
 <template>
-  {{ props.skill.name }}
   <br />
 
-  <div class="training-item-container">
+  {{ props.skill.name }}
+
+  <div class="training-item-container" @click="showAlertIfLocked()">
     <TimerIndicator
       :progress="props.skill.getskillProgressPercent()"
       width="200px"
+      :locked="!props.skill.unlocked"
       :innerText="formatDecimal(props.skill.level)"
       :barColor="
         props.skill.skillType === SkillType.Attack ? '#be3636' : '#3e3eb5'
       "
     />
-    <div>
+    <div v-if="props.skill.unlocked">
       <button
         @click="allocateTrainingEnergy(props.skill.id, energyAllocationValue)"
       >
@@ -33,6 +35,7 @@ import { formatDecimal } from '../utils/formatDecimal'
 import Decimal from 'break_infinity.js'
 import TimerIndicator from '@/presentation/components/indicators/TimerIndicator.vue'
 import { SkillType, TrainingSkillsEnum } from '@/domain/enums'
+import { AlertTypeEnum, showAlert } from '@/application/services/AlertService'
 
 type AllocateTrainingEnergyCallback = (
   skill: TrainingSkillsEnum,
@@ -52,6 +55,12 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+function showAlertIfLocked() {
+  if (!props.skill.unlocked) {
+    showAlert('Requires Level 5000 in previous skill.', AlertTypeEnum.Error)
+  }
+}
 </script>
 
 <style scoped>

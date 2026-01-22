@@ -10,10 +10,11 @@ export type SkillOptions = {
   allocatedEnergy: Decimal
   baseEnergyCost: Decimal
   baseStatsPerLevel: Decimal
-  unlockThreshold: Decimal
+  unlocksSkill: TrainingSkillsEnum | null
   combatMultiplier: number
   currentAttackCooldown: number
   attackCooldown: number
+  unlocked: boolean
 }
 
 export class Skill {
@@ -25,10 +26,11 @@ export class Skill {
   allocatedEnergy: Decimal
   baseEnergyCost: Decimal
   baseStatsPerLevel: Decimal
-  unlockThreshold: Decimal
+  unlocksSkill: TrainingSkillsEnum | null
   combatMultiplier: number
   currentAttackCooldown: number
   attackCooldown: number
+  unlocked: boolean
 
   constructor(options: SkillOptions) {
     this.id = options.id
@@ -39,10 +41,11 @@ export class Skill {
     this.allocatedEnergy = options.allocatedEnergy
     this.baseEnergyCost = options.baseEnergyCost
     this.baseStatsPerLevel = options.baseStatsPerLevel
-    this.unlockThreshold = options.unlockThreshold
+    this.unlocksSkill = options.unlocksSkill
     this.combatMultiplier = options.combatMultiplier
     this.currentAttackCooldown = options.currentAttackCooldown
     this.attackCooldown = options.attackCooldown
+    this.unlocked = options.unlocked
   }
 
   get skill(): Skill {
@@ -109,5 +112,9 @@ export class Skill {
 
   getPlayerAttackCooldown(): string {
     return this.currentAttackCooldown.toFixed(1) || ''
+  }
+
+  setUnlocked(value: boolean): void {
+    this.unlocked = value
   }
 }

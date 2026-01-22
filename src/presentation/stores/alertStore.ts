@@ -1,19 +1,23 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { alertService } from '@/application/services/AlertService'
+import {
+  alertService,
+  AlertTypeEnum,
+} from '@/application/services/AlertService'
 
-interface Alert {
+export interface Alert {
   id: number
   message: string
+  type: AlertTypeEnum
 }
 
 export const useAlertStore = defineStore('alert', () => {
   const alerts = ref<Alert[]>([])
   let idCounter = 0
 
-  function addAlert(message: string) {
+  function addAlert(message: string, type: AlertTypeEnum) {
     const id = idCounter++
-    alerts.value.push({ id, message })
+    alerts.value.push({ id, message, type })
 
     setTimeout(() => {
       removeAlert(id)

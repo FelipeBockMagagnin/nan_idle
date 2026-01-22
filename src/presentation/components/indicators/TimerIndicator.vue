@@ -14,11 +14,16 @@
         background: props.barColor,
       }"
     ></div>
-    <span class="bar-text">{{ innerText }}</span>
+    <span class="bar-text">
+      <v-icon v-if="locked" :name="Icons.Lock" />
+      <span v-else>{{ innerText }}</span>
+    </span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/domain/enums'
+
 interface Props {
   progress?: number
   width?: string
@@ -27,6 +32,7 @@ interface Props {
   barColor?: string
   height?: string
   inverted?: boolean
+  locked?: boolean
 }
 
 function getProgress() {
@@ -43,6 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
   barColor: '#be3636',
   inverted: false,
   progress: 0,
+  locked: false,
 })
 </script>
 

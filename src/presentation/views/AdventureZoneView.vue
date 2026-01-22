@@ -9,8 +9,6 @@
       <button @click="goToNextZone">></button>
     </div>
 
-    <br />
-
     <div class="fight-container">
       Player
       <img src="/assets/player/player_1.jpeg" class="enemy-image" />
@@ -33,12 +31,10 @@
         />
       </div>
 
-      <br />
-
       <div v-if="adventureZoneStore.currentEnemy" class="fight-container">
-        X
-        <br />
-        <br />
+        <div>
+          <v-icon :name="Icons.Sword" style="margin: 10px" />
+        </div>
         {{ currentEnemy?.name }} - #{{ currentEnemy?.id }}
         <img
           :src="'/assets/enemy/' + currentEnemy?.image"
@@ -115,7 +111,8 @@ function selectAttack(skill: SkillEnum) {
 
 .enemy-image {
   width: 100px;
-  margin: 10px;
+  margin-bottom: 10px;
+  margin-top: 0px;
   border-radius: 10px;
 }
 

@@ -29,6 +29,17 @@ export class TickTrainingUseCase {
             skillOldLevel
           )
         }
+
+        if (skill.unlocksSkill) {
+          if (skill.level.greaterThanOrEqualTo(5000)) {
+            const unlockedSkill = this.trainingRepository.getSkill(
+              skill.unlocksSkill
+            )
+            if (unlockedSkill) {
+              unlockedSkill.setUnlocked(true)
+            }
+          }
+        }
       }
     }
   }

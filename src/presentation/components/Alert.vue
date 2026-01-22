@@ -1,7 +1,12 @@
 <template>
   <div class="alert-stack-container">
     <TransitionGroup name="fade" tag="div">
-      <div v-for="alert in alertStore.alerts" :key="alert.id" class="alert-container">
+      <div
+        v-for="alert in alertStore.alerts"
+        :key="alert.id"
+        class="alert-container"
+        :style="{ backgroundColor: getAlertBackgroundColor(alert) }"
+      >
         <div class="alert-message">
           {{ alert.message }}
         </div>
@@ -11,9 +16,21 @@
 </template>
 
 <script setup lang="ts">
-import { useAlertStore } from '@/presentation/stores/alertStore'
+import { AlertTypeEnum } from '@/application/services/AlertService'
+import { Alert, useAlertStore } from '@/presentation/stores/alertStore'
 
 const alertStore = useAlertStore()
+
+function getAlertBackgroundColor(alert: Alert) {
+  switch (alert.type) {
+    case AlertTypeEnum.Error:
+      return 'red'
+    case AlertTypeEnum.Success:
+      return '#4caf50'
+    case AlertTypeEnum.Warning:
+      return 'yellow'
+  }
+}
 </script>
 
 <style scoped>
@@ -28,7 +45,6 @@ const alertStore = useAlertStore()
 }
 
 .alert-container {
-  background-color: #4caf50; /* Green */
   color: white;
   padding: 15px;
   margin-bottom: 5px;

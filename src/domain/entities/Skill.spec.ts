@@ -14,7 +14,7 @@ describe('Skill', () => {
       allocatedEnergy: new Decimal(10),
       baseEnergyCost: new Decimal(100),
       baseStatsPerLevel: new Decimal(1),
-      unlockThreshold: new Decimal(0),
+      unlocksSkill: new Decimal(0),
       combatMultiplier: 1,
       currentAttackCooldown: 0,
       attackCooldown: 2,
@@ -65,9 +65,9 @@ describe('Skill', () => {
     })
 
     it('should decrease attack cooldown', () => {
-        skill.currentAttackCooldown = 2
-        skill.tick(1)
-        expect(skill.currentAttackCooldown).toBe(1)
+      skill.currentAttackCooldown = 2
+      skill.tick(1)
+      expect(skill.currentAttackCooldown).toBe(1)
     })
   })
 
@@ -83,69 +83,69 @@ describe('Skill', () => {
     })
   })
 
-    describe('resetAttackCooldown', () => {
-        it('should reset the current attack cooldown to the attack cooldown', () => {
-            skill.currentAttackCooldown = 0
-            skill.resetAttackCooldown()
-            expect(skill.currentAttackCooldown).toBe(2)
-        })
+  describe('resetAttackCooldown', () => {
+    it('should reset the current attack cooldown to the attack cooldown', () => {
+      skill.currentAttackCooldown = 0
+      skill.resetAttackCooldown()
+      expect(skill.currentAttackCooldown).toBe(2)
+    })
+  })
+
+  describe('decreaseAttackCooldown', () => {
+    it('should decrease the current attack cooldown', () => {
+      skill.currentAttackCooldown = 2
+      skill.decreaseAttackCooldown(1)
+      expect(skill.currentAttackCooldown).toBe(1)
     })
 
-    describe('decreaseAttackCooldown', () => {
-        it('should decrease the current attack cooldown', () => {
-            skill.currentAttackCooldown = 2
-            skill.decreaseAttackCooldown(1)
-            expect(skill.currentAttackCooldown).toBe(1)
-        })
+    it('should not decrease the current attack cooldown below 0', () => {
+      skill.currentAttackCooldown = 1
+      skill.decreaseAttackCooldown(2)
+      expect(skill.currentAttackCooldown).toBe(0)
+    })
+  })
 
-        it('should not decrease the current attack cooldown below 0', () => {
-            skill.currentAttackCooldown = 1
-            skill.decreaseAttackCooldown(2)
-            expect(skill.currentAttackCooldown).toBe(0)
-        })
+  describe('allocateEnergy', () => {
+    it('should increase allocated energy', () => {
+      skill.allocateEnergy(new Decimal(5))
+      expect(skill.allocatedEnergy).toEqual(new Decimal(15))
     })
 
-    describe('allocateEnergy', () => {
-        it('should increase allocated energy', () => {
-            skill.allocateEnergy(new Decimal(5))
-            expect(skill.allocatedEnergy).toEqual(new Decimal(15))
-        })
-
-        it('should return true on success', () => {
-            const result = skill.allocateEnergy(new Decimal(5))
-            expect(result).toBe(true)
-        })
-
-        it('should not allocate negative energy', () => {
-            skill.allocateEnergy(new Decimal(-15))
-            expect(skill.allocatedEnergy).toEqual(new Decimal(10))
-        })
-
-        it('should return false on failure', () => {
-            const result = skill.allocateEnergy(new Decimal(-15))
-            expect(result).toBe(false)
-        })
+    it('should return true on success', () => {
+      const result = skill.allocateEnergy(new Decimal(5))
+      expect(result).toBe(true)
     })
 
-    describe('reclaimEnergy', () => {
-        it('should decrease allocated energy', () => {
-            skill.reclaimEnergy(new Decimal(5))
-            expect(skill.allocatedEnergy).toEqual(new Decimal(5))
-        })
-
-        it('should return true on success', () => {
-            const result = skill.reclaimEnergy(new Decimal(5))
-            expect(result).toBe(true)
-        })
-
-        it('should not reclaim more energy than allocated', () => {
-            skill.reclaimEnergy(new Decimal(15))
-            expect(skill.allocatedEnergy).toEqual(new Decimal(10))
-        })
-        
-        it('should return false on failure', () => {
-            const result = skill.reclaimEnergy(new Decimal(15))
-            expect(result).toBe(false)
-        })
+    it('should not allocate negative energy', () => {
+      skill.allocateEnergy(new Decimal(-15))
+      expect(skill.allocatedEnergy).toEqual(new Decimal(10))
     })
+
+    it('should return false on failure', () => {
+      const result = skill.allocateEnergy(new Decimal(-15))
+      expect(result).toBe(false)
+    })
+  })
+
+  describe('reclaimEnergy', () => {
+    it('should decrease allocated energy', () => {
+      skill.reclaimEnergy(new Decimal(5))
+      expect(skill.allocatedEnergy).toEqual(new Decimal(5))
+    })
+
+    it('should return true on success', () => {
+      const result = skill.reclaimEnergy(new Decimal(5))
+      expect(result).toBe(true)
+    })
+
+    it('should not reclaim more energy than allocated', () => {
+      skill.reclaimEnergy(new Decimal(15))
+      expect(skill.allocatedEnergy).toEqual(new Decimal(10))
+    })
+
+    it('should return false on failure', () => {
+      const result = skill.reclaimEnergy(new Decimal(15))
+      expect(result).toBe(false)
+    })
+  })
 })

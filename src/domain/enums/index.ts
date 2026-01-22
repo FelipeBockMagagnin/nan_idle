@@ -14,6 +14,7 @@ export enum Icons {
   Shield = 'md-shield',
   Sword = 'ri-sword-fill',
   Energy = 'md-electricbolt',
+  Lock = 'fa-lock',
 }
 
 export enum ItemSlotEnum {

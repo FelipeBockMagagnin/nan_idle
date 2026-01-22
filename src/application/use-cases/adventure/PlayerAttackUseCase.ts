@@ -1,4 +1,4 @@
-import { showAlert } from '@/application/services/AlertService'
+import { AlertTypeEnum, showAlert } from '@/application/services/AlertService'
 import { TrainingSkillsEnum } from '@/domain/enums'
 import { IAdventurePlayerRepository } from '@/domain/interfaces/repositories/IAdventurePlayerRepository'
 import { IAdventureRepository } from '@/domain/interfaces/repositories/IAdventureRepository'
@@ -12,14 +12,20 @@ export class PlayerAttackUseCase {
   ) {}
 
   execute(skillId: TrainingSkillsEnum): void {
+    const skill = this.trainingRepository.getSkill(skillId)
+
+    if (!skill) return
+
+    if (!skill.unlocked) {
+      showAlert('Unlock the skill in training', AlertTypeEnum.Error)
+      return
+    }
+
     const adventure = this.adventureRepository.getAdventure()
 
     if (!adventure.currentEnemy) return
 
     const adventurePlayer = this.adventurePlayerRepository.getAdventurePlayer()
-    const skill = this.trainingRepository.getSkill(skillId)
-
-    if (!skill) return
 
     if (skill.attackOnCooldown()) return
 
