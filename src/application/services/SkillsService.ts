@@ -12,9 +12,4 @@ export class SkillsService {
   getSkill(id: TrainingSkillsEnum) {
     return this.trainingSkillsRepository.getSkill(id)
   }
-
-  getPlayerAttackCooldown(skillId: TrainingSkillsEnum): string {
-    const skill = this.trainingSkillsRepository.getSkill(skillId)
-    return skill?.currentAttackCooldown?.toFixed(1) || ''
-  }
 }

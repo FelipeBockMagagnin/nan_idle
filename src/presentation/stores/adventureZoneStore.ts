@@ -19,33 +19,34 @@ export const useAdventureZoneStore = defineStore('adventureZone', () => {
   const adventureZone = computed(() => {
     return adventureZoneService.getAdventureZone(adventure.zoneId)
   })
+  const skills = computed(() => {
+    return skillsService.getAllSkills()
+  })
 
-  const adventureZones = computed(() => adventureZoneService.getAllAdventureZones())
+  const adventureZones = computed(() =>
+    adventureZoneService.getAllAdventureZones()
+  )
 
-  function setAdventureZone(id: number) {
-    adventureService.enterAdventureZone(id)
+  function goToNextZone() {
+    adventureService.enterAdventureZone((adventureZone.value?.id || 0) + 1)
+  }
+
+  function goBackZone() {
+    adventureService.enterAdventureZone((adventureZone.value?.id || 0) - 1)
   }
 
   function playerAttack(skill: TrainingSkillsEnum) {
     playerAttackUseCase.execute(skill)
   }
 
-  function getPlayerAttackCooldown(skill: TrainingSkillsEnum) {
-    return skillsService.getPlayerAttackCooldown(skill)
-  }
-
-  function getPlayersSkill(skill: TrainingSkillsEnum) {
-    return skillsService.getSkill(skill)
-  }
-
   return {
+    skills,
     adventureZone,
     adventureZones,
     currentEnemy,
     adventurePlayer,
-    getPlayerAttackCooldown,
-    getPlayersSkill,
-    setAdventureZone,
     playerAttack,
+    goBackZone,
+    goToNextZone,
   }
 })

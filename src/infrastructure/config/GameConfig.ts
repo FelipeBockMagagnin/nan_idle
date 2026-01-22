@@ -49,8 +49,9 @@ export const GameConfig = {
 
   Skills: [
     new Skill({
-      id: TrainingSkillsEnum.RegularAttack,
+      id: TrainingSkillsEnum.IdleAttack,
       skillType: SkillType.Attack,
+      name: 'Idle Attack',
       level: new Decimal(0),
       progress: new Decimal(0),
       allocatedEnergy: new Decimal(0),
@@ -63,8 +64,24 @@ export const GameConfig = {
     }),
 
     new Skill({
-      id: TrainingSkillsEnum.BlockDefence,
+      id: TrainingSkillsEnum.RegularAttack,
+      skillType: SkillType.Attack,
+      name: 'Regular Attack',
+      level: new Decimal(0),
+      progress: new Decimal(0),
+      allocatedEnergy: new Decimal(0),
+      baseEnergyCost: new Decimal(300),
+      baseStatsPerLevel: new Decimal(1000),
+      unlockThreshold: new Decimal(5000),
+      combatMultiplier: 1,
+      currentAttackCooldown: 1,
+      attackCooldown: 1,
+    }),
+
+    new Skill({
+      id: TrainingSkillsEnum.Block,
       skillType: SkillType.Defence,
+      name: 'Block',
       level: new Decimal(0),
       progress: new Decimal(0),
       allocatedEnergy: new Decimal(0),
@@ -74,6 +91,21 @@ export const GameConfig = {
       combatMultiplier: 0,
       currentAttackCooldown: 1,
       attackCooldown: 1,
+    }),
+
+    new Skill({
+      id: TrainingSkillsEnum.DefensiveBuff,
+      skillType: SkillType.Defence,
+      name: 'Defensive Buff',
+      level: new Decimal(0),
+      progress: new Decimal(0),
+      allocatedEnergy: new Decimal(0),
+      baseEnergyCost: new Decimal(300),
+      baseStatsPerLevel: new Decimal(1000),
+      unlockThreshold: new Decimal(5000),
+      combatMultiplier: 0,
+      currentAttackCooldown: 1,
+      attackCooldown: 10,
     }),
   ] as Skill[],
 }

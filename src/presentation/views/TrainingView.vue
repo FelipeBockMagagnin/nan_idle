@@ -27,65 +27,14 @@
       </button>
     </div>
 
-    Regular Attack
-    <br />
-
-    <div class="training-item-container">
-      <TimerIndicator
-        :progress="
-          trainingStore.getskillProgressPercent(
-            TrainingSkillsEnum.RegularAttack
-          )
-        "
-        width="200px"
-        :innerText="
-          formatDecimal(
-            trainingStore.getLevelValue(TrainingSkillsEnum.RegularAttack)
-          )
-        "
+    <template v-for="skill in trainingStore.training" :key="skill.id">
+      <TrainingSkill
+        :skill="skill"
+        :allocateTrainingEnergy="trainingStore.allocateTrainingEnergy"
+        :reclaimTrainingEnergy="trainingStore.reclaimEnergy"
+        :energyAllocationValue="energyAllocationValue"
       />
-      <div>
-        <button @click="increaseRegularAttackEnergy">+</button>
-        <span>{{
-          formatDecimal(
-            trainingStore.getAllocatedEnergyValue(
-              TrainingSkillsEnum.RegularAttack
-            )
-          )
-        }}</span>
-        <button @click="decreaseRegularAttackEnergy">-</button>
-      </div>
-    </div>
-
-    <br />
-    Block Defence
-    <br />
-
-    <div class="training-item-container">
-      <TimerIndicator
-        :progress="
-          trainingStore.getskillProgressPercent(TrainingSkillsEnum.BlockDefence)
-        "
-        width="200px"
-        :innerText="
-          formatDecimal(
-            trainingStore.getLevelValue(TrainingSkillsEnum.BlockDefence)
-          )
-        "
-        barColor="#3e3eb5"
-      />
-      <div>
-        <button @click="increaseBlockDefenceEnergy">+</button>
-        <span>{{
-          formatDecimal(
-            trainingStore.getAllocatedEnergyValue(
-              TrainingSkillsEnum.BlockDefence
-            )
-          )
-        }}</span>
-        <button @click="decreaseBlockDefenceEnergy">-</button>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -94,11 +43,9 @@ import EnergyIndicator from '@/presentation/components/indicators/EnergyIndicato
 import AttackIndicator from '@/presentation/components/indicators/AttackIndicator.vue'
 import DefenceIndicator from '@/presentation/components/indicators/DefenceIndicator.vue'
 import { useTrainingStore } from '@/presentation/stores/trainingStore'
-import { formatDecimal } from '@/presentation/utils/formatDecimal'
-import TimerIndicator from '@/presentation/components/indicators/TimerIndicator.vue'
 import Decimal from 'break_infinity.js'
-import { TrainingSkillsEnum } from '@/domain/enums'
 import { ref } from 'vue'
+import TrainingSkill from '../components/TrainingSkill.vue'
 
 const trainingStore = useTrainingStore()
 const energyAllocationValue = ref<Decimal>(new Decimal(250))
@@ -106,41 +53,6 @@ const energyAllocationValue = ref<Decimal>(new Decimal(250))
 function setEnergyAllocationValue(value: number) {
   energyAllocationValue.value = new Decimal(value)
 }
-
-function increaseRegularAttackEnergy(): void {
-  trainingStore.allocateTrainingEnergy(
-    TrainingSkillsEnum.RegularAttack,
-    energyAllocationValue.value
-  )
-}
-
-function decreaseRegularAttackEnergy(): void {
-  trainingStore.reclaimEnergy(
-    TrainingSkillsEnum.RegularAttack,
-    energyAllocationValue.value
-  )
-}
-
-function increaseBlockDefenceEnergy(): void {
-  trainingStore.allocateTrainingEnergy(
-    TrainingSkillsEnum.BlockDefence,
-    energyAllocationValue.value
-  )
-}
-
-function decreaseBlockDefenceEnergy(): void {
-  trainingStore.reclaimEnergy(
-    TrainingSkillsEnum.BlockDefence,
-    energyAllocationValue.value
-  )
-}
 </script>
 
-<style scoped>
-.training-item-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+<style scoped></style>

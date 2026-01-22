@@ -40,14 +40,22 @@ export class Player {
     this._stats.currentHP = Decimal.min(newHp, this._stats.maxHP)
   }
 
-  trainAttack(amount: Decimal, level: Decimal): void {
-    const newAttack = amount.times(Decimal.pow(level, 1.3))
+  trainAttack(amount: Decimal, newLevel: Decimal, oldLevel: Decimal): void {
+    const newLevelAttack = amount.times(Decimal.pow(newLevel, 1.3))
+    const oldLevelAttack = amount.times(Decimal.pow(oldLevel, 1.3))
+    const newAttack = this._stats.attack.plus(
+      newLevelAttack.minus(oldLevelAttack)
+    )
     this._stats.attack = newAttack
     this._stats.maxHP = newAttack.multiply(10)
   }
 
-  trainDefence(amount: Decimal, level: Decimal): void {
-    const newDefence = amount.times(Decimal.pow(level, 1.3))
+  trainDefence(amount: Decimal, newLevel: Decimal, oldLevel: Decimal): void {
+    const newLevelDefence = amount.times(Decimal.pow(newLevel, 1.3))
+    const oldLevelDefence = amount.times(Decimal.pow(oldLevel, 1.3))
+    const newDefence = this._stats.defence.plus(
+      newLevelDefence.minus(oldLevelDefence)
+    )
     this._stats.defence = newDefence
     this._stats.hpRegen = newDefence.divide(20)
   }

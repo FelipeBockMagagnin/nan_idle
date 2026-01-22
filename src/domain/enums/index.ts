@@ -1,6 +1,8 @@
 export enum TrainingSkillsEnum {
-  RegularAttack = 1,
-  BlockDefence = 2,
+  IdleAttack = 1,
+  RegularAttack = 2,
+  Block = 10,
+  DefensiveBuff = 11,
 }
 
 export enum SkillType {

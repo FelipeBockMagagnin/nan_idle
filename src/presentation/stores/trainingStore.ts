@@ -5,11 +5,8 @@ import Decimal from 'break_infinity.js'
 import { container } from '@/infrastructure/container'
 
 export const useTrainingStore = defineStore('training', () => {
-  const {
-    trainingRepo,
-    allocateEnergyUseCase,
-    reclaimEnergyUseCase,
-  } = container
+  const { trainingRepo, allocateEnergyUseCase, reclaimEnergyUseCase } =
+    container
 
   const training = trainingRepo.getSkills()
 

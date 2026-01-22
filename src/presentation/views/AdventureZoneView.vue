@@ -1,21 +1,12 @@
+<!-- eslint-disable vue/no-parsing-error -->
 <template>
   <div>
     <h2 class="page-title">Adventure Zone</h2>
 
-    <span style="color: red">Inventory not implemented yet</span>
-
     <div>
-      <label for="adventure-zone-select">Select Zone:</label>
-      <select id="adventure-zone-select" @change="onZoneChange">
-        <option
-          v-for="zone in adventureZones"
-          :key="zone.id"
-          :value="zone.id"
-          :selected="zone.id === adventureZone?.id"
-        >
-          {{ zone.name }}
-        </option>
-      </select>
+      <button @click="goBackZone"><</button>
+      <label for="adventure-zone-select">{{ adventureZone?.name }}</label>
+      <button @click="goToNextZone">></button>
     </div>
 
     <br />
@@ -81,19 +72,9 @@
       </div>
     </div>
 
-    <button @click="selectAttack(SkillEnum.RegularAttack)" style="width: 150px">
-      <span
-        v-if="
-          !adventureZoneStore
-            .getPlayersSkill(SkillEnum.RegularAttack)
-            ?.attackOnCooldown()
-        "
-        >Regular Attack</span
-      >
-      <span v-else>{{
-        adventureZoneStore.getPlayerAttackCooldown(SkillEnum.RegularAttack)
-      }}</span>
-    </button>
+    <template v-for="skill in skills" :key="skill.id">
+      <AdventureSkill :skill="skill" :select-attack="selectAttack" />
+    </template>
   </div>
 </template>
 
@@ -105,14 +86,18 @@ import IndicatorCard from '@/presentation/components/indicators/IndicatorCard.vu
 import { Icons, TrainingSkillsEnum as SkillEnum } from '@/domain/enums'
 import TimerIndicator from '../components/indicators/TimerIndicator.vue'
 import { storeToRefs } from 'pinia'
+import AdventureSkill from '../components/AdventureSkill.vue'
 
 const adventureZoneStore = useAdventureZoneStore()
-const { adventurePlayer, adventureZone, currentEnemy, adventureZones } =
+const { adventurePlayer, adventureZone, currentEnemy, skills } =
   storeToRefs(adventureZoneStore)
 
-function onZoneChange(event: Event) {
-  const target = event.target as HTMLSelectElement
-  adventureZoneStore.setAdventureZone(parseInt(target.value))
+function goToNextZone() {
+  adventureZoneStore.goToNextZone()
+}
+
+function goBackZone() {
+  adventureZoneStore.goBackZone()
 }
 
 function selectAttack(skill: SkillEnum) {

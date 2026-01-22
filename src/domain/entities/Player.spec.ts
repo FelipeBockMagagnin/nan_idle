@@ -46,28 +46,28 @@ describe('Player Entity', () => {
   describe('trainAttack', () => {
     it('should set attack to value * level ^ 1.3', () => {
       player.stats.attack = new Decimal(100)
-      player.trainAttack(new Decimal(150), new Decimal(2))
-      expect(player.stats.attack.equals_tolerance(369.34, 0.01)).toBe(true)
+      player.trainAttack(new Decimal(150), new Decimal(2), new Decimal(0))
+      expect(player.stats.attack.equals_tolerance(469.34, 0.01)).toBe(true)
     })
 
     it('should increase maxHp by a rate of value * 10', () => {
       player.stats.attack = new Decimal(100)
-      player.trainAttack(new Decimal(150), new Decimal(2))
-      expect(player.stats.maxHP.equals_tolerance(3693.4, 0.1)).toBe(true)
+      player.trainAttack(new Decimal(150), new Decimal(2), new Decimal(0))
+      expect(player.stats.maxHP.equals_tolerance(4693.4, 0.1)).toBe(true)
     })
   })
 
   describe('trainDefence', () => {
     it('should set defence to value * level ^ 1.3', () => {
       player.stats.defence = new Decimal(100)
-      player.trainDefence(new Decimal(150), new Decimal(2))
-      expect(player.stats.defence.equals_tolerance(369.34, 0.01)).toBe(true)
+      player.trainDefence(new Decimal(150), new Decimal(2), new Decimal(0))
+      expect(player.stats.defence.equals_tolerance(469.34, 0.01)).toBe(true)
     })
 
     it('should set healthRegen to defence / 20', () => {
       player.stats.defence = new Decimal(100)
-      player.trainDefence(new Decimal(150), new Decimal(2))
-      expect(player.stats.hpRegen.equals_tolerance(18.467, 0.1)).toBe(true)
+      player.trainDefence(new Decimal(150), new Decimal(2), new Decimal(0))
+      expect(player.stats.hpRegen.equals_tolerance(23.465, 0.1)).toBe(true)
     })
   })
 

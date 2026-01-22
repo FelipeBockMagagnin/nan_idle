@@ -4,6 +4,7 @@ import { SkillType, TrainingSkillsEnum } from '@/domain/enums'
 export type SkillOptions = {
   id: TrainingSkillsEnum
   skillType: SkillType
+  name: string
   level: Decimal
   progress: Decimal
   allocatedEnergy: Decimal
@@ -18,6 +19,7 @@ export type SkillOptions = {
 export class Skill {
   id: TrainingSkillsEnum
   skillType: SkillType
+  name: string
   level: Decimal
   progress: Decimal
   allocatedEnergy: Decimal
@@ -31,6 +33,7 @@ export class Skill {
   constructor(options: SkillOptions) {
     this.id = options.id
     this.skillType = options.skillType
+    this.name = options.name
     this.level = options.level
     this.progress = options.progress
     this.allocatedEnergy = options.allocatedEnergy
@@ -98,5 +101,13 @@ export class Skill {
     }
 
     return false
+  }
+
+  getskillProgressPercent(): number {
+    return this.progress.multiply(100).divide(this.baseEnergyCost).toNumber()
+  }
+
+  getPlayerAttackCooldown(): string {
+    return this.currentAttackCooldown.toFixed(1) || ''
   }
 }
