@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import { container } from '@/infrastructure/container'
-import { XpUpgradeType } from '@/application/services/PlayerXpService'
-import Decimal from 'break_infinity.js'
+import {
+  XpUpgradeCost,
+  XpUpgradeType,
+} from '@/application/services/PlayerXpService'
 import { showAlert } from '@/application/services/AlertService'
 
 export const usePlayerStore = defineStore('player', () => {
@@ -19,14 +21,14 @@ export const usePlayerStore = defineStore('player', () => {
     }
   }
 
-  const getXpUpgradeCost = (type: XpUpgradeType): Decimal => {
-    return playerXpService.getCost(type)
+  const getUpdate = (type: XpUpgradeType): XpUpgradeCost => {
+    return playerXpService.get(type)
   }
 
   return {
     resources,
     stats,
     buyXpUpgrade,
-    getXpUpgradeCost,
+    getUpdate,
   }
 })

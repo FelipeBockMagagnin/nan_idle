@@ -7,6 +7,7 @@ export enum XpUpgradeType {
   ENERGY_CAP = 'ENERGY_CAP',
   ENERGY_REGENERATION_RATE = 'ENERGY_REGENATION_RATE',
   ENERGY_POWER = 'ENERGY_POWER',
+  ENERGY_BARS = 'ENERGY_BARS',
 }
 
 export type XpUpgradeCost = {
@@ -27,6 +28,10 @@ export class PlayerXpService {
   getCost(type: XpUpgradeType, amountToBuy: number = 1): Decimal {
     const baseCost = this.SPEND_XP_COSTS[type].cost
     return new Decimal(baseCost).multiply(amountToBuy)
+  }
+
+  get(type: XpUpgradeType): XpUpgradeCost {
+    return this.SPEND_XP_COSTS[type]
   }
 
   buyUpgrade(type: XpUpgradeType, amountToBuy: number = 1): boolean {

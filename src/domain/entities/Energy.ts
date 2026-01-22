@@ -6,6 +6,7 @@ export type EnergyOptions = {
   max: Decimal
   regenerationRate: Decimal
   power: Decimal
+  bars: Decimal
 }
 
 export class Energy {
@@ -14,6 +15,9 @@ export class Energy {
   public max: Decimal
   public regenerationRate: Decimal
   public power: Decimal
+  public bars: Decimal
+
+  private regenarationProgress: number = 0
 
   constructor(options: EnergyOptions) {
     this.current = options.current
@@ -21,6 +25,7 @@ export class Energy {
     this.max = options.max
     this.regenerationRate = options.regenerationRate
     this.power = options.power
+    this.bars = options.bars
   }
 
   get energy(): Energy {
@@ -50,7 +55,17 @@ export class Energy {
   regenerate(deltaTime: number): void {
     if (this.current.greaterThanOrEqualTo(this.max)) return
 
-    this.current = this.current.plus(this.regenerationRate.multiply(deltaTime))
+    this.regenarationProgress += this.regenerationRate
+      .multiply(deltaTime)
+      .toNumber()
+
+    if (this.regenarationProgress >= 1) {
+      const barsIncrease = this.bars.multiply(
+        Math.floor(this.regenarationProgress)
+      )
+      this.current = this.current.plus(barsIncrease)
+      this.regenarationProgress = 0
+    }
   }
 
   reclaimEnergy(value: Decimal): boolean {
@@ -63,10 +78,7 @@ export class Energy {
   }
 
   getEnergyRegenProgress(): number {
-    return this.current
-      .minus(Math.floor(this.current.toNumber()))
-      .times(100)
-      .toNumber()
+    return this.regenarationProgress * 100
   }
 
   increaseCap(value: Decimal): void {

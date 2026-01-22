@@ -10,7 +10,8 @@ describe('Energy', () => {
       current: new Decimal(100),
       max: new Decimal(100),
       power: new Decimal(1),
-      regenerationRate: new Decimal(1)
+      regenerationRate: new Decimal(1),
+      bars: new Decimal(1),
     })
   })
 
@@ -70,7 +71,7 @@ describe('Energy', () => {
   })
 
   describe('regenerate', () => {
-    it('should increase current energy based on regeneration rate and delta time', () => {
+    it('should increase current energy based on bars quantity and delta time', () => {
       energy.current = new Decimal(50)
       energy.regenerate(10)
       expect(energy.current).toEqual(new Decimal(60))
@@ -80,6 +81,14 @@ describe('Energy', () => {
       energy.regenerate(10)
       expect(energy.current).toEqual(new Decimal(100))
     })
+
+    it('should more if has energy bars', () => {
+      energy.current = new Decimal(50)
+      energy.bars = new Decimal(10)
+      energy.regenerate(2)
+      expect(energy.current).toEqual(new Decimal(70))
+    })
+
   })
 
   describe('reclaimEnergy', () => {
@@ -110,8 +119,9 @@ describe('Energy', () => {
   })
 
   describe('getEnergyRegenProgress', () => {
-    it('should return the decimal part of current energy as a percentage', () => {
-      energy.current = new Decimal(50.5)
+    it('should return the % current energy generated', () => {
+      energy.current = new Decimal(0)
+      energy.regenerate(0.5)
       const progress = energy.getEnergyRegenProgress()
       expect(progress).toBeCloseTo(50)
     })

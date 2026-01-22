@@ -32,9 +32,10 @@ export const GameConfig = {
   },
 
   SPEND_XP_COSTS: {
-    [XpUpgradeType.ENERGY_CAP]: { cost: 5, gain: 1 },
-    [XpUpgradeType.ENERGY_REGENERATION_RATE]: { cost: 10, gain: 0.1 },
-    [XpUpgradeType.ENERGY_POWER]: { cost: 50, gain: 1 },
+    [XpUpgradeType.ENERGY_CAP]: { cost: 40, gain: 10000 },
+    [XpUpgradeType.ENERGY_REGENERATION_RATE]: { cost: 2, gain: 0.1 },
+    [XpUpgradeType.ENERGY_POWER]: { cost: 15, gain: 0.1 },
+    [XpUpgradeType.ENERGY_BARS]: { cost: 80, gain: 1 },
   } as SpendXpCosts,
 
   Energy: new Energy({
@@ -43,6 +44,7 @@ export const GameConfig = {
     max: new Decimal(500),
     power: new Decimal(1),
     regenerationRate: new Decimal(1),
+    bars: new Decimal(1),
   }),
 
   Skills: [
