@@ -20,7 +20,7 @@ export const enemies: IEnemyData[] = [
       defence: new Decimal(40000),
       hp: new Decimal(500000),
       maxHp: new Decimal(500000),
-      hpRegen: new Decimal(50000),
+      hpRegen: new Decimal(2000),
       xp: new Decimal(0),
     },
     adventureStats: {
