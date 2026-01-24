@@ -1,5 +1,4 @@
 import Decimal from 'break_infinity.js'
-import { ItemDrop } from '.'
 
 export interface AdventureEnemyData {
   id: number
@@ -18,6 +17,11 @@ export type AdventureEnemyStats = {
   itemsDrop: ItemDrop[]
   respawnTime: number
   attackCooldown: number
+}
+
+export type ItemDrop = {
+  itemId: number
+  chance: number
 }
 
 export class AdventureEnemy {
@@ -75,14 +79,13 @@ export class AdventureEnemy {
   }
 
   decreaseAttackCooldown(deltaTime: number): void {
-    if(this.currentAttackCooldown <= 0) return
+    if (this.currentAttackCooldown <= 0) return
     const newAttackCooldown = this.currentAttackCooldown - deltaTime
     this.currentAttackCooldown = Math.max(newAttackCooldown, 0)
   }
 
   getAttackCooldownPercent(): number {
-    return (this.currentAttackCooldown * 100) /
-            this.stats.attackCooldown
+    return (this.currentAttackCooldown * 100) / this.stats.attackCooldown
   }
 
   decreaseRespawnTime(deltaTime: number): void {

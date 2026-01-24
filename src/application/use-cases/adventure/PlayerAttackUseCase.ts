@@ -3,6 +3,7 @@ import { TrainingSkillsEnum } from '@/domain/enums'
 import { IAdventurePlayerRepository } from '@/domain/interfaces/repositories/IAdventurePlayerRepository'
 import { IAdventureRepository } from '@/domain/interfaces/repositories/IAdventureRepository'
 import { ITrainingRepository } from '@/domain/interfaces/repositories/ITrainingRepository'
+import Decimal from 'break_infinity.js'
 
 export class PlayerAttackUseCase {
   constructor(
@@ -40,7 +41,10 @@ export class PlayerAttackUseCase {
         `Enemy defeated. + ${adventure.currentEnemy.stats.goldDrop} gold`
       )
       //TODO calculate drop change and give item
+      const dropBonus = new Decimal(1)
+      const itemsDroped = adventure.getItemsDroppedIds(dropBonus)
       adventure.clearEnemy()
+      showAlert(`Dropeed ${itemsDroped} items`)
       return
     }
   }

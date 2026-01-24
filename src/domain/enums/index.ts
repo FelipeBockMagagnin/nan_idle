@@ -27,3 +27,7 @@ export enum ItemSlotEnum {
   amulet,
   ring,
 }
+
+export enum ItemTypeEnum {
+  PowerBoost, SpecialBoost, ToughnessBoost, Equipment
+}

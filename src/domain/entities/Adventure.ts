@@ -1,5 +1,6 @@
 import { Skill } from '@/domain/entities/Skill'
 import { AdventureEnemy } from './AdventureEnemy'
+import Decimal from 'break_infinity.js'
 
 export type AdventureZone = {
   id: number
@@ -57,5 +58,16 @@ export class Adventure {
   clearEnemy(): void {
     this._currentEnemy = null
     this._playerSelectedAttack = null
+  }
+
+  getItemsDroppedIds(dropBonus: Decimal): number[] {
+    const itemsDropped: number[] = []
+    this._currentEnemy?.stats.itemsDrop.forEach((item) => {
+      //todo calculate change
+      console.log(dropBonus) //TODO calculate dropBonus and dropChance
+      itemsDropped.push(item.itemId)
+    })
+
+    return itemsDropped
   }
 }

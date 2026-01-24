@@ -19,6 +19,10 @@
         <v-icon name="fa-map" />
         <span class="text">Adventure</span>
       </RouterLink>
+      <RouterLink to="/inventory">
+        <v-icon name="fa-bolt" />
+        <span class="text">Inventory</span>
+      </RouterLink>
       <button v-if="isLocalhost" @click="resetData" class="hide-on-mobile">
         Reset Data
       </button>

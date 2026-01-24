@@ -4,6 +4,7 @@ import TrainingView from '@/presentation/views/TrainingView.vue'
 import FightBossView from '@/presentation/views/FightBossView.vue'
 import AdventureZoneView from '@/presentation/views/AdventureZoneView.vue'
 import SpendXpView from '@/presentation/views/SpendXpView.vue'
+import InventoryView from '../views/InventoryView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -25,6 +26,11 @@ const routes: RouteRecordRaw[] = [
     path: '/spend-xp',
     name: 'Spend XP',
     component: SpendXpView,
+  },
+  {
+    path: '/inventory',
+    name: 'Inventory',
+    component: InventoryView,
   },
 ]
 
