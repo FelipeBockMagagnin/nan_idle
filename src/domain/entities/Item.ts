@@ -7,8 +7,6 @@ export type ItemOptions = {
   type: ItemTypeEnum
   level: number
   name: string
-  position: number | null
-  equipped: boolean
   initialStats: ItemStats
   boost?: Decimal
 }
@@ -29,6 +27,10 @@ export class Item {
     this._currentItemStats = item.initialStats
     this._maxItemStats = item.initialStats
     this.updateMaxItemStats()
+  }
+
+  get name() {
+    return this._item.name
   }
 
   get itemStats() {
@@ -63,10 +65,6 @@ export class Item {
   increaseItemLevel(amount: number) {
     this._item.level += amount
     this.updateMaxItemStats()
-  }
-
-  moveItem(newPosition: number) {
-    this._item.position = newPosition
   }
 
   // applyBoost(boost: Item) {

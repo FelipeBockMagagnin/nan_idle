@@ -18,16 +18,17 @@ export enum Icons {
 }
 
 export enum ItemSlotEnum {
-  shield,
-  sword,
-  helmet,
-  chest,
-  pants,
-  boots,
-  amulet,
-  ring,
+  weapon = 'weapon',
+  head = 'head',
+  chest = 'chest',
+  pants = 'pants',
+  boots = 'boots',
+  accessory = 'accessory',
 }
 
 export enum ItemTypeEnum {
-  PowerBoost, SpecialBoost, ToughnessBoost, Equipment
+  PowerBoost,
+  SpecialBoost,
+  ToughnessBoost,
+  Equipment,
 }

@@ -26,6 +26,8 @@ import { TickTrainingUseCase } from '@/application/use-cases/training/TickTraini
 import { AllocateEnergyUseCase } from '@/application/use-cases/training/AllocateEnergyUseCase'
 import { ReclaimEnergyUseCase } from '@/application/use-cases/training/ReclaimEnergyUseCase'
 import { BossFightRepository } from './repositories/BossFightRepository '
+import { ItemRepository } from './repositories/ItemRepository'
+import { InventoryRepository } from './repositories/InventoryRepository'
 
 // 1. Instantiate Repositories (Singletons)
 const adventureRepo = new AdventureRepository()
@@ -36,6 +38,8 @@ const energyRepo = new EnergyRepository()
 const playerRepo = new PlayerRepository()
 const bossRepo = new BossRepository()
 const bossFightRepo = new BossFightRepository()
+const itemRepo = new ItemRepository()
+const inventoryRepo = new InventoryRepository()
 
 // 2. Instantiate Services
 const storageService = new LocalStorageService()
@@ -59,7 +63,9 @@ const tickAdventureUseCase = new TickAdventureUseCase(
 const playerAttackUseCase = new PlayerAttackUseCase(
   adventureRepo,
   adventurePlayerRepo,
-  trainingRepo
+  trainingRepo,
+  inventoryRepo,
+  itemRepo
 )
 
 const regenEnergyUseCase = new RegenEnergyUseCase(energyRepo)
@@ -98,12 +104,14 @@ const reclaimEnergyUseCase = new ReclaimEnergyUseCase(trainingRepo, energyRepo)
 
 // 4. Export the container
 export const container = {
-  // Repositories (if needed directly, though ideally via services/use cases)
+  // Repositories
   energyRepo,
   playerRepo,
   trainingRepo,
   bossRepo,
   bossFightRepo,
+  itemRepo,
+  inventoryRepo,
 
   // Services
   adventureZoneService,
