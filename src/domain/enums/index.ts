@@ -21,7 +21,7 @@ export enum ItemSlotEnum {
   weapon = 'weapon',
   head = 'head',
   chest = 'chest',
-  pants = 'pants',
+  legs = 'legs',
   boots = 'boots',
   accessory = 'accessory',
 }
@@ -31,4 +31,9 @@ export enum ItemTypeEnum {
   SpecialBoost,
   ToughnessBoost,
   Equipment,
+}
+
+export enum ItemSetEnum {
+  Training,
+  Sewers,
 }

@@ -6,6 +6,23 @@ export type AdventureZone = {
   id: number
   name: string
   enemyIds: number[]
+  bossDropChance: ItemDrop[]
+  enemyDropChance: ItemDrop[]
+  enemyGoldDrop?: Decimal
+  bossGoldDrop?: Decimal
+  xpDropChance?: Decimal
+  boostDropChance?: BoostDrop
+  boostLevel?: number
+}
+
+export type ItemDrop = {
+  itemId: number
+  chance: number
+}
+
+export type BoostDrop = {
+  boostLevel: number
+  chance: number
 }
 
 export class Adventure {
@@ -60,14 +77,57 @@ export class Adventure {
     this._playerSelectedAttack = null
   }
 
+  getDroppedBoostLevel(dropBonus: Decimal): number | null {
+    if (!this._adventureZone || !this._adventureZone.boostDropChance)
+      return null
+
+    const dropChance = this._adventureZone.boostDropChance.chance
+    const currentDropChance = dropBonus.mul(dropChance)
+
+    const roll = new Decimal(Math.random() * 100)
+
+    if (roll.lessThan(currentDropChance)) {
+      return this._adventureZone.boostDropChance.boostLevel
+    }
+
+    return null
+  }
+
   getItemsDroppedIds(dropBonus: Decimal): number[] {
     const itemsDropped: number[] = []
-    this._currentEnemy?.stats.itemsDrop.forEach((item) => {
-      //todo calculate change
-      console.log(dropBonus) //TODO calculate dropBonus and dropChance
-      itemsDropped.push(item.itemId)
-    })
+
+    if (!this._adventureZone) return []
+
+    console.log(this.currentEnemy?.isBoss)
+    if (this.currentEnemy?.isBoss) {
+      itemsDropped.push(
+        this.getSingleDrop(this._adventureZone.bossDropChance, dropBonus)
+      )
+    } else {
+      itemsDropped.push(
+        this.getSingleDrop(this._adventureZone.enemyDropChance, dropBonus)
+      )
+    }
 
     return itemsDropped
+  }
+
+  getSingleDrop(dropList: ItemDrop[], dropBonus: Decimal): number {
+    const sortedDrops = dropList.sort((a, b) => a.chance - b.chance)
+
+    for (const item of sortedDrops) {
+      const effectiveChance = Math.min(
+        dropBonus.multiply(item.chance).toNumber(),
+        100
+      )
+
+      const roll = Math.random() * 100
+
+      if (roll < effectiveChance) {
+        return item.itemId
+      }
+    }
+
+    return 0
   }
 }

@@ -7,6 +7,7 @@ const mockEnemyData: AdventureEnemyData = {
   id: 1,
   name: 'Test Enemy',
   image: 'test.png',
+  isBoss: false,
   stats: {
     hp: new Decimal(100),
     maxHp: new Decimal(100),
@@ -14,7 +15,6 @@ const mockEnemyData: AdventureEnemyData = {
     toughness: new Decimal(5),
     hpRegen: new Decimal(1),
     goldDrop: new Decimal(10),
-    itemsDrop: [],
     respawnTime: 10,
     attackCooldown: 2,
   },
@@ -29,6 +29,12 @@ describe('Adventure', () => {
   beforeEach(() => {
     adventureZone = {
       enemyIds: [1, 2, 3],
+      bossDropChance: [],
+      enemyDropChance: [],
+      boostDropChance: {
+        boostLevel: 1,
+        chance: 20,
+      },
       name: 'Adventure Test',
       id: 1,
     }
@@ -53,9 +59,15 @@ describe('Adventure', () => {
   describe('enterZone', () => {
     it('should change current adventure zone to the new one', () => {
       const newAdventureZone = {
-        id: 3,
-        name: 'Test',
-        enemyIds: [1],
+        enemyIds: [1, 2, 3],
+        bossDropChance: [],
+        enemyDropChance: [],
+        boostDropChance: {
+          boostLevel: 1,
+          chance: 20,
+        },
+        name: 'Adventure Test',
+        id: 1,
       }
       adventure.enterZone(newAdventureZone)
 

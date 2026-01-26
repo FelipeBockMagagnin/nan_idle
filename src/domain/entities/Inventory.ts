@@ -1,8 +1,9 @@
+import { AnyItem } from '../types'
 import { ItemSlotEnum } from '../enums'
 import { Item } from './Item'
 
-export type ItemSlot = {
-  item?: Item
+export type AnyItemSlot = {
+  item?: AnyItem
 }
 
 export type EquippedItemSlot = {
@@ -17,7 +18,7 @@ export type InventoryOptions = {
 
 export class Inventory {
   public maxInventorySize: number
-  private _slots: ItemSlot[] = []
+  private _slots: AnyItemSlot[] = []
   private _equippedSlots: EquippedItemSlot[] = []
 
   constructor(inventory: InventoryOptions) {
@@ -39,7 +40,7 @@ export class Inventory {
 
     this._equippedSlots.push({
       id: 2,
-      slot: ItemSlotEnum.pants,
+      slot: ItemSlotEnum.legs,
     })
 
     this._equippedSlots.push({
@@ -71,7 +72,7 @@ export class Inventory {
     return this._equippedSlots
   }
 
-  addItem(item: Item) {
+  addItem(item: AnyItem) {
     const emptySlot = this._slots.findIndex((slot) => slot.item == null)
 
     if (emptySlot >= 0) {
@@ -81,19 +82,78 @@ export class Inventory {
     }
   }
 
-  equipItem(itemSlotIndex: number, equippedSlotIndex: number) {
-    const nextEquipedItem = this._slots[itemSlotIndex].item
+  getEquippedItem(index: number) {
+    return this._equippedSlots[index].item
+  }
 
-    if (!nextEquipedItem) return
+  getInventoryItem(index: number) {
+    return this._slots[index].item
+  }
 
-    const lastEquippedItem = this._equippedSlots[equippedSlotIndex].item
+  equipItem(
+    sourceIndex: number,
+    targetIndex: number,
+    isSourceEquipped: boolean,
+    isTargetEquipped: boolean
+  ) {
+    const sourceSlot = isSourceEquipped
+      ? this._equippedSlots[sourceIndex]
+      : this._slots[sourceIndex]
+    const targetSlot = isTargetEquipped
+      ? this._equippedSlots[targetIndex]
+      : this._slots[targetIndex]
 
-    console.log(lastEquippedItem, nextEquipedItem)
+    const sourceItem = sourceSlot.item
+    const targetItem = targetSlot.item
 
-    this._equippedSlots[equippedSlotIndex].item = nextEquipedItem
+    if (!(sourceItem instanceof Item)) {
+      // TODO implement Boosters
+      return
+    }
 
-    this._slots[itemSlotIndex].item = lastEquippedItem
+    // Check for equip compability with slot
+    if (isTargetEquipped) {
+      const equippedTargetSlot = this._equippedSlots[targetIndex]
+      if (sourceItem.slot !== equippedTargetSlot.slot) {
+        if (
+          sourceItem.slot !== ItemSlotEnum.accessory ||
+          equippedTargetSlot.slot !== ItemSlotEnum.accessory
+        ) {
+          console.log('invalid 1')
+          return
+        }
+      }
+    }
 
-    //todo calculate Item stats changes
+    // Check for equip compability with slot
+    if (isSourceEquipped && targetItem && targetItem instanceof Item) {
+      const equippedSourceSlot = this._equippedSlots[sourceIndex]
+      if (targetItem.slot !== equippedSourceSlot.slot) {
+        if (
+          targetItem.slot !== ItemSlotEnum.accessory ||
+          equippedSourceSlot.slot !== ItemSlotEnum.accessory
+        ) {
+          console.log('invalid 2')
+          return
+        }
+      }
+    }
+
+    // Level up if same item
+    if (
+      targetItem &&
+      targetItem instanceof Item &&
+      sourceItem.id === targetItem.id
+    ) {
+      targetItem.increaseItemLevel(sourceItem.level)
+      console.log('level up')
+      sourceSlot.item = undefined
+      return
+    }
+
+    // Swap the items
+    sourceSlot.item = targetItem
+    targetSlot.item = sourceItem
+    console.log('swap item')
   }
 }

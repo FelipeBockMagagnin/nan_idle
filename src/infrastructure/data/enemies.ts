@@ -7,6 +7,7 @@ export type IEnemyData = {
   name: string
   image: string
   bossStats: BossStats
+  isBoss: boolean
   adventureStats: AdventureEnemyStats
 }
 
@@ -15,6 +16,7 @@ export const enemies: IEnemyData[] = [
     id: 1,
     name: 'stick',
     image: 'enemy_1.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(50000),
       defence: new Decimal(40000),
@@ -26,11 +28,10 @@ export const enemies: IEnemyData[] = [
     adventureStats: {
       power: new Decimal(2),
       toughness: new Decimal(0),
-      hp: new Decimal(40),
-      maxHp: new Decimal(40),
+      hp: new Decimal(1),
+      maxHp: new Decimal(1),
       hpRegen: new Decimal(0),
       goldDrop: new Decimal(2),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -39,6 +40,7 @@ export const enemies: IEnemyData[] = [
     id: 2,
     name: 'powerfull stick',
     image: 'enemy_2.png',
+    isBoss: true,
     bossStats: {
       attack: new Decimal(100000),
       defence: new Decimal(90000),
@@ -50,11 +52,10 @@ export const enemies: IEnemyData[] = [
     adventureStats: {
       power: new Decimal(15),
       toughness: new Decimal(8),
-      hp: new Decimal(60),
-      maxHp: new Decimal(60),
+      hp: new Decimal(1),
+      maxHp: new Decimal(1),
       hpRegen: new Decimal(1),
       goldDrop: new Decimal(4),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -63,6 +64,7 @@ export const enemies: IEnemyData[] = [
     id: 3,
     name: 'even more powerfull stick',
     image: 'enemy_3.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(400000),
       defence: new Decimal(350000),
@@ -78,7 +80,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(90),
       hpRegen: new Decimal(1.5),
       goldDrop: new Decimal(7),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -87,6 +88,7 @@ export const enemies: IEnemyData[] = [
     id: 4,
     name: 'frog',
     image: 'enemy_4.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(1.3e6),
       defence: new Decimal(700000),
@@ -102,7 +104,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(130),
       hpRegen: new Decimal(2),
       goldDrop: new Decimal(12),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -111,6 +112,7 @@ export const enemies: IEnemyData[] = [
     id: 5,
     name: 'wizard frog',
     image: 'enemy_5.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(6.5e6),
       defence: new Decimal(3.5e6),
@@ -126,7 +128,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(180),
       hpRegen: new Decimal(3),
       goldDrop: new Decimal(20),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -135,6 +136,7 @@ export const enemies: IEnemyData[] = [
     id: 6,
     name: 'mouse',
     image: 'enemy_6.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(3.25e7),
       defence: new Decimal(1.75e7),
@@ -150,7 +152,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(250),
       hpRegen: new Decimal(4),
       goldDrop: new Decimal(35),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -159,6 +160,7 @@ export const enemies: IEnemyData[] = [
     id: 7,
     name: 'big mouse',
     image: 'enemy_7.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(1.625e8),
       defence: new Decimal(8.75e7),
@@ -174,7 +176,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(500),
       hpRegen: new Decimal(10),
       goldDrop: new Decimal(100),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -183,6 +184,7 @@ export const enemies: IEnemyData[] = [
     id: 8,
     name: 'tieppo',
     image: 'enemy_8.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(8.125e8),
       defence: new Decimal(4.375e8),
@@ -198,7 +200,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(250),
       hpRegen: new Decimal(4),
       goldDrop: new Decimal(35),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 5,
       respawnTime: 1,
     },
@@ -207,6 +208,7 @@ export const enemies: IEnemyData[] = [
     id: 9,
     name: 'dudi do janela da rua',
     image: 'enemy_9.png',
+    isBoss: false,
     bossStats: {
       attack: new Decimal(4.062e9),
       defence: new Decimal(2.188e9),
@@ -222,7 +224,6 @@ export const enemies: IEnemyData[] = [
       maxHp: new Decimal(500),
       hpRegen: new Decimal(10),
       goldDrop: new Decimal(100),
-      itemsDrop: [{ itemId: 1, chance: 100 }],
       attackCooldown: 1,
       respawnTime: 1,
     },

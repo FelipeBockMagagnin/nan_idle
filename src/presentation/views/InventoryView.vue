@@ -9,8 +9,18 @@
           :key="index"
           class="item-slot"
           :style="{ gridArea: item.slot }"
+          @dragover.prevent
+          @drop="onDrop(index, true)"
         >
-          {{ item.item }} {{ item.slot }}
+          <img
+            v-if="item.item"
+            :src="item.item.image"
+            draggable="true"
+            @dragstart="onDragStart($event, index, true)"
+            @dragend="onDragEnd($event)"
+          />
+
+          <span v-if="item.item">Lv. {{ item.item?.level }}</span>
         </div>
       </div>
     </div>
@@ -20,41 +30,63 @@
         v-for="(item, index) in inventoryStore.inventory.slots"
         :key="index"
         class="item-slot"
+        @dragover.prevent
+        @drop="onDrop(index, false)"
       >
-        {{ item }} {{ index }}
+        <img
+          v-if="item.item"
+          :src="item.item.image"
+          draggable="true"
+          @dragstart="onDragStart($event, index, false)"
+          @dragend="onDragEnd($event)"
+        />
+        <span v-if="item.item">Lv. {{ item.item?.level }}</span>
       </div>
     </div>
   </div>
-
-  <button
-    @click="
-      () =>
-        inventoryStore.inventory.addItem(
-          new Item({
-            id: 1,
-            initialStats: {},
-            level: 1,
-            name: 'test',
-            slot: ItemSlotEnum.head,
-            type: 1,
-          })
-        )
-    "
-  >
-    Add item Test
-  </button>
-
-  <button @click="() => inventoryStore.inventory.equipItem(2, 1)">
-    equip item 2 Test
-  </button>
 </template>
 
 <script setup lang="ts">
-import { Item } from '@/domain/entities/Item'
 import { useInventoryStore } from '../stores/inventoryStore'
-import { ItemSlotEnum } from '@/domain/enums'
+import { ref } from 'vue'
 
 const inventoryStore = useInventoryStore()
+
+const dragged = ref<{
+  sourceIndex: number
+  isEquipped: boolean
+} | null>(null)
+
+function onDragStart(
+  event: DragEvent,
+  sourceIndex: number,
+  isEquipped: boolean
+) {
+  dragged.value = { sourceIndex, isEquipped }
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.add('dragging')
+  }
+}
+
+function onDragEnd(event: DragEvent) {
+  dragged.value = null
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove('dragging')
+  }
+}
+
+function onDrop(targetIndex: number, isTargetEquipped: boolean) {
+  if (dragged.value) {
+    const { sourceIndex, isEquipped } = dragged.value
+
+    inventoryStore.inventory.equipItem(
+      sourceIndex,
+      targetIndex,
+      isEquipped,
+      isTargetEquipped
+    )
+  }
+}
 </script>
 
 <style scoped>
@@ -69,6 +101,28 @@ const inventoryStore = useInventoryStore()
   align-items: center;
   cursor: pointer;
   transition: all 0.1s;
+  position: relative;
+}
+
+.item-slot span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 10px;
+  font-weight: 700;
+  background-color: black;
+  padding-top: 2px;
+  padding-left: 2px;
+}
+
+.item-slot img {
+  width: 100%;
+  height: 100%;
+}
+
+.item-slot img.dragging {
+  opacity: 0.5;
+  border: 2px dashed #eee;
 }
 
 .item-slot:hover {
@@ -92,7 +146,7 @@ const inventoryStore = useInventoryStore()
   grid-template-areas:
     '.         head       .'
     'accessory chest      weapon'
-    'accessory pants       .'
+    'accessory legs       .'
     '.         boots       .';
 
   gap: 10px;

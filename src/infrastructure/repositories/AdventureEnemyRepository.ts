@@ -1,7 +1,5 @@
 import { enemies, IEnemyData } from '@/infrastructure/data/enemies'
-import {
-  AdventureEnemy,
-} from '@/domain/entities/AdventureEnemy'
+import { AdventureEnemy } from '@/domain/entities/AdventureEnemy'
 
 export class AdventureEnemyRepository {
   private static enemies: IEnemyData[] = enemies
@@ -14,6 +12,7 @@ export class AdventureEnemyRepository {
         name: enemyData.name,
         image: enemyData.image,
         stats: enemyData.adventureStats,
+        isBoss: enemyData.isBoss,
       })
     }
     return null

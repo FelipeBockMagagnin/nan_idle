@@ -11,6 +11,7 @@ describe('Adventure Enemy Entity', () => {
       id: 1,
       name: 'test case',
       image: 'image test',
+      isBoss: true,
       stats: {
         power: new Decimal(10),
         toughness: new Decimal(5),
@@ -18,7 +19,6 @@ describe('Adventure Enemy Entity', () => {
         maxHp: new Decimal(100),
         hpRegen: new Decimal(1),
         goldDrop: new Decimal(1),
-        itemsDrop: [],
         attackCooldown: 1,
         respawnTime: 1,
       },
@@ -112,23 +112,23 @@ describe('Adventure Enemy Entity', () => {
   describe('decreaseAttackCooldown', () => {
     it('should decrease attack cooldown by deltatime ammount', () => {
       const deltaTime = 0.1
-      enemy.currentAttackCooldown = 1;
+      enemy.currentAttackCooldown = 1
       enemy.decreaseAttackCooldown(deltaTime)
-      expect(enemy.currentAttackCooldown).toBe(0.9) 
+      expect(enemy.currentAttackCooldown).toBe(0.9)
     })
 
     it('should not decrease attack cooldown below 0', () => {
       const deltaTime = 0.1
-      enemy.currentAttackCooldown = 0.05;
+      enemy.currentAttackCooldown = 0.05
       enemy.decreaseAttackCooldown(deltaTime)
-      expect(enemy.currentAttackCooldown).toBe(0) 
+      expect(enemy.currentAttackCooldown).toBe(0)
     })
 
     it('should not decrease attack cooldown if it is already 0', () => {
       const deltaTime = 0.1
-      enemy.currentAttackCooldown = 0;
+      enemy.currentAttackCooldown = 0
       enemy.decreaseAttackCooldown(deltaTime)
-      expect(enemy.currentAttackCooldown).toBe(0) 
+      expect(enemy.currentAttackCooldown).toBe(0)
     })
   })
 
@@ -165,5 +165,4 @@ describe('Adventure Enemy Entity', () => {
       expect(enemy.stats.respawnTime).toBe(0)
     })
   })
-  
 })

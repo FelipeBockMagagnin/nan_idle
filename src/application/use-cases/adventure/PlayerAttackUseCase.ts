@@ -44,11 +44,12 @@ export class PlayerAttackUseCase {
       showAlert(
         `Enemy defeated. + ${adventure.currentEnemy.stats.goldDrop} gold`
       )
-      //TODO calculate drop change and give item
+
+      const inventory = this.inventoryRepostiory.getInventory()
+
       const dropBonus = new Decimal(1)
       const itemsDroped = adventure.getItemsDroppedIds(dropBonus)
       if (itemsDroped.length > 0) {
-        const inventory = this.inventoryRepostiory.getInventory()
         itemsDroped.forEach((itemId) => {
           const item = this.itemRepository.getItem(itemId)
           if (item) {
@@ -56,6 +57,18 @@ export class PlayerAttackUseCase {
             inventory.addItem(item)
           }
         })
+      }
+
+      const boostLevelDropped = adventure.getDroppedBoostLevel(dropBonus)
+
+      if (boostLevelDropped) {
+        const boost =
+          this.itemRepository.getRandomItemBoostByLevel(boostLevelDropped)
+
+        if (boost) {
+          showAlert(`Dropeed ${boost?.name} items`)
+          inventory.addItem(boost)
+        }
       }
 
       adventure.clearEnemy()

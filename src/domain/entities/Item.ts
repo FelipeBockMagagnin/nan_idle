@@ -1,52 +1,36 @@
-import Decimal from 'break_infinity.js'
-import { ItemSlotEnum, ItemTypeEnum } from '../enums'
+import { ItemSetEnum, ItemSlotEnum } from '../enums'
+import { BaseItem, BaseItemOptions, ItemStats } from './BaseItem'
 
-export type ItemOptions = {
-  id: number
+export type ItemOptions = BaseItemOptions & {
   slot: ItemSlotEnum
-  type: ItemTypeEnum
-  level: number
-  name: string
   initialStats: ItemStats
-  boost?: Decimal
+  itemSet?: ItemSetEnum
 }
 
-type ItemStats = {
-  toughness?: Decimal
-  power?: Decimal
-  maxHp?: Decimal
-}
-
-export class Item {
-  private _item: ItemOptions
-  private _maxItemStats: ItemStats
-  private _currentItemStats: ItemStats
+export class Item extends BaseItem {
+  private _maxItemStats: ItemStats = {}
+  private _currentItemStats: ItemStats = {}
 
   constructor(item: ItemOptions) {
-    this._item = item
-    this._currentItemStats = item.initialStats
-    this._maxItemStats = item.initialStats
+    super(item)
+    this._currentItemStats = item.initialStats ?? {}
+    this._maxItemStats = item.initialStats ?? {}
     this.updateMaxItemStats()
-  }
-
-  get name() {
-    return this._item.name
   }
 
   get itemStats() {
     return this._currentItemStats
   }
 
-  get boostValue() {
-    return this._item.boost
-  }
-
-  get itemType() {
-    return this._item.type
+  get slot() {
+    return (this._item as ItemOptions).slot
   }
 
   updateMaxItemStats() {
-    const item = this._item
+    const item = this._item as ItemOptions
+
+    if (!item.initialStats) return
+
     if (item.level > 1) {
       this._maxItemStats.maxHp = item.initialStats.maxHp?.times(
         item.level * 0.01
@@ -66,11 +50,4 @@ export class Item {
     this._item.level += amount
     this.updateMaxItemStats()
   }
-
-  // applyBoost(boost: Item) {
-  //   switch (boost.itemType) {
-  //     case ItemTypeEnum.PowerBoost:
-
-  //   }
-  // }
 }
