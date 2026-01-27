@@ -77,6 +77,9 @@ export function formatDecimal(value: Decimal, decimals: number = 2): string {
   const exponent = Math.floor(value.exponent)
   const mantissa = value.mantissa
 
+  if (exponent < 3 && value.decimalPlaces() >= 1) {
+    return value.toFixed(2)
+  }
   // Small numbers: display as-is
   if (exponent < 6) {
     const newValue = value

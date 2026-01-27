@@ -1,6 +1,8 @@
 import { AnyItem } from '../types'
 import { ItemSlotEnum } from '../enums'
 import { Item } from './Item'
+import { ItemStats } from './BaseItem'
+import Decimal from 'break_infinity.js'
 
 export type AnyItemSlot = {
   item?: AnyItem
@@ -16,10 +18,16 @@ export type InventoryOptions = {
   maxInventorySize: number
 }
 
+export type PendingStatChange = {
+  stats: ItemStats
+  incremental: boolean
+}
+
 export class Inventory {
   public maxInventorySize: number
   private _slots: AnyItemSlot[] = []
   private _equippedSlots: EquippedItemSlot[] = []
+  private _totalStats: ItemStats = {}
 
   constructor(inventory: InventoryOptions) {
     this.maxInventorySize = inventory.maxInventorySize
@@ -28,39 +36,18 @@ export class Inventory {
       this._slots[i] = {}
     }
 
-    this._equippedSlots.push({
-      id: 0,
-      slot: ItemSlotEnum.head,
-    })
+    const defaultSlots = [
+      ItemSlotEnum.head,
+      ItemSlotEnum.chest,
+      ItemSlotEnum.legs,
+      ItemSlotEnum.boots,
+      ItemSlotEnum.weapon,
+      ItemSlotEnum.accessory,
+      ItemSlotEnum.accessory,
+    ]
 
-    this._equippedSlots.push({
-      id: 1,
-      slot: ItemSlotEnum.chest,
-    })
-
-    this._equippedSlots.push({
-      id: 2,
-      slot: ItemSlotEnum.legs,
-    })
-
-    this._equippedSlots.push({
-      id: 3,
-      slot: ItemSlotEnum.boots,
-    })
-
-    this._equippedSlots.push({
-      id: 4,
-      slot: ItemSlotEnum.weapon,
-    })
-
-    this._equippedSlots.push({
-      id: 5,
-      slot: ItemSlotEnum.accessory,
-    })
-
-    this._equippedSlots.push({
-      id: 6,
-      slot: ItemSlotEnum.accessory,
+    defaultSlots.forEach((slotType, index) => {
+      this._equippedSlots.push({ id: index, slot: slotType })
     })
   }
 
@@ -72,6 +59,41 @@ export class Inventory {
     return this._equippedSlots
   }
 
+  getAllEquippedItemsStats(): ItemStats {
+    return this._totalStats
+  }
+
+  calculateAllEquippedItemsStats(): void {
+    const totalStats = {
+      hpRegen: new Decimal(0),
+      maxHp: new Decimal(0),
+      power: new Decimal(0),
+      toughness: new Decimal(0),
+    } as ItemStats
+
+    this._equippedSlots.forEach((item) => {
+      if (!item.item) {
+        return
+      }
+      const stats = item.item.itemStats
+
+      if (stats.hpRegen) {
+        totalStats.hpRegen = totalStats.hpRegen?.plus(stats.hpRegen)
+      }
+      if (stats.maxHp) {
+        totalStats.maxHp = totalStats.maxHp?.plus(stats.maxHp)
+      }
+      if (stats.power) {
+        totalStats.power = totalStats.power?.plus(stats.power)
+      }
+      if (stats.toughness) {
+        totalStats.toughness = totalStats.toughness?.plus(stats.toughness)
+      }
+    })
+
+    this._totalStats = totalStats
+  }
+
   addItem(item: AnyItem) {
     const emptySlot = this._slots.findIndex((slot) => slot.item == null)
 
@@ -79,6 +101,7 @@ export class Inventory {
       this._slots[emptySlot] = {
         item: item,
       }
+      this.calculateAllEquippedItemsStats()
     }
   }
 
@@ -108,6 +131,7 @@ export class Inventory {
 
     if (!(sourceItem instanceof Item)) {
       // TODO implement Boosters
+      this.calculateAllEquippedItemsStats()
       return
     }
 
@@ -155,5 +179,6 @@ export class Inventory {
     sourceSlot.item = targetItem
     targetSlot.item = sourceItem
     console.log('swap item')
+    this.calculateAllEquippedItemsStats()
   }
 }

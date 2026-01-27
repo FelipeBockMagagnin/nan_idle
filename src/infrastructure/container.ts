@@ -28,6 +28,7 @@ import { ReclaimEnergyUseCase } from '@/application/use-cases/training/ReclaimEn
 import { BossFightRepository } from './repositories/BossFightRepository '
 import { ItemRepository } from './repositories/ItemRepository'
 import { InventoryRepository } from './repositories/InventoryRepository'
+import { GetInventoryStatsUseCase } from '@/application/use-cases/inventory/GetInventoryStatsUseCase'
 
 // 1. Instantiate Repositories (Singletons)
 const adventureRepo = new AdventureRepository()
@@ -102,6 +103,8 @@ const allocateEnergyUseCase = new AllocateEnergyUseCase(
 )
 const reclaimEnergyUseCase = new ReclaimEnergyUseCase(trainingRepo, energyRepo)
 
+const getInventoryStatsUseCase = new GetInventoryStatsUseCase(inventoryRepo)
+
 // 4. Export the container
 export const container = {
   // Repositories
@@ -133,4 +136,5 @@ export const container = {
   tickTrainingUseCase,
   allocateEnergyUseCase,
   reclaimEnergyUseCase,
+  getInventoryStatsUseCase,
 }

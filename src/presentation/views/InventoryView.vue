@@ -2,18 +2,26 @@
   <div>
     <h2 class="page-title">Inventory</h2>
 
+    <ItemStatsModal
+      :visible="isModalVisible"
+      :item="selectedItem"
+      @close="closeItemModal"
+    />
+
     <div class="equipment-panel">
       <div class="equipment-doll">
         <div
-          v-for="(item, index) in inventoryStore.inventory.equippedSlots"
+          v-for="(item, index) in inventory.equippedSlots"
           :key="index"
           class="item-slot"
           :style="{ gridArea: item.slot }"
           @dragover.prevent
           @drop="onDrop(index, true)"
+          @click="showItemStats(item.item)"
         >
           <img
             v-if="item.item"
+            class="draggable"
             :src="item.item.image"
             draggable="true"
             @dragstart="onDragStart($event, index, true)"
@@ -23,19 +31,38 @@
           <span v-if="item.item">Lv. {{ item.item?.level }}</span>
         </div>
       </div>
+
+      <div class="equipment-stats">
+        <h4>Equipment Bonuses</h4>
+
+        <div v-if="inventoryStats.power?.greaterThan(0)">
+          <b>Power:</b> +{{ formatDecimal(inventoryStats.power) }}
+        </div>
+        <div v-if="inventoryStats.toughness?.greaterThan(0)">
+          <b>Toughness:</b> +{{ formatDecimal(inventoryStats.toughness) }}
+        </div>
+        <div v-if="inventoryStats.maxHp?.greaterThan(0)">
+          <b>Max Health:</b> +{{ formatDecimal(inventoryStats.maxHp) }}
+        </div>
+        <div v-if="inventoryStats.hpRegen?.greaterThan(0)">
+          <b>Health Regen/s:</b> +{{ formatDecimal(inventoryStats.hpRegen) }}
+        </div>
+      </div>
     </div>
 
     <div class="inventory-grid">
       <div
-        v-for="(item, index) in inventoryStore.inventory.slots"
+        v-for="(item, index) in inventory.slots"
         :key="index"
         class="item-slot"
         @dragover.prevent
         @drop="onDrop(index, false)"
+        @click="showItemStats(item.item)"
       >
         <img
           v-if="item.item"
           :src="item.item.image"
+          class="draggable"
           draggable="true"
           @dragstart="onDragStart($event, index, false)"
           @dragend="onDragEnd($event)"
@@ -47,15 +74,34 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useInventoryStore } from '../stores/inventoryStore'
 import { ref } from 'vue'
+import ItemStatsModal from '../components/ItemStatsModal.vue'
+import { AnyItem } from '@/domain/types'
+import { formatDecimal } from '../utils/formatDecimal'
 
 const inventoryStore = useInventoryStore()
+
+const { inventory, inventoryStats } = storeToRefs(inventoryStore)
 
 const dragged = ref<{
   sourceIndex: number
   isEquipped: boolean
 } | null>(null)
+
+const isModalVisible = ref(false)
+const selectedItem = ref<AnyItem | undefined>(undefined)
+
+function showItemStats(item: AnyItem | undefined) {
+  selectedItem.value = item
+  isModalVisible.value = true
+}
+
+function closeItemModal() {
+  isModalVisible.value = false
+  selectedItem.value = undefined
+}
 
 function onDragStart(
   event: DragEvent,
@@ -90,6 +136,10 @@ function onDrop(targetIndex: number, isTargetEquipped: boolean) {
 </script>
 
 <style scoped>
+.draggable {
+  touch-action: none;
+}
+
 .item-slot {
   width: 50px;
   height: 50px;
@@ -137,8 +187,9 @@ function onDrop(targetIndex: number, isTargetEquipped: boolean) {
 
 .equipment-panel {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .equipment-doll {
