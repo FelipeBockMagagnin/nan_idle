@@ -23,8 +23,8 @@
                     '%',
                 }"
               ></div>
-              <span class="progress-bar-text"
-                >{{ formatDecimal(item.itemStats.power) }} /
+              <span class="progress-bar-text">
+                {{ formatDecimal(item.itemStats.power) }} /
                 {{ formatDecimal(item.maxItemStats.power) }}</span
               >
             </div>
@@ -43,8 +43,8 @@
                     '%',
                 }"
               ></div>
-              <span class="progress-bar-text"
-                >{{ formatDecimal(item.itemStats.toughness) }} /
+              <span class="progress-bar-text">
+                {{ formatDecimal(item.itemStats.toughness) }} /
                 {{ formatDecimal(item.maxItemStats.toughness) }}</span
               >
             </div>
@@ -63,8 +63,8 @@
                     '%',
                 }"
               ></div>
-              <span class="progress-bar-text"
-                >{{ formatDecimal(item.itemStats.maxHp) }} /
+              <span class="progress-bar-text">
+                {{ formatDecimal(item.itemStats.maxHp) }} /
                 {{ formatDecimal(item.maxItemStats.maxHp) }}</span
               >
             </div>
@@ -83,8 +83,8 @@
                     '%',
                 }"
               ></div>
-              <span class="progress-bar-text"
-                >{{ formatDecimal(item.itemStats.hpRegen) }} /
+              <span class="progress-bar-text">
+                {{ formatDecimal(item.itemStats.hpRegen) }} /
                 {{ formatDecimal(item.maxItemStats.hpRegen) }}</span
               >
             </div>

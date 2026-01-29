@@ -91,7 +91,7 @@ const dragged = ref<{
 } | null>(null)
 
 const isModalVisible = ref(false)
-const selectedItem = ref<AnyItem | undefined>(undefined)
+const selectedItem = ref<AnyItem>()
 
 function showItemStats(item: AnyItem | undefined) {
   selectedItem.value = item
@@ -143,7 +143,8 @@ function onDrop(targetIndex: number, isTargetEquipped: boolean) {
 .item-slot {
   width: 50px;
   height: 50px;
-  background-color: #1a1a1a;
+  background: url('/public/assets/ui/item_container.png');
+  background-size: contain;
   border: 2px solid #555;
   border-radius: 4px;
   display: flex;
@@ -158,11 +159,9 @@ function onDrop(targetIndex: number, isTargetEquipped: boolean) {
   position: absolute;
   bottom: 0;
   right: 0;
-  font-size: 10px;
+  font-size: 7px;
   font-weight: 700;
   background-color: black;
-  padding-top: 2px;
-  padding-left: 2px;
 }
 
 .item-slot img {
