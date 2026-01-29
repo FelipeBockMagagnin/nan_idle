@@ -28,6 +28,8 @@ addIcons(
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
+import '@dragdroptouch/drag-drop-touch'
+
 const app = createApp(App)
 
 app.use(pinia)

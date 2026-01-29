@@ -137,6 +137,9 @@ function onDrop(targetIndex: number, isTargetEquipped: boolean) {
 
 <style scoped>
 .draggable {
+  -webkit-touch-callout: none; 
+  -webkit-user-select: none;
+  user-select: none;
   touch-action: none;
 }
 
