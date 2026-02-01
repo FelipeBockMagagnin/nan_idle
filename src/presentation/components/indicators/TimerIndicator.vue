@@ -1,28 +1,70 @@
 <template>
-  <div
-    class="bar-container"
-    :style="{
-      width: props.width,
-      backgroundColor: props.backgroundColor,
-      height: props.height,
-    }"
-  >
+  <template v-if="mainStore.theme === ThemeOptionEnum.Windows98">
     <div
-      class="bar-fill"
+      class="progress-indicator segmented"
       :style="{
-        width: getProgress() + '%',
-        background: props.barColor,
+        width: props.width,
+        height: props.height,
       }"
-    ></div>
-    <span class="bar-text">
-      <v-icon v-if="locked" :name="Icons.Lock" />
-      <span v-else>{{ innerText }}</span>
-    </span>
-  </div>
+    >
+      <span
+        class="progress-indicator-bar"
+        :style="{
+          width: getProgress() + '%',
+        }"
+      ></span>
+      <span class="bar-text">
+        <v-icon v-if="locked" :name="Icons.Lock" />
+        <span v-else>{{ innerText }}</span>
+      </span>
+    </div>
+  </template>
+
+  <template v-if="mainStore.theme === ThemeOptionEnum.Windows7">
+    <div
+      role="progressbar"
+      style="position: relative"
+      :style="{
+        width: props.width,
+        height: props.height,
+      }"
+    >
+      <div
+        :style="{
+          width: getProgress() + '%',
+        }"
+      >
+        <span class="bar-text bar-text-background">
+          <v-icon v-if="locked" :name="Icons.Lock" />
+          <span v-else>{{ innerText }}</span>
+        </span>
+      </div>
+    </div>
+  </template>
+
+  <template v-if="mainStore.theme === ThemeOptionEnum.WindowsXP">
+    <div style="position: relative">
+      <progress
+        max="100"
+        :value="getProgress()"
+        :style="{
+          width: props.width,
+          height: props.height,
+        }"
+      ></progress>
+      <span class="bar-text bar-text-background">
+        <v-icon v-if="locked" :name="Icons.Lock" />
+        <span v-else>{{ innerText }}</span>
+      </span>
+    </div>
+  </template>
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/domain/enums'
+import { Icons, ThemeOptionEnum } from '@/domain/enums'
+import { useMainStore } from '@/presentation/stores/mainStore'
+
+const mainStore = useMainStore()
 
 interface Props {
   progress?: number
@@ -45,6 +87,7 @@ function getProgress() {
 
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
+  height: '25px',
   backgroundColor: '#333',
   barColor: '#be3636',
   inverted: false,
@@ -54,17 +97,6 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
-.bar-container {
-  height: 25px;
-  border-radius: 15px;
-  overflow: hidden;
-  position: relative;
-}
-
-.bar-fill {
-  height: 100%;
-}
-
 .bar-text {
   /* 4. Center the text over the bar */
   position: absolute;

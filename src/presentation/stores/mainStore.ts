@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import { container } from '@/infrastructure/container'
+import { ThemeOptionEnum } from '@/domain/enums'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
     version: 1,
     lastSaveTime: Date.now(),
     autoSaveInterval: null as NodeJS.Timeout | null,
+    theme: ThemeOptionEnum.Windows98,
   }),
 
   actions: {
@@ -28,6 +30,10 @@ export const useMainStore = defineStore('main', {
     resetGame() {
       container.storageService.clear()
       window.location.reload()
+    },
+
+    changeTheme(theme: ThemeOptionEnum) {
+      this.theme = theme
     },
   },
 })

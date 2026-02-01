@@ -1,30 +1,33 @@
 <template>
   <div>
-    <h2 class="page-title">Training</h2>
+    <div class="title-bar">
+      <div class="title-bar-text">Training</div>
+      <div class="title-bar-controls">
+        <div>
+          <button
+            :style="{
+              borderWidth: energyAllocationValue.equals(100) ? '1px' : '0',
+            }"
+            @click="setEnergyAllocationValue(100)"
+          >
+            100
+          </button>
+          <button
+            :style="{
+              borderWidth: energyAllocationValue.equals(250) ? '1px' : '0',
+            }"
+            @click="setEnergyAllocationValue(250)"
+          >
+            250
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div style="display: flex; padding: 0px 10px; margin-bottom: 10px">
       <EnergyIndicator />
       <AttackIndicator />
       <DefenceIndicator />
-    </div>
-
-    <div style="position: absolute; top: 5px; left: 10px">
-      <button
-        :style="{
-          borderWidth: energyAllocationValue.equals(100) ? '1px' : '0',
-        }"
-        @click="setEnergyAllocationValue(100)"
-      >
-        100
-      </button>
-      <button
-        :style="{
-          borderWidth: energyAllocationValue.equals(250) ? '1px' : '0',
-        }"
-        @click="setEnergyAllocationValue(250)"
-      >
-        250
-      </button>
     </div>
 
     <template v-for="skill in trainingStore.training" :key="skill.id">

@@ -7,7 +7,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background: #c0c0c0;
+  color: black;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -37,37 +38,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid greenyellow;
-  padding: 0.2em 0.6em;
-  margin: 3px;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  color: white;
-  transition: border-color 0.25s;
-  touch-action: manipulation;
-}
-
-button:focus {
-  outline: unset !important;
-}
-
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-a {
-  color: greenyellow;
 }
 
 .page-title {

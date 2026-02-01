@@ -1,6 +1,11 @@
 <template>
   <aside class="sidebar">
-    <h3 style="margin: 8px">NaN IDLE</h3>
+    <div class="title-bar">
+      <div class="title-bar-text">NaN IDLE</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close"></button>
+      </div>
+    </div>
 
     <div class="sidebar-menu-container">
       <RouterLink to="/">
@@ -26,6 +31,11 @@
       <button v-if="isLocalhost" @click="resetData" class="hide-on-mobile">
         Reset Data
       </button>
+      <select v-model="mainStore.theme">
+        <option :value="ThemeOptionEnum.Windows98">Windows 98</option>
+        <option :value="ThemeOptionEnum.WindowsXP">Windows XP</option>
+        <option :value="ThemeOptionEnum.Windows7">Windows 7</option>
+      </select>
     </div>
   </aside>
 </template>
@@ -34,20 +44,22 @@
 import { RouterLink } from 'vue-router'
 import { computed } from 'vue'
 import { useMainStore } from '@/presentation/stores/mainStore'
+import { ThemeOptionEnum } from '@/domain/enums'
 
 const isLocalhost = computed(() => {
   return window.location.hostname === 'localhost'
 })
 
+const mainStore = useMainStore()
+
 const resetData = () => {
-  const mainStore = useMainStore()
   mainStore.resetGame()
 }
 </script>
 
 <style scoped>
 .router-link-active {
-  color: #646cff;
+  color: green;
 }
 
 .sidebar {
@@ -58,8 +70,6 @@ const resetData = () => {
   height: 100%;
   background-color: #333;
   color: white;
-  padding-left: 20px;
-  padding-right: 20px;
   overflow-y: auto;
   z-index: 200;
 }
@@ -67,6 +77,7 @@ const resetData = () => {
 .sidebar-menu-container {
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 }
 
 .sidebar-menu-container a {

@@ -37,3 +37,9 @@ export enum ItemSetEnum {
   Training,
   Sewers,
 }
+
+export enum ThemeOptionEnum {
+  Windows98 = '98',
+  WindowsXP = 'xp',
+  Windows7 = '7',
+}
