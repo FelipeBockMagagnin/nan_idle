@@ -1,5 +1,8 @@
 <template>
-  <div :style="{ border: getBorder(), width: props.width }">
+  <div
+    class="status-field-border"
+    :style="{ border: getBorder(), width: props.width }"
+  >
     <v-icon v-if="icon" :name="icon" />
     <template v-else>
       <span>{{ props.name }}: </span>
@@ -34,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 function getBorder() {
   if (props.showBorder) {
-    return '1px solid greenyellow'
+    //return '1px solid greenyellow'
   }
 
   return ''

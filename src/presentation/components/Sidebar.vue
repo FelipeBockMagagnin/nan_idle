@@ -31,11 +31,6 @@
       <button v-if="isLocalhost" @click="resetData" class="hide-on-mobile">
         Reset Data
       </button>
-      <select v-model="mainStore.theme">
-        <option :value="ThemeOptionEnum.Windows98">Windows 98</option>
-        <option :value="ThemeOptionEnum.WindowsXP">Windows XP</option>
-        <option :value="ThemeOptionEnum.Windows7">Windows 7</option>
-      </select>
     </div>
   </aside>
 </template>
@@ -44,7 +39,6 @@
 import { RouterLink } from 'vue-router'
 import { computed } from 'vue'
 import { useMainStore } from '@/presentation/stores/mainStore'
-import { ThemeOptionEnum } from '@/domain/enums'
 
 const isLocalhost = computed(() => {
   return window.location.hostname === 'localhost'

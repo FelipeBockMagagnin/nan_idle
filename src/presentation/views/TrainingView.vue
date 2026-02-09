@@ -2,29 +2,13 @@
   <div>
     <div class="title-bar">
       <div class="title-bar-text">Training</div>
-      <div class="title-bar-controls">
-        <div>
-          <button
-            :style="{
-              borderWidth: energyAllocationValue.equals(100) ? '1px' : '0',
-            }"
-            @click="setEnergyAllocationValue(100)"
-          >
-            100
-          </button>
-          <button
-            :style="{
-              borderWidth: energyAllocationValue.equals(250) ? '1px' : '0',
-            }"
-            @click="setEnergyAllocationValue(250)"
-          >
-            250
-          </button>
-        </div>
-      </div>
+      <div class="title-bar-controls"></div>
     </div>
 
-    <div style="display: flex; padding: 0px 10px; margin-bottom: 10px">
+    <div
+      class="status-bar"
+      style="display: flex; padding: 0px 10px; margin-bottom: 10px"
+    >
       <EnergyIndicator />
       <AttackIndicator />
       <DefenceIndicator />
@@ -38,6 +22,16 @@
         :energyAllocationValue="energyAllocationValue"
       />
     </template>
+
+    <div style="bottom: 70px; right: 0; position: absolute">
+      Theme Chooser (test)
+      <br />
+      <select v-model="mainStore.theme">
+        <option :value="ThemeOptionEnum.Windows98">Windows 98</option>
+        <option :value="ThemeOptionEnum.WindowsXP">Windows XP</option>
+        <option :value="ThemeOptionEnum.Windows7">Windows 7</option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -49,8 +43,11 @@ import { useTrainingStore } from '@/presentation/stores/trainingStore'
 import Decimal from 'break_infinity.js'
 import { ref } from 'vue'
 import TrainingSkill from '../components/TrainingSkill.vue'
+import { useMainStore } from '../stores/mainStore'
+import { ThemeOptionEnum } from '@/domain/enums'
 
 const trainingStore = useTrainingStore()
+const mainStore = useMainStore()
 const energyAllocationValue = ref<Decimal>(new Decimal(250))
 
 function setEnergyAllocationValue(value: number) {
