@@ -49,10 +49,6 @@ import { ThemeOptionEnum } from '@/domain/enums'
 const trainingStore = useTrainingStore()
 const mainStore = useMainStore()
 const energyAllocationValue = ref<Decimal>(new Decimal(250))
-
-function setEnergyAllocationValue(value: number) {
-  energyAllocationValue.value = new Decimal(value)
-}
 </script>
 
 <style scoped></style>
