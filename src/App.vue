@@ -27,7 +27,7 @@ const loadTheme = (theme: string) => {
 
   link.id = 'theme-link'
   link.rel = 'stylesheet'
-  link.href = `./src/assets/css/themes/${theme}.css`
+  link.href = `/assets/css/themes/${theme}.css`
 
   if (oldLink) {
     head.removeChild(oldLink)
