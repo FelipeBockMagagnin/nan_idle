@@ -52,6 +52,10 @@ export class Energy {
     return this.current.subtract(this.allocated)
   }
 
+  getAvailableEnergyPercent(): Decimal {
+    return this.getAvailableEnergy().mul(100).div(this.max)
+  }
+
   regenerate(deltaTime: number): void {
     if (this.current.greaterThanOrEqualTo(this.max)) return
 

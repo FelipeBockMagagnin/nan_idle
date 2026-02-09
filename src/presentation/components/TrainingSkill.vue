@@ -14,28 +14,35 @@
       "
     />
     <div v-if="props.skill.unlocked">
-      <button
-        @click="allocateTrainingEnergy(props.skill.id, energyAllocationValue)"
-      >
-        +
-      </button>
-      <span>{{ formatDecimal(props.skill.allocatedEnergy) }}</span>
-      <button
-        @click="reclaimTrainingEnergy(props.skill.id, energyAllocationValue)"
-      >
-        -
-      </button>
+      <div class="field-row" style="width: 100%">
+        <input
+          id="range23"
+          type="range"
+          min="0"
+          :max="
+            energyStore.energy
+              .getAvailableEnergy()
+              .plus(skill.allocatedEnergy)
+              .toNumber()
+          "
+          v-model="allocatedEnergy"
+          @change="changeSkillAllocatedEnergy(skill, $event)"
+        />
+        <label for="range22">{{ allocatedEnergy }}</label>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Skill } from '@/domain/entities/Skill'
+import { Skill } from '@/domain/entities/Skill'
 import { formatDecimal } from '../utils/formatDecimal'
 import Decimal from 'break_infinity.js'
 import TimerIndicator from '@/presentation/components/indicators/TimerIndicator.vue'
 import { SkillType, TrainingSkillsEnum } from '@/domain/enums'
 import { AlertTypeEnum, showAlert } from '@/application/services/AlertService'
+import { useEnergyStore } from '../stores/energyStore'
+import { ref } from 'vue'
 
 type AllocateTrainingEnergyCallback = (
   skill: TrainingSkillsEnum,
@@ -54,7 +61,22 @@ interface Props {
   reclaimTrainingEnergy: ReclaimTrainingEnergyCallback
 }
 
+const energyStore = useEnergyStore()
+
 const props = defineProps<Props>()
+
+const allocatedEnergy = ref<number>(props.skill.allocatedEnergy.toNumber())
+
+function changeSkillAllocatedEnergy(skill: Skill, event: Event) {
+  const value = new Decimal((event.target as HTMLInputElement).value)
+  const newValue = value.minus(skill.allocatedEnergy)
+  if (newValue.greaterThan(0)) {
+    props.allocateTrainingEnergy(skill.id, newValue.abs())
+    return
+  }
+
+  props.reclaimTrainingEnergy(skill.id, newValue.abs())
+}
 
 function showAlertIfLocked() {
   if (!props.skill.unlocked) {

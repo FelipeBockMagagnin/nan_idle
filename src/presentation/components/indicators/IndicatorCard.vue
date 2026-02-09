@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="status-field-border"
-    :style="{ border: getBorder(), width: props.width }"
-  >
+  <div :style="{ border: getBorder(), width: props.width }">
     <v-icon v-if="icon" :name="icon" />
     <template v-else>
       <span>{{ props.name }}: </span>

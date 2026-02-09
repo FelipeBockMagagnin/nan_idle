@@ -3,6 +3,7 @@
     name="Attack"
     :value="playerStore.stats.attack"
     :icon="Icons.Sword"
+    class="status-field-border"
   />
 </template>
 
