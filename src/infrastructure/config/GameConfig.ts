@@ -20,9 +20,9 @@ export const GameConfig = {
     } as PlayerStats,
     InitialAdventureStats: {
       power: new Decimal(10),
-      toughness: new Decimal(0),
-      currentHP: new Decimal(100),
-      maxHP: new Decimal(100),
+      toughness: new Decimal(10),
+      currentHP: new Decimal(50),
+      maxHP: new Decimal(50),
       hpRegen: new Decimal(1),
     } as PlayerAdventureStats,
     InitialResources: {
