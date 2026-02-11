@@ -51,7 +51,7 @@ export class PlayerAttackUseCase {
         itemsDroped.forEach((itemId) => {
           const item = this.itemRepository.getItem(itemId)
           if (item) {
-            showAlert(`Dropeed ${item?.name} items`)
+            showAlert(`Dropeed ${item?.name} item`)
             inventory.addItem(item)
           }
         })
@@ -64,7 +64,7 @@ export class PlayerAttackUseCase {
           this.itemRepository.getRandomItemBoostByLevel(boostLevelDropped)
 
         if (boost) {
-          showAlert(`Dropeed ${boost?.name} items`)
+          showAlert(`Dropeed ${boost?.name} boost`)
           inventory.addItem(boost)
         }
       }

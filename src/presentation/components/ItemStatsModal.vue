@@ -132,6 +132,7 @@ const close = () => {
   border-radius: 8px;
   position: relative;
   min-width: 200px;
+  color: white;
 }
 
 .close-button {
