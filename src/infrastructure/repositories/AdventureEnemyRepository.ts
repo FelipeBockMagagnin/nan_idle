@@ -11,6 +11,7 @@ export class AdventureEnemyRepository {
         id: enemyData.id,
         name: enemyData.name,
         image: enemyData.image,
+        background: enemyData.background,
         stats: enemyData.adventureStats,
         isBoss: enemyData.isBoss,
       })

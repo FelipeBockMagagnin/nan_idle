@@ -12,6 +12,7 @@ export class BossRepository implements IBossRepository {
         id: enemyData.id,
         name: enemyData.name,
         image: enemyData.image,
+        background: enemyData.background,
         stats: enemyData.bossStats,
       })
     }

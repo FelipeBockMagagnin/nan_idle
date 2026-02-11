@@ -37,6 +37,10 @@
         </div>
         {{ currentEnemy?.name }} - #{{ currentEnemy?.id }}
         <img
+          :style="{
+            backgroundImage: `url(/assets/background/${currentEnemy?.background})`,
+            backgroundSize: 'contain',
+          }"
           :src="'/assets/enemy/' + currentEnemy?.image"
           class="enemy-image"
         />

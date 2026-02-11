@@ -10,6 +10,7 @@ describe('Boss Fight Entity', () => {
     id: 1,
     name: 'test',
     image: 'test',
+    background: 'background_1.png',
     stats: {
       attack: new Decimal(1),
       defence: new Decimal(1),

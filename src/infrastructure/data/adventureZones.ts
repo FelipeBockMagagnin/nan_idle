@@ -12,7 +12,7 @@ export const adventureZones: AdventureZone[] = [
   {
     id: 1,
     name: 'Tutorial',
-    enemyIds: [1, 2],
+    enemyIds: [1, 2, 3, 4],
     bossDropChance: [
       {
         itemId: 1,
@@ -49,7 +49,14 @@ export const adventureZones: AdventureZone[] = [
   {
     id: 2,
     name: 'Sewers',
-    enemyIds: [3, 4, 5],
+    enemyIds: [5, 6, 7, 8],
+    bossDropChance: [],
+    enemyDropChance: [],
+  },
+  {
+    id: 3,
+    name: 'Forest',
+    enemyIds: [9],
     bossDropChance: [],
     enemyDropChance: [],
   },

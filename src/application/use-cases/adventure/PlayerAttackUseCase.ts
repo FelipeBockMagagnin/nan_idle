@@ -41,9 +41,7 @@ export class PlayerAttackUseCase {
     skill.resetAttackCooldown()
 
     if (enemyDied) {
-      showAlert(
-        `Enemy defeated. + ${adventure.currentEnemy.stats.goldDrop} gold`
-      )
+      //Todo check gold drop
 
       const inventory = this.inventoryRepostiory.getInventory()
 

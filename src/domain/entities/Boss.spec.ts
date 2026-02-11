@@ -11,6 +11,7 @@ describe('Adventure Enemy Entity', () => {
       id: 1,
       name: 'test case',
       image: 'image test',
+      background: 'background_1.png',
       stats: {
         attack: new Decimal(10),
         defence: new Decimal(5),

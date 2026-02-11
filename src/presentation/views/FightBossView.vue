@@ -25,6 +25,10 @@
         <img
           :src="'/assets/enemy/' + fightBossStore.enemy.image"
           class="boss-image"
+          :style="{
+            backgroundImage: `url(/assets/background/${fightBossStore.enemy.background})`,
+            backgroundSize: 'contain',
+          }"
         />
         <HPBar
           :currentHP="fightBossStore.enemy.stats.hp"

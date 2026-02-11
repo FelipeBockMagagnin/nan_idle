@@ -11,6 +11,7 @@ describe('Adventure Enemy Entity', () => {
       id: 1,
       name: 'test case',
       image: 'image test',
+      background: 'background_1.png',
       isBoss: true,
       stats: {
         power: new Decimal(10),
@@ -18,7 +19,6 @@ describe('Adventure Enemy Entity', () => {
         hp: new Decimal(100),
         maxHp: new Decimal(100),
         hpRegen: new Decimal(1),
-        goldDrop: new Decimal(1),
         attackCooldown: 1,
         respawnTime: 1,
       },

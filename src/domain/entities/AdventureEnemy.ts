@@ -4,6 +4,7 @@ export interface AdventureEnemyData {
   id: number
   name: string
   image: string
+  background: string
   stats: AdventureEnemyStats
   isBoss: boolean
 }
@@ -14,7 +15,6 @@ export type AdventureEnemyStats = {
   power: Decimal
   toughness: Decimal
   hpRegen: Decimal
-  goldDrop: Decimal
   respawnTime: number
   attackCooldown: number
 }
@@ -40,6 +40,9 @@ export class AdventureEnemy {
   }
   get isBoss() {
     return this._data.isBoss
+  }
+  get background() {
+    return this._data.background
   }
 
   regenerate(deltaTime: number): void {

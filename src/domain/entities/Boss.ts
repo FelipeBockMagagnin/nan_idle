@@ -4,6 +4,7 @@ export interface BossData {
   id: number
   name: string
   image: string
+  background: string
   stats: BossStats
 }
 
@@ -30,6 +31,9 @@ export class Boss {
   }
   get stats() {
     return this._data.stats
+  }
+  get background() {
+    return this._data.background
   }
 
   regenerate(deltaTime: number): void {
