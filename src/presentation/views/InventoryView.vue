@@ -162,6 +162,7 @@ function onDrop(targetIndex: number, isTargetEquipped: boolean) {
   font-size: 7px;
   font-weight: 700;
   background-color: black;
+  color: white;
 }
 
 .item-slot img {
