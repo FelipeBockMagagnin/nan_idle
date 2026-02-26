@@ -56,7 +56,7 @@ export const adventureZones: AdventureZone[] = [
   {
     id: 3,
     name: 'Forest',
-    enemyIds: [9],
+    enemyIds: [9, 10],
     bossDropChance: [],
     enemyDropChance: [],
   },

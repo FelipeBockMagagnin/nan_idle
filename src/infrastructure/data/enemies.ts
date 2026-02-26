@@ -229,4 +229,28 @@ export const enemies: IEnemyData[] = [
       respawnTime: 1,
     },
   },
+  {
+    id: 10,
+    name: 'Goblim',
+    image: 'goblin.png',
+    background: 'background_2.png',
+    isBoss: false,
+    bossStats: {
+      attack: new Decimal(1),
+      defence: new Decimal(1),
+      hp: new Decimal(1),
+      maxHp: new Decimal(1),
+      hpRegen: new Decimal(1),
+      xp: new Decimal(1),
+    },
+    adventureStats: {
+      power: new Decimal(1),
+      toughness: new Decimal(1),
+      hp: new Decimal(1),
+      maxHp: new Decimal(1),
+      hpRegen: new Decimal(1),
+      attackCooldown: 1,
+      respawnTime: 1,
+    },
+  }
 ]
