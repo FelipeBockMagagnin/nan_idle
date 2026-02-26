@@ -1,5 +1,8 @@
 <template>
-  <div class="hp-bar-container" :style="{ width: props.width }">
+  <div
+    class="hp-bar-container"
+    :style="{ width: props.width, height: props.height }"
+  >
     <div
       class="hp-bar-fill"
       :style="{
@@ -18,19 +21,19 @@ import Decimal from 'break_infinity.js'
 
 interface Props {
   width?: string
+  height?: string
   currentHP?: Decimal
   maxHP?: Decimal
 }
 
 const props = withDefaults(defineProps<Props>(), {
   width: '200px',
+  height: '25px',
 })
 </script>
 
 <style scoped>
 .hp-bar-container {
-  width: 200px;
-  height: 25px;
   background-color: #333;
   border-radius: 15px;
   overflow: hidden;

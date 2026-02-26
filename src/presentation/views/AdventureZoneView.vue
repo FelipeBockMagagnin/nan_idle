@@ -1,12 +1,6 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
-  <div class="window" style="min-height: 100vh;">
-    <div class="title-bar">
-      <div class="title-bar-text">Adventure Zone</div>
-      <div class="title-bar-controls"></div>
-    </div>
-    <div class="window-body">
-
+  <Window title="Adventure Zone">
     <div>
       <button @click="goBackZone"><</button>
       <label for="adventure-zone-select">{{ adventureZone?.name }}</label>
@@ -14,32 +8,78 @@
     </div>
 
     <div class="fight-container">
-      Player
-      <img src="/assets/player/player_1.jpeg" class="enemy-image" />
-
-      <HPBar
-        :currentHP="adventurePlayer.stats.currentHP"
-        :maxHP="adventurePlayer.stats.maxHP"
-      />
-
-      <div style="display: flex; width: 100px">
-        <IndicatorCard
-          :icon="Icons.Shield"
-          :value="adventurePlayer.stats.toughness"
-          :show-border="false"
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          align-items: baseline;
+        "
+      >
+        Player
+        <HPBar
+          :currentHP="adventurePlayer.stats.currentHP"
+          :maxHP="adventurePlayer.stats.maxHP"
+          width="80%"
+          height="20px"
         />
-        <IndicatorCard
-          :icon="Icons.Sword"
-          :value="adventurePlayer.stats.power"
-          :show-border="false"
+
+        <img
+          src="/assets/player/player_1.jpeg"
+          class="enemy-image"
+          style="margin-top: 10px"
         />
+
+        <div style="display: flex; gap: 20px">
+          <IndicatorCard
+            :icon="Icons.Shield"
+            :value="adventurePlayer.stats.toughness"
+            :show-border="false"
+          />
+          <IndicatorCard
+            :icon="Icons.Sword"
+            :value="adventurePlayer.stats.power"
+            :show-border="false"
+          />
+        </div>
       </div>
 
-      <div v-if="adventureZoneStore.currentEnemy" class="fight-container">
-        <div>
-          <v-icon :name="Icons.Sword" style="margin: 10px" />
-        </div>
+      <v-icon
+        :name="Icons.Sword"
+        style="
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translateX(-50%);
+          z-index: 10;
+        "
+      />
+
+      <div
+        v-if="adventureZoneStore.currentEnemy"
+        style="
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          align-items: end;
+        "
+      >
         {{ currentEnemy?.name }} - #{{ currentEnemy?.id }}
+        <HPBar
+          :currentHP="currentEnemy?.stats.hp"
+          :maxHP="currentEnemy?.stats.maxHp"
+          width="80%"
+          height="20px"
+        />
+
+        <TimerIndicator
+          height="10px"
+          width="80%"
+          barColor="white"
+          :progress="currentEnemy?.getAttackCooldownPercent()"
+          :inverted="true"
+        />
+
         <img
           :style="{
             backgroundImage: `url(/assets/background/${currentEnemy?.background})`,
@@ -48,18 +88,8 @@
           :src="'/assets/enemy/' + currentEnemy?.image"
           class="enemy-image"
         />
-        <HPBar
-          :currentHP="currentEnemy?.stats.hp"
-          :maxHP="currentEnemy?.stats.maxHp"
-        />
 
-        <TimerIndicator
-          height="10px"
-          barColor="white"
-          :progress="currentEnemy?.getAttackCooldownPercent()"
-          :inverted="true"
-        />
-        <div style="display: flex; width: 100px">
+        <div style="display: flex; gap: 20px">
           <IndicatorCard
             style="margin-right: 10px"
             :icon="Icons.Shield"
@@ -75,12 +105,19 @@
         </div>
       </div>
     </div>
+  </Window>
 
+  <Window title="Skills">
     <template v-for="skill in skills" :key="skill.id">
       <AdventureSkill :skill="skill" :select-attack="selectAttack" />
     </template>
+  </Window>
+
+  <Window title="Log">
+    <div class="field-row-stacked" style="width: 100%">
+      <textarea id="text20" rows="8" value="Entenring zone..."></textarea>
     </div>
-  </div>
+  </Window>
 </template>
 
 <script setup lang="ts">
@@ -92,6 +129,7 @@ import { Icons, TrainingSkillsEnum as SkillEnum } from '@/domain/enums'
 import TimerIndicator from '../components/indicators/TimerIndicator.vue'
 import { storeToRefs } from 'pinia'
 import AdventureSkill from '../components/AdventureSkill.vue'
+import Window from '../components/Window.vue'
 
 const adventureZoneStore = useAdventureZoneStore()
 const { adventurePlayer, adventureZone, currentEnemy, skills } =
@@ -113,16 +151,15 @@ function selectAttack(skill: SkillEnum) {
 <style scoped>
 .fight-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  position: relative;
 }
 
 .enemy-image {
-  width: 100px;
+  width: 80%;
   margin-bottom: 10px;
-  margin-top: 0px;
   border-radius: 10px;
+  image-rendering: pixelated;
 }
 
 .fight-button {

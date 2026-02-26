@@ -1,11 +1,7 @@
 <template>
   <button
     @click="selectAttack(props.skill.id)"
-    style="width: 150px; position: relative"
-    :style="{
-      borderColor:
-        props.skill.skillType === SkillType.Attack ? 'greenyellow' : '#646cff',
-    }"
+    style="width: 50px; height: 50px; position: relative"
   >
     <div
       v-if="!props.skill.unlocked"
@@ -21,7 +17,15 @@
     >
       <v-icon style="margin-top: 2px" :name="Icons.Lock" />
     </div>
-    <span v-if="!props.skill.attackOnCooldown()">{{ props.skill.name }}</span>
+    <span v-if="!props.skill.attackOnCooldown()"
+      ><v-icon
+        style="color: black"
+        :name="
+          props.skill.skillType === SkillType.Attack
+            ? Icons.Sword
+            : Icons.Shield
+        "
+    /></span>
     <span v-else>{{ props.skill.getPlayerAttackCooldown() }}</span>
   </button>
 </template>
