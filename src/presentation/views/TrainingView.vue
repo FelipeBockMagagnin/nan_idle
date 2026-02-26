@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="window" style="min-height: 100vh;">
     <div class="title-bar">
       <div class="title-bar-text">Training</div>
       <div class="title-bar-controls"></div>
     </div>
+    <div class="window-body">
 
     <div style="display: flex; flex-direction: column; align-items: center">
       <div class="battery-container">
@@ -57,6 +58,7 @@
         <option :value="ThemeOptionEnum.WindowsXP">Windows XP</option>
         <option :value="ThemeOptionEnum.Windows7">Windows 7</option>
       </select>
+    </div>
     </div>
   </div>
 </template>

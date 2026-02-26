@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <h2 class="page-title">Fight Boss</h2>
+  <div class="window" style="min-height: 100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Fight Boss</div>
+      <div class="title-bar-controls"></div>
+    </div>
+    <div class="window-body">
 
     <div class="fight-boss-container">
       <div class="fight-boss-container">
@@ -57,6 +61,7 @@
     >
       {{ fightBossStore.isFighting() ? 'Stop' : 'Fight' }}
     </button>
+    </div>
   </div>
 </template>
 

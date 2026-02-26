@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <h2 class="page-title">Spend XP</h2>
+  <div class="window" style="min-height: 100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Spend XP</div>
+      <div class="title-bar-controls"></div>
+    </div>
+    <div class="window-body">
 
     <b>XP: {{ playerStore.resources.xp }}</b>
 
@@ -68,6 +72,7 @@
       Buy
       {{ playerStore.getUpdate(XpUpgradeType.ENERGY_REGENERATION_RATE).gain }}
     </button>
+    </div>
   </div>
 </template>
 

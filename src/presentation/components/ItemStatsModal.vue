@@ -1,8 +1,13 @@
 <template>
   <div v-if="visible" class="modal-overlay" @click.self="close">
-    <div class="modal-content">
-      <button class="close-button" @click="close">X</button>
-      <div v-if="item">
+    <div class="window" style="min-width: 300px; margin: 10px;">
+      <div class="title-bar">
+        <div class="title-bar-text">Item Stats</div>
+        <div class="title-bar-controls">
+          <button aria-label="Close" @click="close"></button>
+        </div>
+      </div>
+      <div class="window-body" v-if="item">
         <b>{{ item.name }}</b>
         <br />
 
@@ -126,25 +131,7 @@ const close = () => {
   z-index: 9999;
 }
 
-.modal-content {
-  background-color: #2a2a2a;
-  padding: 20px;
-  border-radius: 8px;
-  position: relative;
-  min-width: 200px;
-  color: white;
-}
 
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
 
 .item-image {
   width: 100px;

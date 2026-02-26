@@ -1,7 +1,11 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
-  <div>
-    <h2 class="page-title">Adventure Zone</h2>
+  <div class="window" style="min-height: 100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Adventure Zone</div>
+      <div class="title-bar-controls"></div>
+    </div>
+    <div class="window-body">
 
     <div>
       <button @click="goBackZone"><</button>
@@ -75,6 +79,7 @@
     <template v-for="skill in skills" :key="skill.id">
       <AdventureSkill :skill="skill" :select-attack="selectAttack" />
     </template>
+    </div>
   </div>
 </template>
 

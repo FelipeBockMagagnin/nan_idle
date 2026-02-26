@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <h2 class="page-title">Inventory</h2>
+  <div class="window" style="min-height: 100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Inventory</div>
+      <div class="title-bar-controls"></div>
+    </div>
+    <div class="window-body">
 
     <ItemStatsModal
       :visible="isModalVisible"
@@ -69,6 +73,7 @@
         />
         <span v-if="item.item">Lv. {{ item.item?.level }}</span>
       </div>
+    </div>
     </div>
   </div>
 </template>

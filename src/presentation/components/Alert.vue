@@ -4,10 +4,12 @@
       <div
         v-for="alert in alertStore.alerts"
         :key="alert.id"
-        class="alert-container"
-        :style="{ backgroundColor: getAlertBackgroundColor(alert) }"
+        class="window alert-container"
       >
-        <div class="alert-message">
+        <div class="title-bar" :style="{ backgroundColor: getAlertBackgroundColor(alert) }">
+          <div class="title-bar-text">Alert</div>
+        </div>
+        <div class="window-body alert-message">
           {{ alert.message }}
         </div>
       </div>
@@ -45,15 +47,8 @@ function getAlertBackgroundColor(alert: Alert) {
 }
 
 .alert-container {
-  color: white;
-  padding: 15px;
   margin-bottom: 5px;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 300px; /* Or a max-width */
+  width: 300px;
 }
 
 .alert-message {
