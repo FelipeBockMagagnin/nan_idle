@@ -1,5 +1,5 @@
 <template>
-  <div class="indicator-wrapper" :style="{ width: props.width }">
+  <div class="status-field-border" :style="{ width: props.width }">
     <v-icon v-if="icon" :name="icon" class="indicator-icon" />
     <span v-else class="indicator-label">{{ props.name }}: </span>
 
@@ -29,12 +29,6 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
-.indicator-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
 
 .indicator-icon {
   width: 16px;

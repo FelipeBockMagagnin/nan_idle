@@ -15,7 +15,7 @@ export class FightBossTickUseCase {
     private playerRepository: IPlayerRepository,
     private bossRepository: IBossRepository,
     private bossFightRepository: IBossFightRepository
-  ) {}
+  ) { }
 
   execute(deltaTime: number): void {
     const bossFight = this.bossFightRepository.getBossFight()
@@ -27,6 +27,7 @@ export class FightBossTickUseCase {
     }
 
     if (!bossFight.isFighting()) {
+      bossFight.boss.regenerate(deltaTime)
       return
     }
 
