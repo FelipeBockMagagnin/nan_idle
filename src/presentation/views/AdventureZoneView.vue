@@ -85,7 +85,7 @@
         <legend>Skills</legend>
         <div class="skills-container">
           <template v-for="skill in skills" :key="skill.id">
-            <AdventureSkill :skill="skill" :select-attack="selectAttack" />
+            <AdventureSkill v-if="skill.unlocked" :skill="skill" :select-attack="selectAttack" />
           </template>
         </div>
       </fieldset>
