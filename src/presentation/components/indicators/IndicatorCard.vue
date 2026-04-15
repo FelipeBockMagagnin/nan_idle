@@ -1,15 +1,12 @@
 <template>
-  <div :style="{ border: getBorder(), width: props.width }">
-    <v-icon v-if="icon" :name="icon" />
-    <template v-else>
-      <span>{{ props.name }}: </span>
-      <br />
-    </template>
+  <div class="indicator-wrapper" :style="{ width: props.width }">
+    <v-icon v-if="icon" :name="icon" class="indicator-icon" />
+    <span v-else class="indicator-label">{{ props.name }}: </span>
 
-    <strong>
+    <span class="indicator-value">
       {{ formatDecimal(props?.value || new Decimal(0)) }}
       <template v-if="props.max"> / {{ formatDecimal(props.max) }} </template>
-    </strong>
+    </span>
   </div>
 </template>
 
@@ -24,21 +21,31 @@ interface Props {
   max?: Decimal
   width?: string
   icon?: Icons
-  showBorder?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
-  showBorder: true,
 })
-
-function getBorder() {
-  if (props.showBorder) {
-    //return '1px solid greenyellow'
-  }
-
-  return ''
-}
 </script>
 
-<style scoped></style>
+<style scoped>
+.indicator-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.indicator-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.indicator-label {
+  font-weight: 600;
+}
+
+.indicator-value {
+  font-weight: 700;
+}
+</style>

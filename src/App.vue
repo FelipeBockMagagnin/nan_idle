@@ -52,11 +52,11 @@ watchEffect(() => {
 <style scoped>
 .game-content {
   margin-right: 150px;
+  height: 100vh;
 }
 
 @media (max-width: 768px) {
   .game-content {
-    padding-bottom: 60px;
     margin-right: 0;
   }
 }

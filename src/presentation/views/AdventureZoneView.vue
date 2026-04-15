@@ -8,14 +8,7 @@
     </div>
 
     <div class="fight-container">
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          width: 50%;
-          align-items: baseline;
-        "
-      >
+      <div class="player-container">
         Player
         <HPBar
           :currentHP="adventurePlayer.stats.currentHP"
@@ -26,43 +19,32 @@
 
         <img
           src="/assets/player/player_1.jpeg"
-          class="enemy-image"
-          style="margin-top: 10px"
+          class="character-image player-image-offset"
         />
 
-        <div style="display: flex; gap: 20px">
+        <div class="stats-panel">
           <IndicatorCard
+            class="stat-half"
             :icon="Icons.Shield"
             :value="adventurePlayer.stats.toughness"
-            :show-border="false"
           />
+          <div class="stat-divider"></div>
           <IndicatorCard
+            class="stat-half"
             :icon="Icons.Sword"
             :value="adventurePlayer.stats.power"
-            :show-border="false"
           />
         </div>
       </div>
 
       <v-icon
         :name="Icons.Sword"
-        style="
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translateX(-50%);
-          z-index: 10;
-        "
+        class="versus-icon"
       />
 
       <div
         v-if="adventureZoneStore.currentEnemy"
-        style="
-          display: flex;
-          flex-direction: column;
-          width: 50%;
-          align-items: end;
-        "
+        class="enemy-container"
       >
         {{ currentEnemy?.name }} - #{{ currentEnemy?.id }}
         <HPBar
@@ -86,21 +68,20 @@
             backgroundSize: 'contain',
           }"
           :src="'/assets/enemy/' + currentEnemy?.image"
-          class="enemy-image"
+          class="character-image"
         />
 
-        <div style="display: flex; gap: 20px">
+        <div class="stats-panel">
           <IndicatorCard
-            style="margin-right: 10px"
+            class="stat-half"
             :icon="Icons.Shield"
             :value="currentEnemy?.stats.toughness"
-            :show-border="false"
           />
+          <div class="stat-divider"></div>
           <IndicatorCard
-            style="margin-right: 10px"
+            class="stat-half"
             :icon="Icons.Sword"
             :value="currentEnemy?.stats.power"
-            :show-border="false"
           />
         </div>
       </div>
@@ -114,8 +95,8 @@
   </Window>
 
   <Window title="Log">
-    <div class="field-row-stacked" style="width: 100%">
-      <textarea id="text20" rows="8" value="Entenring zone..."></textarea>
+    <div class="field-row-stacked full-width">
+      <textarea id="text20" rows="8" value="Entering zone..."></textarea>
     </div>
   </Window>
 </template>
@@ -155,11 +136,69 @@ function selectAttack(skill: SkillEnum) {
   position: relative;
 }
 
-.enemy-image {
+.player-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: baseline;
+}
+
+.enemy-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: end;
+}
+
+.character-image {
   width: 80%;
   margin-bottom: 10px;
   border-radius: 10px;
   image-rendering: pixelated;
+}
+
+.player-image-offset {
+  margin-top: 10px;
+}
+
+.stats-panel {
+  display: flex;
+  margin-top: 10px;
+  width: 100%;
+  background: #c0c0c0;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}
+
+.stat-half {
+  flex: 1;
+  text-align: center;
+  padding: 4px;
+  font-weight: bold;
+  color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-divider {
+  width: 2px;
+  background: #ffffff;
+  border-left: 2px solid #808080;
+}
+
+.versus-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.stat-card {
+  margin-right: 10px;
 }
 
 .fight-button {
@@ -167,5 +206,9 @@ function selectAttack(skill: SkillEnum) {
   height: 50px;
   font-size: 25px;
   font-weight: 700;
+}
+
+.full-width {
+  width: 100%;
 }
 </style>
