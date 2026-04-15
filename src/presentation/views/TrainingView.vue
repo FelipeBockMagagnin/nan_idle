@@ -21,7 +21,7 @@
               {{ formatDecimal(energyStore.energy.getAvailableEnergy()) }} / {{ formatDecimal(energyStore.energy.current) }}
             </span>
             <span v-if="energyStore.energy.max.greaterThan(energyStore.energy.current)" class="charging-indicator">
-              (+{{ formatDecimal(energyStore.energy.power) }}/s)
+              +{{ formatDecimal(energyStore.energy.power) }}/s
             </span>
           </div>
         </div>
@@ -184,7 +184,7 @@ const energyAllocationValue = ref<Decimal>(new Decimal(250))
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2px;
+  position: relative;
   font-size: 15px;
   font-weight: 600;
 }
@@ -210,10 +210,12 @@ const energyAllocationValue = ref<Decimal>(new Decimal(250))
 }
 
 .charging-indicator {
+  position: absolute;
+  top: 17px;
   color: #00ff00;
   font-style: italic;
   font-size: 10px;
-  margin-top: -7px;
+  margin-top: 1px;
   animation: pulse-text 1s infinite alternate;
 }
 
