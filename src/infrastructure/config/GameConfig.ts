@@ -125,7 +125,7 @@ export const GameConfig = {
       (_bossId, attackPower) => attackPower.greaterThan(10000),
       () => {
         alertService.showAlert(
-          'Face powerful bosses to advance further and unlock new game mechanics.',
+          'Face powerful bosses to advance further and unlock new adventures.',
           AlertTypeEnum.Confirm,
           'Boss Fight unlocked!'
         )
@@ -146,7 +146,7 @@ export const GameConfig = {
     ),
     new Unlockable(
       UnlockableEnum.Adventure,
-      (bossId) => bossId >= 5,
+      (bossId) => bossId >= 6,
       () => {
         alertService.showAlert(
           'You can now face enemies in different zones to earn items, boosts, and XP.',

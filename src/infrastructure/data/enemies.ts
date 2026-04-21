@@ -73,7 +73,7 @@ export const enemies: IEnemyData[] = [
       hp: new Decimal(4e6),
       maxHp: new Decimal(4e6),
       hpRegen: new Decimal(17500),
-      xp: new Decimal(0),
+      xp: new Decimal(1),
     },
     adventureStats: {
       power: new Decimal(8),
@@ -252,5 +252,5 @@ export const enemies: IEnemyData[] = [
       attackCooldown: 1,
       respawnTime: 1,
     },
-  }
+  },
 ]
