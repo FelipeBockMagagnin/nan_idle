@@ -43,3 +43,10 @@ export enum ThemeOptionEnum {
   WindowsXP = 'xp',
   Windows7 = '7',
 }
+
+export enum UnlockableEnum {
+  FightBoss,
+  SpendXP, 
+  Adventure,
+  Inventory
+}

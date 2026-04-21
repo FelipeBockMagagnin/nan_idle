@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { container } from '@/infrastructure/container'
-import { ThemeOptionEnum } from '@/domain/enums'
+import { ThemeOptionEnum, UnlockableEnum } from '@/domain/enums'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -11,7 +11,7 @@ export const useMainStore = defineStore('main', {
   }),
 
   actions: {
-    initGame() {
+    initGame(): void {
       const loaded = container.loadGameUseCase.execute()
       if (loaded) {
         console.log('Game Loaded')
@@ -22,18 +22,22 @@ export const useMainStore = defineStore('main', {
       this.autoSaveInterval = setInterval(() => this.saveGame(), 10000)
     },
 
-    saveGame() {
+    saveGame(): void {
       container.saveGameUseCase.execute()
       this.lastSaveTime = Date.now()
     },
 
-    resetGame() {
+    resetGame(): void {
       container.storageService.clear()
       window.location.reload()
     },
 
-    changeTheme(theme: ThemeOptionEnum) {
+    changeTheme(theme: ThemeOptionEnum): void {
       this.theme = theme
+    },
+
+    isUnlocked(unlockable: UnlockableEnum): boolean {
+      return container.featureUnlockedUseCase.execute(unlockable)
     },
   },
 })

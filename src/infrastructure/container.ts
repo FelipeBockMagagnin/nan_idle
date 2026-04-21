@@ -29,6 +29,8 @@ import { BossFightRepository } from './repositories/BossFightRepository '
 import { ItemRepository } from './repositories/ItemRepository'
 import { InventoryRepository } from './repositories/InventoryRepository'
 import { GetInventoryStatsUseCase } from '@/application/use-cases/inventory/GetInventoryStatsUseCase'
+import { FeatureUnlockedUseCase } from '@/application/use-cases/game/FeatureUnlockedUseCase'
+import { UnlockableRepository } from './repositories/UnlockableRepository'
 
 // 1. Instantiate Repositories (Singletons)
 const adventureRepo = new AdventureRepository()
@@ -41,6 +43,7 @@ const bossRepo = new BossRepository()
 const bossFightRepo = new BossFightRepository()
 const itemRepo = new ItemRepository()
 const inventoryRepo = new InventoryRepository()
+const unlockableRepo = new UnlockableRepository()
 
 // 2. Instantiate Services
 const storageService = new LocalStorageService()
@@ -104,6 +107,11 @@ const allocateEnergyUseCase = new AllocateEnergyUseCase(
 const reclaimEnergyUseCase = new ReclaimEnergyUseCase(trainingRepo, energyRepo)
 
 const getInventoryStatsUseCase = new GetInventoryStatsUseCase(inventoryRepo)
+const featureUnlockedUseCase = new FeatureUnlockedUseCase(
+  bossFightRepo,
+  playerRepo,
+  unlockableRepo
+)
 
 // 4. Export the container
 export const container = {
@@ -137,4 +145,5 @@ export const container = {
   allocateEnergyUseCase,
   reclaimEnergyUseCase,
   getInventoryStatsUseCase,
+  featureUnlockedUseCase,
 }

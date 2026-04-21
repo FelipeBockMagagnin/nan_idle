@@ -9,15 +9,17 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watchEffect } from 'vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 
 import Sidebar from '@/presentation/components/Sidebar.vue'
 import Alert from '@/presentation/components/Alert.vue'
 import { useMainStore } from '@/presentation/stores/mainStore'
 import { gameLoop } from '@/infrastructure/services/GameLoop'
 import { GameService } from '@/application/services/GameService'
+import { navigationService } from '@/application/services/NavigationService'
 
 const mainStore = useMainStore()
+const router = useRouter()
 const theme = computed(() => mainStore.theme)
 
 const loadTheme = (theme: string) => {
@@ -42,6 +44,10 @@ onMounted(() => {
 
   const gameService = new GameService(gameLoop)
   gameService.start()
+
+  navigationService.subscribe((routeName) => {
+    router.push({ name: routeName })
+  })
 })
 
 watchEffect(() => {

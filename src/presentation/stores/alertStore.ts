@@ -9,19 +9,22 @@ export interface Alert {
   id: number
   message: string
   type: AlertTypeEnum
+  title?: string
 }
 
 export const useAlertStore = defineStore('alert', () => {
   const alerts = ref<Alert[]>([])
   let idCounter = 0
 
-  function addAlert(message: string, type: AlertTypeEnum) {
+  function addAlert(message: string, type: AlertTypeEnum, title?: string) {
     const id = idCounter++
-    alerts.value.push({ id, message, type })
+    alerts.value.push({ id, message, type, title })
 
-    setTimeout(() => {
-      removeAlert(id)
-    }, 2000)
+    if (type !== AlertTypeEnum.Confirm) {
+      setTimeout(() => {
+        removeAlert(id)
+      }, 2000)
+    }
   }
 
   function removeAlert(id: number) {
@@ -36,5 +39,6 @@ export const useAlertStore = defineStore('alert', () => {
 
   return {
     alerts,
+    removeAlert,
   }
 })

@@ -1,5 +1,5 @@
 import Decimal from 'break_infinity.js'
-import { TrainingSkillsEnum, SkillType } from '@/domain/enums'
+import { TrainingSkillsEnum, SkillType, UnlockableEnum } from '@/domain/enums'
 import { Skill } from '@/domain/entities/Skill'
 import { PlayerResources, PlayerStats } from '@/domain/entities/Player'
 import { PlayerAdventureStats } from '@/domain/entities/AdventurePlayer'
@@ -8,6 +8,12 @@ import {
   SpendXpCosts,
   XpUpgradeType,
 } from '@/application/services/PlayerXpService'
+import { Unlockable } from '@/domain/entities/Unlockable'
+import {
+  alertService,
+  AlertTypeEnum,
+} from '@/application/services/AlertService'
+import { navigationService } from '@/application/services/NavigationService'
 
 export const GameConfig = {
   Player: {
@@ -112,4 +118,48 @@ export const GameConfig = {
       unlocked: false,
     }),
   ] as Skill[],
+
+  Unlockables: [
+    new Unlockable(
+      UnlockableEnum.FightBoss,
+      (bossId, attackPower) => attackPower.greaterThan(10000),
+      () => {
+        alertService.showAlert(
+          'Face powerful bosses to advance further and unlock new game mechanics.',
+          AlertTypeEnum.Confirm,
+          'Boss Fight unlocked!'
+        )
+        navigationService.navigate('Fight Boss')
+      }
+    ),
+    new Unlockable(
+      UnlockableEnum.SpendXP,
+      (bossId) => bossId >= 4,
+      () => {
+        alertService.showAlert(
+          'Here you can spend your XP to permanently improve your attributes.',
+          AlertTypeEnum.Confirm,
+          'Spend XP unlocked!'
+        )
+        navigationService.navigate('Spend XP')
+      }
+    ),
+    new Unlockable(
+      UnlockableEnum.Adventure,
+      (bossId) => bossId >= 5,
+      () => {
+        alertService.showAlert(
+          'You can now face enemies in different zones to earn items, boosts, and XP.',
+          AlertTypeEnum.Confirm,
+          'Adventure Mode and Inventory unlocked!'
+        )
+        navigationService.navigate('Adventure')
+      }
+    ),
+    new Unlockable(
+      UnlockableEnum.Inventory,
+      (bossId) => bossId >= 6,
+      () => {}
+    ),
+  ] as Unlockable[],
 }

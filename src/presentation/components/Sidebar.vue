@@ -16,31 +16,52 @@
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/fight-boss" exact-active-class="is-active">
+          <RouterLink
+            v-if="mainStore.isUnlocked(UnlockableEnum.FightBoss)"
+            to="/fight-boss"
+            exact-active-class="is-active"
+          >
             <v-icon name="ri-sword-fill" />
             <span class="text">Fight Boss</span>
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/spend-xp" exact-active-class="is-active">
+          <RouterLink
+            v-if="mainStore.isUnlocked(UnlockableEnum.SpendXP)"
+            to="/spend-xp"
+            exact-active-class="is-active"
+          >
             <v-icon name="ri-bubble-chart-fill" />
             <span class="text">Spend XP</span>
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/adventure" exact-active-class="is-active">
+          <RouterLink
+            v-if="mainStore.isUnlocked(UnlockableEnum.Adventure)"
+            to="/adventure"
+            exact-active-class="is-active"
+          >
             <v-icon name="fa-map" />
             <span class="text">Adventure</span>
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/inventory" exact-active-class="is-active">
+          <RouterLink
+            v-if="mainStore.isUnlocked(UnlockableEnum.Inventory)"
+            to="/inventory"
+            exact-active-class="is-active"
+          >
             <v-icon name="fa-bolt" />
             <span class="text">Inventory</span>
           </RouterLink>
         </li>
       </ul>
-      <button v-if="isLocalhost" @click="resetData" class="hide-on-mobile" style="margin-top: 20px; width: 100%;">
+      <button
+        v-if="isLocalhost"
+        @click="resetData"
+        class="hide-on-mobile"
+        style="margin-top: 20px; width: 100%"
+      >
         Reset Data
       </button>
     </div>
@@ -51,6 +72,7 @@
 import { RouterLink } from 'vue-router'
 import { computed } from 'vue'
 import { useMainStore } from '@/presentation/stores/mainStore'
+import { UnlockableEnum } from '@/domain/enums'
 
 const isLocalhost = computed(() => {
   return window.location.hostname === 'localhost'
@@ -64,8 +86,6 @@ const resetData = () => {
 </script>
 
 <style scoped>
-
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -117,7 +137,7 @@ const resetData = () => {
     flex-direction: row;
     padding: 0;
     /* Override window class borders on mobile */
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2) !important;
     border: none !important;
   }
 
