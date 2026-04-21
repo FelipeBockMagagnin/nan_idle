@@ -122,7 +122,7 @@ export const GameConfig = {
   Unlockables: [
     new Unlockable(
       UnlockableEnum.FightBoss,
-      (bossId, attackPower) => attackPower.greaterThan(10000),
+      (_bossId, attackPower) => attackPower.greaterThan(10000),
       () => {
         alertService.showAlert(
           'Face powerful bosses to advance further and unlock new game mechanics.',
